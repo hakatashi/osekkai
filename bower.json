@@ -1,0 +1,34 @@
+{
+  "name": "osekkai",
+  "main": "src/index.js",
+  "version": "0.0.0",
+  "homepage": "https://github.com/hakatashi/osekkai",
+  "authors": [
+    "Koki Takahashi <hakatasiloving@gmail.com>"
+  ],
+  "description": "日本語組版のお節介",
+  "moduleType": [
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "japanese",
+    "typography",
+    "publishing",
+    "writing",
+    "vertical writing",
+    "text processing"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "chai": "~3.0.0",
+    "mocha": "~2.2.5"
+  }
+}
