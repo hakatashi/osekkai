@@ -76,7 +76,7 @@ module.exports = (grunt) ->
 				src: 'dist/osekkai.js'
 				dest: 'dist/osekkai.min.js'
 
-	grunt.registerTask 'build', ['coffee', 'browserify', 'newer:execute:build']
+	grunt.registerTask 'build', ['newer:coffee', 'newer:browserify', 'newer:execute:build']
 	grunt.registerTask 'test', ['coffeelint:module', 'mochaTest:module', 'mocha']
 	grunt.registerTask 'dist', ['build', 'test', 'copy', 'uglify']
 
