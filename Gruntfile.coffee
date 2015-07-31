@@ -18,7 +18,7 @@ module.exports = (grunt) ->
 			build:
 				expand: true
 				cwd: '.'
-				src: ['src/{,*/}*.coffee', 'test/{,*/}*.coffee', '!Gruntfile.coffee']
+				src: ['src/**/*.coffee', 'test/**/*.coffee', '!Gruntfile.coffee']
 				dest: '.'
 				ext: '.js'
 
@@ -38,7 +38,7 @@ module.exports = (grunt) ->
 					level: 'ignore'
 				max_line_length:
 					value: 120
-			module: ['src/{,*/}*.coffee', 'test/{,*/}*.coffee', '!cli.coffee']
+			module: ['src/**/*.coffee', 'test/**/*.coffee', '!cli.coffee']
 
 		# Server side mocha test
 		mochaTest:
@@ -65,8 +65,8 @@ module.exports = (grunt) ->
 
 		execute:
 			build:
-				src: 'src/data/build.js'
-				dest: 'src/data/orientations.json'
+				src: 'src/util/data/build.js'
+				dest: 'src/util/data/orientations.json'
 
 		uglify:
 			dist:
@@ -76,7 +76,7 @@ module.exports = (grunt) ->
 				src: 'dist/osekkai.js'
 				dest: 'dist/osekkai.min.js'
 
-	grunt.registerTask 'build', ['newer:coffee', 'newer:browserify', 'newer:execute:build']
+	grunt.registerTask 'build', ['newer:coffee', 'newer:execute:build', 'newer:browserify']
 	grunt.registerTask 'test', ['coffeelint:module', 'mochaTest:module', 'mocha']
 	grunt.registerTask 'dist', ['build', 'test', 'copy', 'uglify']
 
