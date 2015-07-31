@@ -15,6 +15,12 @@ class Osekkai
 
 		return this
 
+	format: (type, options) ->
+		if not osekkai.formatters[type]?
+			throw new Error "Unknown formatter type #{type}"
+
+		return osekkai.formatters[type].call this, @text
+
 osekkai = ->
 	switch typeof arguments[0]
 		when 'string'
@@ -35,5 +41,8 @@ osekkai.formatters = {}
 
 osekkai.defaultConfig =
 	converters: 'vertical'
+
+# Load built-in converters and formatters
+require('./formatters/plain') osekkai
 
 module.exports = osekkai
