@@ -28,7 +28,7 @@ describe 'osekkai', ->
 		describe 'Tokens', ->
 			afterEach ->
 				for own from, to of tests
-					expect(osekkai(from).tokens).to.deep.equal to
+					expect(osekkai(from).format('object')).to.deep.equal to
 				tests = {}
 
 			it 'converts plain texts as is', ->
@@ -41,6 +41,23 @@ describe 'osekkai', ->
 						type: 'plain'
 						text: 'お節介'
 					]
+
+	describe 'Converters', ->
+
+		describe 'Exclamations-upright', ->
+
+			it 'should convert halfwidth exclamation mark into fullwidth', ->
+				text = osekkai 'あ!あ', converters: exclamations: true
+				expect(text.format('object')).to.deep.equal [
+					type: 'plain'
+					text: 'あ'
+				,
+					type: 'upright'
+					text: '!'
+				,
+					type: 'plain'
+					text: 'あ'
+				]
 
 	describe 'Formatters', ->
 

@@ -1,18 +1,53 @@
 extend = require 'xtend'
 orientation = require './util/orientation'
 
+class Token
+	constructor: (params) ->
+		@type = params.type ? 'plain'
+		@text = params.text ? ''
+		if @type isnt 'plain'
+			@original = params.original ? @text
+		@parent = params.parent
+
+	replace: (pattern, callback) ->
+		if typeof pattern is 'string'
+			splitter = new RegExp "(#{pattern.replace /[-\/\\^$*+?.()|[\]{}]/g, '\\$&'})", 'g'
+		else if pattern instanceof RegExp
+			splitter = new RegExp "(#{pattern.source})", 'g'
+
+		tokens = @text.split(splitter).map (token) =>
+			new Token
+				type: @type
+				text: token
+				parent: @parent
+
+		for token, index in tokens
+			if index % 2 == 1
+				tokens[index] = callback.call this, token
+
+		@parent.replaceToken this, tokens
+
+		return this
+
 class Osekkai
-	constructor: (text, options) ->
+	constructor: (text, options = {}) ->
 		@text = text
 		@tokens = []
+		@converters = options.converters ? {}
 
 		@parse()
 
 	parse: ->
 		@tokens = [
-			type: 'plain'
-			text: @text
+			new Token
+				type: 'plain'
+				text: @text
+				parent: this
 		]
+
+		for own converter, config of @converters
+			if config isnt false
+				osekkai.converters[converter].call this
 
 		return this
 
@@ -20,13 +55,18 @@ class Osekkai
 		if not osekkai.formatters[type]?
 			throw new Error "Unknown formatter type #{type}"
 
-		return osekkai.formatters[type].call this, @text
+		return osekkai.formatters[type].call this
+
+	replaceToken: (token, tokens) ->
+		index = @tokens.indexOf token
+		@tokens[index..index] = tokens
+		return this
 
 osekkai = ->
 	switch typeof arguments[0]
 		when 'string'
 			text = arguments[0]
-			options = arguments[1] or {}
+			options = arguments[1] ? {}
 		when 'object'
 			options = arguments[0]
 			text = optoins.text
@@ -35,15 +75,26 @@ osekkai = ->
 
 	options = extend osekkai.defaultConfig, options
 
+	if typeof options.converters is 'string'
+		options.converters = osekkai.converterPresets[options.converters]
+
 	return new Osekkai text, options
 
 osekkai.converters = {}
 osekkai.formatters = {}
 
 osekkai.defaultConfig =
-	converters: 'vertical'
+	converters: 'default'
+
+osekkai.converterPresets =
+	default:
+		exclamations: false
+	vertical:
+		exclamations: true
 
 # Load built-in converters and formatters
+require('./converters/exclamations') osekkai
 require('./formatters/plain') osekkai
+require('./formatters/object') osekkai
 
 module.exports = osekkai
