@@ -20,6 +20,14 @@ module.exports = (grunt) ->
 				cwd: '.'
 				src: ['src/**/*.coffee', 'test/**/*.coffee', '!Gruntfile.coffee']
 				dest: '.'
+				ext: '.es6.js'
+
+		babel:
+			build:
+				expand: true
+				cwd: '.'
+				src: ['src/**/*.es6.js', 'test/**/*.es6.js']
+				dest: '.'
 				ext: '.js'
 
 		browserify:
@@ -76,7 +84,7 @@ module.exports = (grunt) ->
 				src: 'dist/osekkai.js'
 				dest: 'dist/osekkai.min.js'
 
-	grunt.registerTask 'build', ['newer:coffee', 'newer:execute:build', 'newer:browserify']
+	grunt.registerTask 'build', ['newer:coffee', 'newer:babel', 'newer:execute:build', 'browserify']
 	grunt.registerTask 'test', ['coffeelint:module', 'mochaTest:module', 'mocha']
 	grunt.registerTask 'dist', ['build', 'test', 'copy', 'uglify']
 
