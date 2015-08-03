@@ -1,4 +1,3 @@
-core = require 'core-js'
 extend = require 'xtend'
 orientation = require './util/orientation'
 
