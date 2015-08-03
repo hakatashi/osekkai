@@ -8,26 +8,44 @@ class Token
 		if @type isnt 'plain'
 			@original = params.original ? @text
 		@parent = params.parent
+		@prev = params.prev ? null
+		@next = params.next ? null
 
 	replace: (pattern, callback) ->
 		if typeof pattern is 'string'
 			splitter = new RegExp "(#{pattern.replace /[-\/\\^$*+?.()|[\]{}]/g, '\\$&'})", 'g'
 		else if pattern instanceof RegExp
 			splitter = new RegExp "(#{pattern.source})", 'g'
+		else
+			throw new Error 'Unknown replacement pattern'
 
+		prev = @prev
 		tokens = @text.split(splitter).map (token) =>
-			new Token
+			current = new Token
 				type: @type
 				text: token
 				parent: @parent
+				prev: prev
+			prev?.next = current
+			prev = current
 
 		for token, index in tokens
 			if index % 2 == 1
-				tokens[index] = callback.call this, token
+				tokens[index] = callback.call token
 
 		@parent.replaceToken this, tokens
 
 		return this
+
+	prevChar: ->
+		prevChar = null
+		prevToken = @prev
+		while prevChar is null and prevToken isnt null
+			if prevToken isnt null and prevToken.text.length isnt 0
+				prevChar = prevToken.text[prevToken.text.length - 1]
+			prevToken = prevToken.prev
+
+		return prevChar
 
 class Osekkai
 	constructor: (text, options = {}) ->
@@ -43,6 +61,8 @@ class Osekkai
 				type: 'plain'
 				text: @text
 				parent: this
+				prev: null
+				next: null
 		]
 
 		for own converter, config of @converters
@@ -79,6 +99,8 @@ osekkai = ->
 		options.converters = osekkai.converterPresets[options.converters]
 
 	return new Osekkai text, options
+
+osekkai.util = require './util'
 
 osekkai.converters = {}
 osekkai.formatters = {}

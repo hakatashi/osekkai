@@ -28,7 +28,8 @@ describe 'osekkai', ->
 		describe 'Tokens', ->
 			afterEach ->
 				for own from, to of tests
-					expect(osekkai(from).format('object')).to.deep.equal to
+					text = osekkai(from, {}).format 'object'
+					expect(text).to.deep.equal to
 				tests = {}
 
 			it 'converts plain texts as is', ->
@@ -46,18 +47,43 @@ describe 'osekkai', ->
 
 		describe 'Exclamations-upright', ->
 
+			afterEach ->
+				for own from, to of tests
+					text = osekkai from, converters: exclamations: true
+					expect(text.format('object')).to.deep.equal to
+				tests = {}
+
 			it 'should convert halfwidth exclamation mark into fullwidth', ->
-				text = osekkai 'あ!あ', converters: exclamations: true
-				expect(text.format('object')).to.deep.equal [
-					type: 'plain'
-					text: 'あ'
-				,
-					type: 'upright'
-					text: '!'
-				,
-					type: 'plain'
-					text: 'あ'
-				]
+				tests =
+					'8時だョ!全員集合': [
+						type: 'plain'
+						text: '8時だョ'
+					,
+						type: 'upright'
+						text: '!'
+					,
+						type: 'plain'
+						text: '全員集合'
+					]
+
+			it 'should remain exclamation in latin script plained', ->
+				tests =
+					'Hey, Teitoku! Teatime is serious matter!!': [
+						type: 'plain'
+						text: 'Hey, Teitoku'
+					,
+						type: 'plain'
+						text: '!'
+					,
+						type: 'plain'
+						text: ' Teatime is serious matter'
+					,
+						type: 'plain'
+						text: '!'
+					,
+						type: 'plain'
+						text: '!'
+					]
 
 	describe 'Formatters', ->
 
