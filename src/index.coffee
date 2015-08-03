@@ -47,6 +47,13 @@ class Token
 
 		return prevChar
 
+	remove: ->
+		@prev?.next = @next
+		@next?.prev = @prev
+		index = @parent.tokens.indexOf this
+		@parent.tokens[index..index] = []
+		return this
+
 class Osekkai
 	constructor: (text, options = {}) ->
 		@text = text
@@ -69,6 +76,8 @@ class Osekkai
 			if config isnt false
 				osekkai.converters[converter].call this
 
+		@normalize()
+
 		return this
 
 	format: (type, options) ->
@@ -77,9 +86,24 @@ class Osekkai
 
 		return osekkai.formatters[type].call this
 
+	normalize: ->
+		# Tip: [..] is hack for copying array, bro.
+		for token in @tokens[..]
+			if token.prev?.type is 'plain'
+				if token.prev?.text is ''
+					token.prev.remove()
+				else if token.type is 'plain'
+					@joinToken token.prev
+
 	replaceToken: (token, tokens) ->
 		index = @tokens.indexOf token
 		@tokens[index..index] = tokens
+		return this
+
+	joinToken: (token) ->
+		if token.next?
+			token.text += token.next.text
+			token.next.remove()
 		return this
 
 osekkai = ->
@@ -107,6 +131,7 @@ osekkai.formatters = {}
 
 osekkai.defaultConfig =
 	converters: 'default'
+	joinableTokens: ['plain']
 
 osekkai.converterPresets =
 	default:

@@ -70,19 +70,7 @@ describe 'osekkai', ->
 				tests =
 					'Hey, Teitoku! Teatime is serious matter!!': [
 						type: 'plain'
-						text: 'Hey, Teitoku'
-					,
-						type: 'plain'
-						text: '!'
-					,
-						type: 'plain'
-						text: ' Teatime is serious matter'
-					,
-						type: 'plain'
-						text: '!'
-					,
-						type: 'plain'
-						text: '!'
+						text: 'Hey, Teitoku! Teatime is serious matter!!'
 					]
 
 	describe 'Formatters', ->
