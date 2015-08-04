@@ -45,6 +45,7 @@
     "grunt-coffeelint": "0.0.13",
     "grunt-contrib-coffee": "^0.13.0",
     "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-copy": "^0.8.0",
     "grunt-contrib-uglify": "^0.9.1",
     "grunt-execute": "^0.2.2",
     "grunt-mocha": "^0.4.13",
