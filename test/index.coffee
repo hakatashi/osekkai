@@ -23,6 +23,8 @@ TEST_OUT = '日本語組版の壮大なお節介'
 describe 'osekkai', ->
 	tests = {}
 
+	afterEach -> tests = {}
+
 	describe 'Core', ->
 
 		describe 'Tokens', ->
@@ -30,7 +32,6 @@ describe 'osekkai', ->
 				for own from, to of tests
 					text = osekkai(from, {}).format 'object'
 					expect(text).to.deep.equal to
-				tests = {}
 
 			it 'converts plain texts as is', ->
 				tests =
@@ -51,7 +52,6 @@ describe 'osekkai', ->
 				for own from, to of tests
 					text = osekkai from, converters: exclamations: true
 					expect(text.format('object')).to.deep.equal to
-				tests = {}
 
 			it 'should convert halfwidth exclamation mark into fullwidth', ->
 				tests =
@@ -91,3 +91,19 @@ describe 'osekkai', ->
 				tests =
 					'日本語': '日本語'
 					'お節介': 'お節介'
+
+		describe 'aozora', ->
+			afterEach ->
+				for own from, to of tests
+					text = osekkai(from, converters: exclamations: true).format 'aozora'
+					expect(text).to.be.a 'string'
+					expect(text).to.equal to
+
+			it 'converts plain texts as is', ->
+				tests =
+					'日本語': '日本語'
+					'お節介': 'お節介'
+
+			it 'converts upright text into ［＃縦中横］', ->
+				tests =
+					'8時だョ!全員集合': '8時だョ［＃縦中横］!［＃縦中横終わり］全員集合'

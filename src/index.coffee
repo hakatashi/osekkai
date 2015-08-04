@@ -47,6 +47,16 @@ class Token
 
 		return prevChar
 
+	nextChar: ->
+		nextChar = null
+		nextToken = @next
+		while nextChar is null and nextToken isnt null
+			if nextToken isnt null and nextToken.text.length isnt 0
+				nextChar = nextToken.text[0]
+			nextToken = nextToken.next
+
+		return nextChar
+
 	remove: ->
 		@prev?.next = @next
 		@next?.prev = @prev
@@ -75,8 +85,7 @@ class Osekkai
 		for own converter, config of @converters
 			if config isnt false
 				osekkai.converters[converter].call this
-
-		@normalize()
+				@normalize()
 
 		return this
 
@@ -143,5 +152,6 @@ osekkai.converterPresets =
 require('./converters/exclamations') osekkai
 require('./formatters/plain') osekkai
 require('./formatters/object') osekkai
+require('./formatters/aozora') osekkai
 
 module.exports = osekkai
