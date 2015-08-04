@@ -1,5 +1,7 @@
 module.exports = (osekkai) ->
-	osekkai.converters.exclamations = ->
+	osekkai.converters.exclamations = (config) ->
+		config.length ?= 2
+
 		for token in @tokens
 			if token.type is 'plain'
 				token.replace /[!?！？]+/g, ->

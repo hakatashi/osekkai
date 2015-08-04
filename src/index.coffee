@@ -83,9 +83,14 @@ class Osekkai
 		]
 
 		for own converter, config of @converters
-			if config isnt false
-				osekkai.converters[converter].call this
-				@normalize()
+			break if config is false ot config is null
+
+			if typeof config is 'boolean'
+				osekkai.converters[converter].call this, {}
+			else
+				osekkai.converters[converter].call this, config
+
+			@normalize()
 
 		return this
 
@@ -147,6 +152,9 @@ osekkai.converterPresets =
 		exclamations: false
 	vertical:
 		exclamations: true
+
+osekkai.Token = Token
+osekkai.Osekkai = Osekkai
 
 # Load built-in converters and formatters
 require('./converters/exclamations') osekkai
