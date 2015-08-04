@@ -6,6 +6,13 @@
   "scripts": {
     "test": "grunt"
   },
+  "files": [
+    "*.json",
+    "*.js",
+    "README.md",
+    "src/**/*.js",
+    "src/**/*.json"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hakatashi/osekkai.git"
