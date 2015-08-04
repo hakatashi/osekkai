@@ -1,7 +1,6 @@
 module.exports = (osekkai) ->
 	osekkai.formatters.aozora = ->
 		ret = ''
-		console.log @tokens
 		for token in @tokens
 			switch token.type
 				when 'plain'
