@@ -72,9 +72,12 @@ module.exports = (grunt) ->
 				filter: 'isFile'
 
 		execute:
-			build:
-				src: 'src/util/data/build.js'
+			orientations:
+				src: 'src/util/data/orientations.js'
 				dest: 'src/util/data/orientations.json'
+			widths:
+				src: 'src/util/data/widths.js'
+				dest: 'src/util/data/widths.json'
 
 		uglify:
 			dist:
@@ -84,7 +87,7 @@ module.exports = (grunt) ->
 				src: 'dist/osekkai.js'
 				dest: 'dist/osekkai.min.js'
 
-	grunt.registerTask 'build', ['newer:coffee', 'newer:babel', 'newer:execute:build', 'browserify']
+	grunt.registerTask 'build', ['newer:coffee', 'newer:babel', 'newer:execute', 'browserify']
 	grunt.registerTask 'test', ['coffeelint:module', 'mochaTest:module', 'mocha']
 	grunt.registerTask 'dist', ['build', 'test', 'copy', 'uglify']
 
