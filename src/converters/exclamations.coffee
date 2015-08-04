@@ -1,6 +1,5 @@
 module.exports = (osekkai) ->
 	osekkai.converters.exclamations = ->
-
 		for token in @tokens
 			if token.type is 'plain'
 				token.replace /[!?！？]+/g, ->
@@ -8,6 +7,5 @@ module.exports = (osekkai) ->
 
 					if prevOrientation is 'U' or prevOrientation is 'Tu'
 						@type = 'upright'
-						@text = '!'
 
 					return this
