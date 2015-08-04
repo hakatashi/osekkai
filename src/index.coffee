@@ -101,12 +101,15 @@ class Osekkai
 		return osekkai.formatters[type].call this
 
 	normalize: ->
-		# Tip: [..] is hack for copying array, bro.
-		for token in @tokens[..]
-			if token.prev?.type is 'plain'
-				if token.prev?.text is ''
-					token.prev.remove()
-				else if token.type is 'plain'
+		# Tip: [..] is a magic for copying array, bro.
+		tokens = @tokens[..]
+		tokens.push prev: tokens[tokens.length - 1]
+
+		for token, index in tokens
+			if token.type is 'plain' and token?.text is ''
+				token.remove()
+			else if token.prev?.type is 'plain'
+				if token?.type is 'plain'
 					@joinToken token.prev
 
 	replaceToken: (token, tokens) ->

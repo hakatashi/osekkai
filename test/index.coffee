@@ -73,6 +73,26 @@ describe 'osekkai', ->
 						text: 'Hey, Teitoku! Teatime is serious matter!!'
 					]
 
+			it 'should only convert maximum of tow exclamations in a row by default', ->
+				tests =
+					'焼きそばだよ!!': [
+						type: 'plain'
+						text: '焼きそばだよ'
+					,
+						type: 'upright'
+						text: '!!'
+					]
+
+					'命を燃やせ!!!': [
+						type: 'plain'
+						text: '命を燃やせ!!!'
+					]
+
+					'アウトだよ!!!!!': [
+						type: 'plain'
+						text: 'アウトだよ!!!!!'
+					]
+
 	describe 'Formatters', ->
 
 		it 'should throw error when unsupported formatters are specified', ->
