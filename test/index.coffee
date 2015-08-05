@@ -5,11 +5,12 @@ else
 	inNode = no
 
 # require() modules in node
-expect = require 'expect.js'
-
 if inNode
+	expect = require 'expect.js'
 	osekkai = require '../'
+# Inport Global to Local
 else
+	expect = window.expect
 	osekkai = window.osekkai
 
 TEST_IN = '日本語組版の壮大なお節介'

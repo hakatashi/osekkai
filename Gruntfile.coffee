@@ -43,9 +43,6 @@ module.exports = (grunt) ->
 					banner: '<%= banner %>'
 				src: 'src/global.js'
 				dest: 'build/osekkai.js'
-			test:
-				src: 'test/index.js'
-				dest: 'test/browser.js'
 
 		# Lint Cafe
 		coffeelint:
