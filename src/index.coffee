@@ -64,6 +64,12 @@ class Token
 		@parent.tokens[index..index] = []
 		return this
 
+	joinNext: ->
+		if @next?
+			@text += @next.text
+			@next.remove()
+		return this
+
 class Osekkai
 	constructor: (text, options = {}) ->
 		@text = text
@@ -110,17 +116,11 @@ class Osekkai
 				token.remove()
 			else if token.prev?.type is 'plain'
 				if token?.type is 'plain'
-					@joinToken token.prev
+					token.prev.joinNext()
 
 	replaceToken: (token, tokens) ->
 		index = @tokens.indexOf token
 		@tokens[index..index] = tokens
-		return this
-
-	joinToken: (token) ->
-		if token.next?
-			token.text += token.next.text
-			token.next.remove()
 		return this
 
 osekkai = ->
