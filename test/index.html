@@ -12,13 +12,12 @@
 		<script src="../bower_components/bind-polyfill/index.js"></script>
 
 		<script src="../bower_components/mocha/mocha.js"></script>
-		<script src="../bower_components/chai/chai.js"></script>
 
 		<script>mocha.setup('bdd')</script>
 
 		<script src="../build/osekkai.js"></script>
 
-		<script src="index.js"></script>
+		<script src="browser.js"></script>
 		<script>
 			if (navigator.userAgent.indexOf('PhantomJS') < 0) {
 				mocha.checkLeaks();

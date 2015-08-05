@@ -5,16 +5,11 @@ else
 	inNode = no
 
 # require() modules in node
+expect = require 'expect.js'
+
 if inNode
-	chai = require 'chai'
-	assert = chai.assert
-	expect = chai.expect
-	should = chai.should()
 	osekkai = require '../'
-# Bring global object to local in browser
 else
-	assert = window.chai.assert
-	expect = window.chai.expect
 	osekkai = window.osekkai
 
 TEST_IN = '日本語組版の壮大なお節介'
@@ -31,7 +26,7 @@ describe 'osekkai', ->
 			afterEach ->
 				for own from, to of tests
 					text = osekkai(from, {}).format 'object'
-					expect(text).to.deep.equal to
+					expect(text).to.eql to
 
 			it 'converts plain texts as is', ->
 				tests =
@@ -51,7 +46,7 @@ describe 'osekkai', ->
 			afterEach ->
 				for own from, to of tests
 					text = osekkai from, converters: exclamations: true
-					expect(text.format('object')).to.deep.equal to
+					expect(text.format('object')).to.eql to
 
 			it 'should convert halfwidth exclamation mark into fullwidth', ->
 				tests =
@@ -98,14 +93,14 @@ describe 'osekkai', ->
 		it 'should throw error when unsupported formatters are specified', ->
 			text = osekkai TEST_IN
 			format = text.format.bind(text, 'blah')
-			expect(format).to.throw Error
+			expect(format).to.throwError()
 
 		describe 'plain', ->
 			afterEach ->
 				for own from, to of tests
 					text = osekkai(from).format('plain')
 					expect(text).to.be.a 'string'
-					expect(text).to.equal to
+					expect(text).to.eql to
 
 			it 'converts texts as is', ->
 				tests =
@@ -117,7 +112,7 @@ describe 'osekkai', ->
 				for own from, to of tests
 					text = osekkai(from, converters: exclamations: true).format 'aozora'
 					expect(text).to.be.a 'string'
-					expect(text).to.equal to
+					expect(text).to.eql to
 
 			it 'converts plain texts as is', ->
 				tests =
