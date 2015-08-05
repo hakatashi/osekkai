@@ -70,6 +70,30 @@ class Token
 			@next.remove()
 		return this
 
+	before: (token) ->
+		@prev?.next = token
+		token.prev = @prev
+
+		@prev = token
+		token.next = this
+
+		index = @parent.tokens.indexOf this
+		@parent.tokens[index .. index - 1] = [token]
+
+		return this
+
+	after: (token) ->
+		@next?.prev = token
+		token.next = @next
+
+		@next = token
+		token.prev = this
+
+		index = @parent.tokens.indexOf this
+		@parent.tokens[index + 1 .. index] = [token]
+
+		return this
+
 class Osekkai
 	constructor: (text, options = {}) ->
 		@text = text
