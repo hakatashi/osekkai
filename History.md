@@ -1,3 +1,9 @@
+0.0.3
+-----
+
+* Improve test quality
+* converter.exclamations has length limit now
+
 0.0.2
 -----
 
