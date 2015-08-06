@@ -1,5 +1,5 @@
 /*!
- * osekkai - v0.0.4 - 2015-08-06
+ * osekkai - v0.0.5 - 2015-08-06
  * https://github.com/hakatashi/osekkai#readme
  * Copyright (c) 2015 Koki Takahashi
  * Licensed under MIT License
@@ -3424,11 +3424,14 @@ function extend() {
         token = ref[i];
         if (token.type === 'plain') {
           results.push(token.replace(/[!?！？]+/g, function () {
-            var prevOrientation;
+            var prevChar, prevOrientation;
             if (this.text.length <= config.length) {
-              prevOrientation = osekkai.util.orientation.get(this.prevChar());
-              if (prevOrientation === 'U' || prevOrientation === 'Tu') {
-                this.type = 'upright';
+              prevChar = this.prevChar();
+              if (prevChar != null) {
+                prevOrientation = osekkai.util.orientation.get(prevChar);
+                if (prevOrientation === 'U' || prevOrientation === 'Tu') {
+                  this.type = 'upright';
+                }
               }
             }
             return this;
