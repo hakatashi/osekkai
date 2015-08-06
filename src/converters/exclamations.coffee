@@ -6,9 +6,11 @@ module.exports = (osekkai) ->
 			if token.type is 'plain'
 				token.replace /[!?！？]+/g, ->
 					if @text.length <= config.length
-						prevOrientation = osekkai.util.orientation.get @prevChar()
+						prevChar = @prevChar()
+						if prevChar?
+							prevOrientation = osekkai.util.orientation.get prevChar
 
-						if prevOrientation is 'U' or prevOrientation is 'Tu'
-							@type = 'upright'
+							if prevOrientation is 'U' or prevOrientation is 'Tu'
+								@type = 'upright'
 
 					return this
