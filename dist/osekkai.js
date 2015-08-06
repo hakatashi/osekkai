@@ -1,5 +1,5 @@
 /*!
- * osekkai - v0.0.3 - 2015-08-06
+ * osekkai - v0.0.4 - 2015-08-06
  * https://github.com/hakatashi/osekkai#readme
  * Copyright (c) 2015 Koki Takahashi
  * Licensed under MIT License
