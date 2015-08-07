@@ -85,6 +85,9 @@ module.exports = (grunt) ->
 			widths:
 				src: 'src/util/data/widths.js'
 				dest: 'src/util/data/widths.json'
+			unicodeData:
+				src: 'src/util/data/unicode-data.js'
+				dest: 'src/util/data/decompositions.json'
 
 		uglify:
 			dist:
