@@ -89,6 +89,16 @@ describe 'osekkai', ->
 						text: 'アウトだよ!!!!!'
 					]
 
+			it 'should be safe with heading exclamation', ->
+				tests =
+					'！あてんしょん！': [
+						type: 'plain'
+						text: '！あてんしょん'
+					,
+						type: 'upright'
+						text: '！'
+					]
+
 	describe 'Formatters', ->
 
 		it 'should throw error when unsupported formatters are specified', ->
