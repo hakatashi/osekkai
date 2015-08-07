@@ -2,6 +2,8 @@ codePointAt = require 'core-js/library/fn/string/code-point-at'
 widths = require './data/widths.json'
 decompositions = require './data/decompositions.json'
 
+width = {}
+
 # Build reverse hash (= composition) of some decompositions
 compositions = {}
 for type in ['wide', 'narrow']
@@ -9,7 +11,7 @@ for type in ['wide', 'narrow']
 	for composition, decomposition of decompositions[type]
 		compositions[type][decomposition] = composition
 
-module.exports.get = (char) ->
+width.get = (char) ->
 	if typeof char isnt 'string' or char.length is 0
 		return null
 
@@ -21,3 +23,31 @@ module.exports.get = (char) ->
 			type = orientation.type
 
 	return type
+
+width.composeHankakuChar = (char) -> compositions.wide[char] ? char
+width.composeZenkakuChar = (char) -> compositions.narrow[char] ? char
+
+width.decomposeHankakuChar = (char) -> decompositions.narrow[char] ? char
+width.decomposeZenkakuChar = (char) -> decompositions.width[char] ? char
+
+width.hankaku = (string) ->
+	ret = ''
+
+	for char in string
+		char = width.composeZenkakuChar char
+		char = width.decomposeZenkakuChar char
+		ret += char
+
+	return ret
+
+width.zenkaku = (string) ->
+	ret = ''
+
+	for char in string
+		char = width.composeHankakuChar char
+		char = width.decomposeHankakuChar char
+		ret += char
+
+	return ret
+
+module.exports = width
