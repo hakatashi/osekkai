@@ -8,10 +8,9 @@ module.exports = (osekkai) ->
 
 				when 'upright'
 					if token.text.length is 1
-						text = osekkai.util.width.zenkaku token.text
+						ret += osekkai.util.width.zenkaku token.text
 					else
 						text = osekkai.util.width.hankaku token.text
-
-					ret += "［＃縦中横］#{text}［＃縦中横終わり］"
+						ret += "［＃縦中横］#{text}［＃縦中横終わり］"
 
 		return ret

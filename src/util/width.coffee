@@ -28,7 +28,7 @@ width.composeHankakuChar = (char) -> compositions.wide[char] ? char
 width.composeZenkakuChar = (char) -> compositions.narrow[char] ? char
 
 width.decomposeHankakuChar = (char) -> decompositions.narrow[char] ? char
-width.decomposeZenkakuChar = (char) -> decompositions.width[char] ? char
+width.decomposeZenkakuChar = (char) -> decompositions.wide[char] ? char
 
 width.hankaku = (string) ->
 	ret = ''

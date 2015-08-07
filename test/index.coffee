@@ -132,4 +132,8 @@ describe 'osekkai', ->
 
 			it 'converts upright text into ［＃縦中横］', ->
 				tests =
-					'8時だョ!全員集合': '8時だョ［＃縦中横］！［＃縦中横終わり］全員集合'
+					'侵略!?イカ娘': '侵略［＃縦中横］!?［＃縦中横終わり］イカ娘'
+
+			it 'should convert single upright text into zenkaku string', ->
+				tests =
+					'侵略!イカ娘': '侵略！イカ娘'
