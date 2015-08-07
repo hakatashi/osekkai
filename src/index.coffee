@@ -1,5 +1,4 @@
 extend = require 'xtend'
-orientation = require './util/orientation'
 
 class Token
 	constructor: (params) ->
