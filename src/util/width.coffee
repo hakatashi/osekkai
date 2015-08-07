@@ -1,11 +1,11 @@
-core = require 'core-js/library'
+codePointAt = require 'core-js/library/fn/string/code-point-at'
 widths = require './data/widths.json'
 
 module.exports.get = (char) ->
 	if typeof char isnt 'string' or char.length is 0
-		throw new Error()
+		return null
 
-	codePoint = core.String.codePointAt char, 0
+	codePoint = codePointAt char, 0
 	type = 'R'
 
 	for orientation in orientations
