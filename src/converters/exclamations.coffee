@@ -27,6 +27,7 @@ module.exports = (osekkai) ->
 
 							# Insert margin after Exclamation mark
 							# Pe is Punctuation Close of Unicode Category
+							# TODO: Do not insert space before space
 							if nextChar isnt '' and nextCharCategory isnt 'Pe' and not nextCharIsNewline
 								@after new osekkai.Token
 									type: 'margin'

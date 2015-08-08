@@ -1,3 +1,5 @@
+repeat = require 'core-js/library/fn/string/repeat'
+
 module.exports = (osekkai) ->
 	osekkai.formatters.aozora = ->
 		ret = ''
@@ -12,5 +14,10 @@ module.exports = (osekkai) ->
 					else
 						text = osekkai.util.width.hankaku token.text
 						ret += "［＃縦中横］#{text}［＃縦中横終わり］"
+
+				when 'margin'
+					# Margins will be represented by U+3000 IDEOGRAPHIC SPACE
+					# TODO: Support halfwidth margin
+					ret += repeat '　', Math.floor token.length
 
 		return ret

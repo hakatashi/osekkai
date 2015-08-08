@@ -228,8 +228,13 @@ describe 'osekkai', ->
 
 			it 'converts upright text into ［＃縦中横］', ->
 				tests =
-					'侵略!?イカ娘': '侵略［＃縦中横］!?［＃縦中横終わり］イカ娘'
+					'しんけん!!': 'しんけん［＃縦中横］!!［＃縦中横終わり］'
 
 			it 'should convert single upright text into zenkaku string', ->
 				tests =
-					'侵略!イカ娘': '侵略！イカ娘'
+					'ハヤテのごとく!': 'ハヤテのごとく！'
+
+			it 'should insert fullwidth ideographic space after exclamations', ->
+				tests =
+					'侵略!イカ娘': '侵略！　イカ娘'
+					'侵略!?イカ娘': '侵略［＃縦中横］!?［＃縦中横終わり］　イカ娘'
