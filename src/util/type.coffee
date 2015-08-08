@@ -16,4 +16,13 @@ type.category = (char) ->
 
 	return categories[categoryKeys[index]] ? categories[categories.length - 1]
 
+# See also: Unicode 7.0.0 $5.8 Newline Guidelines
+# http://www.unicode.org/versions/Unicode7.0.0/ch05.pdf
+type.isNewline = (char) -> typeof char is 'string' and Boolean char.march /// ^ (
+		\r | # CR
+		\n | # LF
+		\r\n | # CRLF
+		\x85 # NEL
+	) $ ///
+
 module.exports = type
