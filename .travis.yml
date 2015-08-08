@@ -8,7 +8,8 @@ node_js:
   - '0.12'
   - '0.10'
 after_success:
-  - 'grunt coverage'
-  - 'cat ./coverage/lcov.info | coveralls'
+  - grunt coverage
+  - istanbul report text-summary lcov
+  - cat ./coverage/lcov.info | coveralls
 notifications:
   webhooks: http://webhook.hakatashi.com/travis
