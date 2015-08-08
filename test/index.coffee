@@ -42,7 +42,7 @@ describe 'osekkai', ->
 
 	describe 'Converters', ->
 
-		describe 'Exclamations-upright', ->
+		describe 'Exclamations', ->
 
 			afterEach ->
 				for own from, to of tests
@@ -51,13 +51,24 @@ describe 'osekkai', ->
 
 			it 'should convert halfwidth exclamation mark into fullwidth', ->
 				tests =
-					'8時だョ!全員集合': [
+					'なのです!': [
 						type: 'plain'
-						text: '8時だョ'
+						text: 'なのです'
 					,
 						type: 'upright'
 						text: '！'
 						original: '!'
+					]
+
+			it 'should insert 1em margin after exclamations', ->
+				tests =
+					'ラブライブ！スクールアイドルフェスティバル': [
+						type: 'plain'
+						text: 'ラブライブ'
+					,
+						type: 'upright'
+						text: '！'
+						original: '！'
 					,
 						type: 'margin'
 						length: 1
@@ -65,7 +76,50 @@ describe 'osekkai', ->
 						original: ''
 					,
 						type: 'plain'
-						text: '全員集合'
+						text: 'スクールアイドルフェスティバル'
+					]
+
+			it 'should not insert margin before line breaks', ->
+				tests =
+					"""
+					がっこうぐらし!
+					第一話「はじまり」
+					""" : [
+						type: 'plain'
+						text: 'がっこうぐらし'
+					,
+						type: 'upright'
+						text: '！'
+						original: '!'
+					,
+						type: 'plain'
+						text: """
+
+						第一話「はじまり」
+						"""
+					]
+
+					'がっこうぐらし!\r\n第二話「おもいで」' : [
+						type: 'plain'
+						text: 'がっこうぐらし'
+					,
+						type: 'upright'
+						text: '！'
+						original: '!'
+					,
+						type: 'plain'
+						text: '\r\n第二話「おもいで」'
+					]
+
+			it 'should convert zenkaku exclamation into hankaku if more than one exclamations are listed', ->
+				tests =
+					'めうめうぺったんたん！！': [
+						type: 'plain'
+						text: 'めうめうぺったんたん'
+					,
+						type: 'upright'
+						text: '!!'
+						original: '！！'
 					]
 
 			it 'should remain exclamation in latin script plained', ->
