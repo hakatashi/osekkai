@@ -32,6 +32,25 @@ request UDATA_URL, (error, response, data) ->
 	for decompositionType in decompositionTypes
 		decompositions[decompositionType] = {}
 
+	nextPoint = 0
+	categories = []
+
+	pushCategory = (codePoint, type) ->
+		lastCategory = categories[categories.length - 1]
+
+		if lastCategory?.to isnt codePoint - 1
+			lastCategory?.to = codePoint - 1
+
+		if lastCategory?.type is type
+			lastCategory.to = codePoint
+		else
+			categories.push
+				from: codePoint
+				to: codePoint
+				type: type
+
+		nextPoint = codePoint + 1
+
 	for line in data.split '\n'
 		line = line.replace /#.*$/, ''
 
@@ -69,4 +88,12 @@ request UDATA_URL, (error, response, data) ->
 			decomposedString = decomposition[1..].map((str) -> fromCodePoint parseInt str, 16).join ''
 			decompositions[type][fromCodePoint codePoint] = decomposedString
 
+		pushCategory codePoint, category
+
+	categoriesObj = {}
+
+	for category in categories
+		categoriesObj[category.from] = category.type
+
 	fs.writeFile "#{__dirname}/decompositions.json", JSON.stringify decompositions
+	fs.writeFile "#{__dirname}/categories.json", JSON.stringify categoriesObj
