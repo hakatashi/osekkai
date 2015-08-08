@@ -18,7 +18,7 @@ type.category = (char) ->
 
 # See also: Unicode 7.0.0 $5.8 Newline Guidelines
 # http://www.unicode.org/versions/Unicode7.0.0/ch05.pdf
-type.isNewline = (char) -> typeof char is 'string' and Boolean char.march /// ^ (
+type.isNewline = (char) -> typeof char is 'string' and Boolean char.match /// ^ (
 		\r | # CR
 		\n | # LF
 		\r\n | # CRLF

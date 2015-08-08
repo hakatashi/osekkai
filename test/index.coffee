@@ -56,7 +56,13 @@ describe 'osekkai', ->
 						text: '8時だョ'
 					,
 						type: 'upright'
-						text: '!'
+						text: '！'
+						original: '!'
+					,
+						type: 'margin'
+						length: 1
+						text: ''
+						original: ''
 					,
 						type: 'plain'
 						text: '全員集合'
@@ -77,6 +83,7 @@ describe 'osekkai', ->
 					,
 						type: 'upright'
 						text: '!!'
+						original: '!!'
 					]
 
 					'命を燃やせ!!!': [
@@ -97,6 +104,7 @@ describe 'osekkai', ->
 					,
 						type: 'upright'
 						text: '！'
+						original: '！'
 					]
 
 	describe 'Formatters', ->

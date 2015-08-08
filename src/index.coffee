@@ -6,6 +6,7 @@ class Token
 		@text = params.text ? ''
 		if @type isnt 'plain'
 			@original = params.original ? @text
+			@length = params.length if params.length?
 		@parent = params.parent
 		@prev = params.prev ? null
 		@next = params.next ? null
@@ -28,11 +29,13 @@ class Token
 			prev?.next = current
 			prev = current
 
+		@parent.replaceToken this, tokens
+
 		for token, index in tokens
 			if index % 2 == 1
-				tokens[index] = callback.call token
-
-		@parent.replaceToken this, tokens
+				newToken = callback.call token
+				if newToken isnt tokens[index]
+					@parent.replaceToken tokens[index], newToken
 
 		return this
 
@@ -44,7 +47,10 @@ class Token
 				prevChar = prevToken.text[prevToken.text.length - 1]
 			prevToken = prevToken.prev
 
-		return prevChar
+		if prevChar is null
+			return ''
+		else
+			return prevChar
 
 	nextChar: ->
 		nextChar = null
@@ -54,7 +60,10 @@ class Token
 				nextChar = nextToken.text[0]
 			nextToken = nextToken.next
 
-		return nextChar
+		if nextChar is null
+			return ''
+		else
+			return nextChar
 
 	remove: ->
 		@prev?.next = @next
