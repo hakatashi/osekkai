@@ -20,14 +20,6 @@ module.exports = (grunt) ->
 				cwd: '.'
 				src: ['*.coffee', 'src/**/*.coffee', 'test/**/*.coffee', '!Gruntfile.coffee']
 				dest: '.'
-				ext: '.es6'
-
-		babel:
-			build:
-				expand: true
-				cwd: '.'
-				src: ['*.es6', 'src/**/*.es6', 'test/**/*.es6']
-				dest: '.'
 				ext: '.js'
 
 		concat:
@@ -61,6 +53,11 @@ module.exports = (grunt) ->
 				options:
 					reporter: 'spec'
 				src: ['test/index.js']
+			coverage:
+				options:
+					require: ['coffee-script/register', './coffeecoverage-loader.js']
+					reporter: 'spec'
+				src: ['test/index.coffee']
 
 		# Client side mocha test
 		mocha:
@@ -97,11 +94,24 @@ module.exports = (grunt) ->
 				src: 'dist/osekkai.js'
 				dest: 'dist/osekkai.min.js'
 
+		clean:
+			build: [
+				'build/*'
+				'src/**/*.js'
+				'src/**/*.es6'
+				'test/**/*.js'
+				'test/**/*.es6'
+				'*.js'
+				'*.es6'
+				'!coffeecoverage-loader.js'
+			]
+
 	# hack to make grunt-contrib-concat NOT insert CRLF on Windows:
 	# https://github.com/gruntjs/grunt-contrib-concat/issues/105
 	grunt.util.linefeed = '\n'
 
-	grunt.registerTask 'build', ['newer:coffee', 'newer:babel', 'concat:shebang', 'newer:execute', 'browserify']
+	grunt.registerTask 'build', ['newer:coffee', 'concat:shebang', 'newer:execute', 'browserify']
+	grunt.registerTask 'coverage', ['clean:build', 'mochaTest:coverage']
 	grunt.registerTask 'test', ['coffeelint:module', 'mochaTest:module', 'mocha']
 	grunt.registerTask 'dist', ['build', 'test', 'copy', 'uglify']
 

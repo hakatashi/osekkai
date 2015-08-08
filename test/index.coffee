@@ -7,7 +7,7 @@ else
 # require() modules in node
 if inNode
 	expect = require 'expect.js'
-	osekkai = require '../'
+	osekkai = require '../src'
 # Inport Global to Local
 else
 	expect = window.expect
