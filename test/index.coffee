@@ -64,6 +64,24 @@ describe 'osekkai', ->
 						original: '!'
 					]
 
+			it 'should convert exclamation after fullwidth character into upright', ->
+				tests =
+					'まじで……！？': [
+						type: 'plain'
+						text: 'まじで……'
+					,
+						type: 'upright'
+						text: '!?'
+						original: '！？'
+					]
+
+			it 'should remain exclamation in latin script plained', ->
+				tests =
+					'Hey, Teitoku! Teatime is serious matter!!': [
+						type: 'plain'
+						text: 'Hey, Teitoku! Teatime is serious matter!!'
+					]
+
 			it 'should insert 1em margin after exclamations', ->
 				tests =
 					'ラブライブ！スクールアイドルフェスティバル': [
@@ -219,13 +237,6 @@ describe 'osekkai', ->
 						type: 'upright'
 						text: '!!'
 						original: '！！'
-					]
-
-			it 'should remain exclamation in latin script plained', ->
-				tests =
-					'Hey, Teitoku! Teatime is serious matter!!': [
-						type: 'plain'
-						text: 'Hey, Teitoku! Teatime is serious matter!!'
 					]
 
 			it 'should only convert maximum of two exclamations in a row by default', ->

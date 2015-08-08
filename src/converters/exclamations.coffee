@@ -12,10 +12,16 @@ module.exports = (osekkai) ->
 					nextCharIsNewline = osekkai.util.type.isNewline nextChar
 
 					if @text.length <= config.length
-						prevOrientation = osekkai.util.orientation.get @prevChar()
+						prevChar = @prevChar()
+						prevOrientation = osekkai.util.orientation.get prevChar
+						prevWidth = osekkai.util.width.type prevChar
 
 						# Upright exclamations if next char is uprighting
-						if prevOrientation is 'U' or prevOrientation is 'Tu'
+						if prevOrientation is 'U' or
+						prevOrientation is 'Tu' or
+						prevWidth is 'F' or
+						prevWidth is 'W' or
+						prevWidth is 'A'
 							@type = 'upright'
 							@original = @text
 

@@ -1,4 +1,12 @@
+ObjectKeys = require 'core-js/library/fn/object/keys'
+map = require 'core-js/library/fn/array/map'
 codePointAt = require 'core-js/library/fn/string/code-point-at'
+
+binarySearch = require './binarySearch'
+
+widths = require './data/widths.json'
+widthKeys = map ObjectKeys(widths), (key) -> parseInt key, 10
+
 decompositions = require './data/decompositions.json'
 
 width = {}
@@ -9,6 +17,14 @@ for type in ['wide', 'narrow']
 	compositions[type] = {}
 	for composition, decomposition of decompositions[type]
 		compositions[type][decomposition] = composition
+
+width.type = (char) ->
+	return null if typeof char isnt 'string' or char.length is 0
+
+	codePoint = codePointAt char, 0
+	index = binarySearch widthKeys.length, (n) -> widthKeys[n] <= codePoint
+
+	return widths[widthKeys[index]] ? 'A'
 
 width.composeHankakuChar = (char) -> compositions.wide[char] ? char
 width.composeZenkakuChar = (char) -> compositions.narrow[char] ? char

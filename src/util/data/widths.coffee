@@ -38,4 +38,9 @@ request EAW_URL, (error, response, data) ->
 
 		nextPoint = to + 1
 
-	fs.writeFile "#{__dirname}/widths.json", JSON.stringify widths
+	widthsObj = {}
+
+	for width in widths
+		widthsObj[width.from] = width.type
+
+	fs.writeFile "#{__dirname}/widths.json", JSON.stringify widthsObj
