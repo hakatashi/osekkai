@@ -13,4 +13,4 @@ module.exports = (size, test) ->
 			# if failed
 			max = mid
 
-	return min
+	return min - 1
