@@ -83,6 +83,68 @@ describe 'osekkai', ->
 						text: 'スクールアイドルフェスティバル'
 					]
 
+			it 'should not insert margin before closing parenthesis', ->
+				tests =
+					'(なんでだよ!)': [
+						type: 'plain'
+						text: '(なんでだよ'
+					,
+						type: 'upright'
+						text: '！'
+						original: '!'
+					,
+						type: 'plain'
+						text: ')'
+					]
+
+					'「意外!それは髪の毛ッ!」': [
+						type: 'plain'
+						text: '「意外'
+					,
+						type: 'upright'
+						text: '！'
+						original: '!'
+					,
+						type: 'margin'
+						length: 1
+						text: ''
+						original: ''
+					,
+						type: 'plain'
+						text: 'それは髪の毛ッ'
+					,
+						type: 'upright'
+						text: '！'
+						original: '!'
+					,
+						type: 'plain'
+						text: '」'
+					]
+
+					'『このミステリーがすごい!』大賞': [
+						type: 'plain'
+						text: '『このミステリーがすごい'
+					,
+						type: 'upright'
+						text: '！'
+						original: '!'
+					,
+						type: 'plain'
+						text: '』大賞'
+					]
+
+					'【アイカツ！】': [
+						type: 'plain'
+						text: '【アイカツ'
+					,
+						type: 'upright'
+						text: '！'
+						original: '！'
+					,
+						type: 'plain'
+						text: '】'
+					]
+
 			it 'should not insert margin before line breaks', ->
 				tests =
 					"""
