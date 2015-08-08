@@ -43,10 +43,14 @@ describe 'osekkai', ->
 	describe 'Converters', ->
 
 		describe 'Exclamations', ->
+			config = {}
+
+			beforeEach ->
+				config = converters: exclamations: true
 
 			afterEach ->
 				for own from, to of tests
-					text = osekkai from, converters: exclamations: true
+					text = osekkai from, config
 					expect(text.format('object')).to.eql to
 
 			it 'should convert halfwidth exclamation mark into fullwidth', ->
@@ -129,7 +133,7 @@ describe 'osekkai', ->
 						text: 'Hey, Teitoku! Teatime is serious matter!!'
 					]
 
-			it 'should only convert maximum of tow exclamations in a row by default', ->
+			it 'should only convert maximum of two exclamations in a row by default', ->
 				tests =
 					'焼きそばだよ!!': [
 						type: 'plain'
@@ -145,9 +149,39 @@ describe 'osekkai', ->
 						text: '命を燃やせ!!!'
 					]
 
-					'アウトだよ!!!!!': [
+					'アウトだよ!!!!': [
 						type: 'plain'
-						text: 'アウトだよ!!!!!'
+						text: 'アウトだよ!!!!'
+					]
+
+			it 'should be configurable of the length of upright exclamations', ->
+				config =
+					converters:
+						exclamations:
+							length: 3
+
+				tests =
+					'焼きそばだよ!!': [
+						type: 'plain'
+						text: '焼きそばだよ'
+					,
+						type: 'upright'
+						text: '!!'
+						original: '!!'
+					]
+
+					'命を燃やせ!!!': [
+						type: 'plain'
+						text: '命を燃やせ'
+					,
+						type: 'upright'
+						text: '!!!'
+						original: '!!!'
+					]
+
+					'アウトだよ!!!!': [
+						type: 'plain'
+						text: 'アウトだよ!!!!'
 					]
 
 			it 'should be safe with heading exclamation', ->
