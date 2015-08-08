@@ -145,6 +145,39 @@ describe 'osekkai', ->
 						text: '】'
 					]
 
+			it 'should not insert margin before fullwidth spaces', ->
+				tests =
+					'迎撃！　トラック泊地強襲': [
+						type: 'plain'
+						text: '迎撃'
+					,
+						type: 'upright'
+						text: '！'
+						original: '！'
+					,
+						type: 'plain'
+						text: '　トラック泊地強襲'
+					]
+
+			it 'should insert margin before small width spaces', ->
+				tests =
+					'ラブライブ! The School Idol Movie': [
+						type: 'plain'
+						text: 'ラブライブ'
+					,
+						type: 'upright'
+						text: '！'
+						original: '!'
+					,
+						type: 'margin'
+						length: 3 / 4
+						text: ''
+						original: ''
+					,
+						type: 'plain'
+						text: ' The School Idol Movie'
+					]
+
 			it 'should not insert margin before line breaks', ->
 				tests =
 					"""

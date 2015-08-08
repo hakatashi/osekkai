@@ -27,12 +27,23 @@ module.exports = (osekkai) ->
 
 							# Insert margin after Exclamation mark
 							# Pe is Punctuation Close of Unicode Category
-							# TODO: Do not insert space before space
 							if nextChar isnt '' and nextCharCategory isnt 'Pe' and not nextCharIsNewline
-								@after new osekkai.Token
-									type: 'margin'
-									text: ''
-									length: 1
+								# Do not insert space before space
+								# TODO: Reach out to the next char of the next char of...
+								if nextCharCategory is 'Zs'
+									spaceWidth = osekkai.util.width.space nextChar
+									if spaceWidth < 1
+										@after new osekkai.Token
+											type: 'margin'
+											text: ''
+											length: 1 - spaceWidth
+								else
+									@after new osekkai.Token
+										type: 'margin'
+										text: ''
+										length: 1
+							else if @next.type is 'margin'
+								@next.length = 1 if @next.length < 1
 
 					# TODO: Make long exclamation arrays upright
 
