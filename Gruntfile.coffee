@@ -26,7 +26,7 @@ module.exports = (grunt) ->
 			shebang:
 				options:
 					banner: '#!/usr/bin/env node\n\n'
-				src: 'cli.js'
+				src: '_cli.js'
 				dest: 'cli.js'
 
 		browserify:
@@ -45,7 +45,7 @@ module.exports = (grunt) ->
 					level: 'ignore'
 				max_line_length:
 					value: 120
-			module: ['src/**/*.coffee', 'test/**/*.coffee', '!cli.coffee']
+			module: ['src/**/*.coffee', 'test/**/*.coffee', '!_cli.coffee']
 
 		# Server side mocha test
 		mochaTest:

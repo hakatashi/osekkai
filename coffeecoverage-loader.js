@@ -7,7 +7,7 @@ var writeOnExit = (coverageVar == null) ? path.resolve(__dirname, 'coverage/cove
 coffeeCoverage.register({
     instrumentor: 'istanbul',
     basePath: __dirname,
-    exclude: ['/test', '/node_modules', '/.git', '/Gruntfile.coffee', '/cli.coffee', ['src', 'util', 'data'].join(path.sep)],
+    exclude: ['/test', '/node_modules', '/.git', '/Gruntfile.coffee', '/_cli.coffee', ['src', 'util', 'data'].join(path.sep)],
     coverageVar: coverageVar,
     writeOnExit: writeOnExit,
     initAll: true
