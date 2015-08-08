@@ -39,6 +39,7 @@ class Token
 
 		return this
 
+	# TODO: Support surrogates
 	prevChar: ->
 		prevChar = null
 		prevToken = @prev
@@ -52,6 +53,7 @@ class Token
 		else
 			return prevChar
 
+	# TODO: Support surrogates
 	nextChar: ->
 		nextChar = null
 		nextToken = @next
@@ -154,6 +156,8 @@ class Osekkai
 		index = @tokens.indexOf token
 		@tokens[index..index] = tokens
 		return this
+
+	# TODO: Replace by pattern
 
 osekkai = ->
 	switch typeof arguments[0]
