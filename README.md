@@ -1,6 +1,14 @@
 Osekkai
 =======
 
+[![Build Status][travis-img]][travis-url]
+[![Coverage Status][coveralls-img]][coveralls-url]
+
+[travis-img]: https://travis-ci.org/hakatashi/osekkai.svg?branch=master
+[travis-url]: https://travis-ci.org/hakatashi/osekkai
+[coveralls-img]: https://coveralls.io/repos/hakatashi/osekkai/badge.svg?branch=master&service=github
+[coveralls-url]: https://coveralls.io/github/hakatashi/osekkai?branch=master
+
 日本語平文を組版に合わせて最適化する、日本語出版史上最強のお節介(予定)
 
 ## 理想
