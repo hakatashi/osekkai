@@ -151,16 +151,16 @@ describe 'osekkai', ->
 						text: '』大賞'
 					]
 
-					'【アイカツ！】': [
+					'【!】不適切なコメントを通報する': [
 						type: 'plain'
-						text: '【アイカツ'
+						text: '【'
 					,
 						type: 'upright'
 						text: '！'
-						original: '！'
+						original: '!'
 					,
 						type: 'plain'
-						text: '】'
+						text: '】不適切なコメントを通報する'
 					]
 
 			it 'should not insert margin before fullwidth spaces', ->
