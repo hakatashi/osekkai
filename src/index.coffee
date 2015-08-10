@@ -216,8 +216,10 @@ class Osekkai
 	constructor: (chunks, options = {}) ->
 		if typeof chunks is 'string'
 			chunks = [chunks]
+			@singleReturn = yes
 		else if Array.isArray chunks
 			chunks = chunks
+			@singleReturn = no
 		else
 			throw new Error 'Unknown chunks'
 
@@ -401,7 +403,12 @@ class Osekkai
 		if not osekkai.formatters[type]?
 			throw new Error "Unknown formatter type #{type}"
 
-		return osekkai.formatters[type].call this
+		formatChunks = osekkai.formatters[type].call this
+
+		if @singleReturn
+			return formatChunks[0]
+		else
+			return formatChunks
 
 	normalize: ->
 		for chunk in @chunks

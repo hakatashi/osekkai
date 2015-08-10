@@ -16,7 +16,4 @@ module.exports = (osekkai) ->
 
 			chunks.push tokens
 
-		if chunks.length is 1
-			return chunks[0]
-		else
-			return chunks
+		return chunks
