@@ -434,6 +434,7 @@ osekkai.Osekkai = Osekkai
 
 # Load built-in converters and formatters
 require('./converters/exclamations') osekkai
+require('./converters/numbers') osekkai
 require('./formatters/plain') osekkai
 require('./formatters/object') osekkai
 require('./formatters/aozora') osekkai

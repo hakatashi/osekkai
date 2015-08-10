@@ -43,10 +43,10 @@ describe 'osekkai', ->
 	describe 'Converters', ->
 
 		describe 'Exclamations', ->
-			config = null
+			config = {}
 
 			beforeEach ->
-				config = true
+				config = {}
 
 			afterEach ->
 				for own from, to of tests
@@ -297,6 +297,56 @@ describe 'osekkai', ->
 						type: 'upright'
 						text: '！'
 						original: '！'
+					]
+
+		describe 'Numbers', ->
+			config = {}
+
+			beforeEach ->
+				config = {}
+
+			afterEach ->
+				for own from, to of tests
+					text = osekkai(from).convert('numbers', config).format 'object'
+					expect(text).to.eql to
+
+			it 'should convert single zenkaku and hankaku number into upright', ->
+				tests =
+					'永遠の0': [
+						type: 'plain'
+						text: '永遠の'
+					,
+						type: 'upright'
+						text: '０'
+						original: '0'
+					]
+
+					'ガンダム８号機': [
+						type: 'plain'
+						text: 'ガンダム'
+					,
+						type: 'upright'
+						text: '８'
+						original: '８'
+					,
+						type: 'plain'
+						text: '号機'
+					]
+
+					'8月7日': [
+						type: 'upright'
+						text: '８'
+						original: '8'
+					,
+						type: 'plain'
+						text: '月'
+					,
+						type: 'upright'
+						text: '７'
+						original: '7'
+					,
+						type: 'plain'
+						text: '日'
 					]
 
 	describe 'Formatters', ->
