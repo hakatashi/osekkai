@@ -193,6 +193,9 @@ class Chunk
 		return this
 
 	concat: (chunk) ->
+		if @index isnt chunk.index
+			throw new Error 'Concatenating chunks whose indexes differ'
+
 		if @tokens[@tokens.length - 1]? and chunk.tokens[0]?
 			chunk.tokens[0].prev = @tokens[@tokens.length - 1]
 			@tokens[@tokens.length - 1].next = chunk.tokens[0]
@@ -215,9 +218,10 @@ class Osekkai
 			token = new Token
 				type: 'plain'
 				text: chunkText
-				parent: this
-			@chunks.push new Chunk [token],
+			chunk = new Chunk [token],
 				index: index
+			token.parent = chunk
+			@chunks.push chunk
 
 		# Glue chunks
 		for chunk, index in @chunks
@@ -354,8 +358,8 @@ class Osekkai
 		for chunks, index in chunkses
 			if chunkses[index + 1]?[0]?
 				chunks[chunks.length - 1]?.setNext chunkses[index + 1][0]
-			if cuhnkses[index - 1]?[chunkses[index - 1].length - 1]?
-				chunks[0].setPrev chunkses[index - 1][chunkses[index - 1].length - 1]
+			if chunkses[index - 1]?[chunkses[index - 1].length - 1]?
+				chunks[0]?.setPrev chunkses[index - 1][chunkses[index - 1].length - 1]
 
 		retChunkses = []
 
@@ -372,22 +376,12 @@ class Osekkai
 
 		# Reorganize chunks
 		newChunks = []
-		chunkPtr = 0
-		offset = 0
 		for chunks in retChunkses
 			for chunk in chunks
-				chunkLength = chunk.getText().length
-
-				if not newChunks[chunkPtr]?
-					newChunks[chunkPtr] = chunk
+				if not newChunks[chunk.index]?
+					newChunks[chunk.index] = chunk
 				else
-					newChunks[chunkPtr].concat chunk
-
-				offset += chunkLength
-
-				if offset >= @chunks[chunkPtr].getText().length
-					chunkPtr++
-					offset = 0
+					newChunks[chunk.index].concat chunk
 
 		# Replace chunks
 		@chunks = newChunks
