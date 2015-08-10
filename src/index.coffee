@@ -12,34 +12,6 @@ class Token
 		@prev = params.prev ? null
 		@next = params.next ? null
 
-	replace: (pattern, callback) ->
-		if typeof pattern is 'string'
-			splitter = new RegExp "(#{pattern.replace /[-\/\\^$*+?.()|[\]{}]/g, '\\$&'})", 'g'
-		else if pattern instanceof RegExp
-			splitter = new RegExp "(#{pattern.source})", 'g'
-		else
-			throw new Error 'Unknown replacement pattern'
-
-		prev = @prev
-		tokens = @text.split(splitter).map (token) =>
-			current = new Token
-				type: @type
-				text: token
-				parent: @parent
-				prev: prev
-			prev?.next = current
-			prev = current
-
-		@parent.replaceToken this, tokens
-
-		for token, index in tokens
-			if index % 2 == 1
-				newToken = callback.call token
-				if newToken isnt tokens[index]
-					@parent.replaceToken tokens[index], newToken
-
-		return this
-
 	# TODO: Support surrogates
 	prevChar: ->
 		prevChar = null
@@ -422,13 +394,6 @@ class Osekkai
 				else if token.prev?.type is 'plain'
 					if token?.type is 'plain' and token.prev.parent is token.parent
 						token.prev.joinNext()
-
-	replaceToken: (token, tokens) ->
-		index = @tokens.indexOf token
-		@tokens[index..index] = tokens
-		return this
-
-	# TODO: Replace by pattern
 
 osekkai = ->
 	switch typeof arguments[0]
