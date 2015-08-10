@@ -443,6 +443,71 @@ describe 'osekkai', ->
 						text: '人になった'
 					]
 
+		describe 'Dashes', ->
+			config = {}
+
+			beforeEach ->
+				config = {}
+				tests = {}
+
+			afterEach ->
+				for own from, to of tests
+					text = osekkai(from).convert('dashes', config).format 'object'
+					expect(text).to.eql to
+
+			it 'should convert dashes into U+2500 (BOX DRAWINGS LIGHT HORIZONTAL)', ->
+				tests =
+					# U+2015
+					'――気をつけたほうがいい。もう始まってるかもしれない': [
+						type: 'alter'
+						text: '──'
+						original: '――'
+					,
+						type: 'plain'
+						text: '気をつけたほうがいい。もう始まってるかもしれない'
+					]
+
+					# U+2014
+					'ド———(ﾟдﾟ)———ン!': [
+						type: 'plain'
+						text: 'ド'
+					,
+						type: 'alter'
+						text: '───'
+						original: '———'
+					,
+						type: 'plain'
+						text: '(ﾟдﾟ)'
+					,
+						type: 'alter'
+						text: '───'
+						original: '———'
+					,
+						type: 'plain'
+						text: 'ン!'
+					]
+
+			it 'should convert mixed string with U+2014 and U+2015 into single dashes', ->
+				tests =
+					'ｷﾀ—―—(ﾟ∀ﾟ)—――!!': [
+						type: 'plain'
+						text: 'ｷﾀ'
+					,
+						type: 'alter'
+						text: '───'
+						original: '—―—'
+					,
+						type: 'plain'
+						text: '(ﾟ∀ﾟ)'
+					,
+						type: 'alter'
+						text: '───'
+						original: '—――'
+					,
+						type: 'plain'
+						text: '!!'
+					]
+
 	describe 'Formatters', ->
 
 		it 'should throw error when unsupported formatters are specified', ->
