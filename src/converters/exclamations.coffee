@@ -1,5 +1,5 @@
 module.exports = (osekkai) ->
-	replace = ->
+	replace = (config) ->
 		# Getv neighboring next char in advance
 		nextChar = @nextChar()
 		nextCharCategory = osekkai.util.type.category nextChar
@@ -42,7 +42,7 @@ module.exports = (osekkai) ->
 							type: 'margin'
 							text: ''
 							length: 1
-				else if @next.type is 'margin'
+				else if @next?.type is 'margin'
 					@next.length = 1 if @next.length < 1
 
 		# TODO: Make long exclamation arrays upright
@@ -54,5 +54,5 @@ module.exports = (osekkai) ->
 			for chunk in chunks
 				for token in chunk.tokens
 					if token.type is 'plain'
-						replace.call token
+						replace.call token, config
 			return chunks

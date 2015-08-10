@@ -139,7 +139,7 @@ class Chunk
 			tokenLength = token.text.length
 			tokenEnd += tokenLength
 
-			if start < tokenStart
+			if start < tokenEnd
 				substrStart = Math.max 0, start - tokenStart
 				substrLength = Math.min tokenLength, start + length - tokenStart
 
@@ -161,7 +161,7 @@ class Chunk
 			if ret[index - 1]?
 				token.prev = ret[index - 1]
 
-		return new Chunk tokens,
+		return new Chunk ret,
 			index: @index
 			prev: null
 			next: null
@@ -262,7 +262,7 @@ class Osekkai
 
 		return this
 
-	getText: -> (chunk.getText() for chunk in @tokens).join ''
+	getText: -> (chunk.getText() for chunk in @chunks).join ''
 
 	# WARNING: length cannnot be omitted
 	# Returns array of "array of tokens (simeq block)."
@@ -276,7 +276,7 @@ class Osekkai
 			chunkLength = chunk.getText().length
 			chunkEnd += chunkLength
 
-			if start < chunkStart
+			if start < chunkEnd
 				substrStart = Math.max 0, start - chunkStart
 				substrLength = Math.min chunkLength, start + length - chunkStart
 				ret.push chunk.substr substrStart, substrLength
@@ -369,10 +369,10 @@ class Osekkai
 				retChunkses.push chunks
 			else if index % (patterns.length + 1) is 1
 				if patterns.length is 1
-					appendChankses = [callback.call this, chunks]
+					appendChunkses = [callback.call this, chunks]
 				else
-					appendChankses = callback.call this, (chunkses[index + i] for i in [0...patterns.length])
-				retChunkses[retChunkses.length..] = appendChankses
+					appendChunkses = callback.call this, (chunkses[index + i] for i in [0...patterns.length])
+				retChunkses[retChunkses.length..] = appendChunkses
 
 		# Reorganize chunks
 		newChunks = []
@@ -395,16 +395,17 @@ class Osekkai
 		return osekkai.formatters[type].call this
 
 	normalize: ->
-		# Tip: [..] is a magic for copying array, bro.
-		tokens = @tokens[..]
-		tokens.push prev: tokens[tokens.length - 1]
+		for chunk in @chunks
+			# Tip: [..] is a magic for copying array, bro.
+			tokens = chunk.tokens[..]
+			tokens.push prev: tokens[tokens.length - 1]
 
-		for token, index in tokens
-			if token.type is 'plain' and token?.text is ''
-				token.remove()
-			else if token.prev?.type is 'plain'
-				if token?.type is 'plain'
-					token.prev.joinNext()
+			for token, index in tokens
+				if token.type is 'plain' and token?.text is ''
+					token.remove()
+				else if token.prev?.type is 'plain'
+					if token?.type is 'plain'
+						token.prev.joinNext()
 
 	replaceToken: (token, tokens) ->
 		index = @tokens.indexOf token
