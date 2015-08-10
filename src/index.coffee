@@ -8,7 +8,7 @@ class Token
 		if @type isnt 'plain'
 			@original = params.original ? @text
 			@length = params.length if params.length?
-		@parent = params.parent
+		@parent = params.parent ? null
 		@prev = params.prev ? null
 		@next = params.next ? null
 
@@ -87,11 +87,12 @@ class Token
 		return new Token
 			type: @type
 			text: substrText
-			parent: @parent
 			prev: @prev
 			next: @next
 
 	before: (token) ->
+		token.parent = @parent
+
 		@prev?.next = token
 		token.prev = @prev
 
@@ -104,6 +105,8 @@ class Token
 		return this
 
 	after: (token) ->
+		token.parent = @parent
+
 		@next?.prev = token
 		token.next = @next
 
@@ -118,6 +121,9 @@ class Token
 class Chunk
 	constructor: (tokens = [], options = {}) ->
 		@tokens = tokens
+
+		for token in @tokens
+			token.parent = this
 
 		@prev = options.prev ? null
 		@next = options.next ? null
@@ -141,7 +147,7 @@ class Chunk
 
 			if start < tokenEnd
 				substrStart = Math.max 0, start - tokenStart
-				substrLength = Math.min tokenLength, start + length - tokenStart
+				substrLength = Math.min tokenLength, start + length - substrStart
 
 				substrToken = token.substr substrStart, substrLength
 				if substrToken is null
@@ -199,6 +205,8 @@ class Chunk
 		if @tokens[@tokens.length - 1]? and chunk.tokens[0]?
 			chunk.tokens[0].prev = @tokens[@tokens.length - 1]
 			@tokens[@tokens.length - 1].next = chunk.tokens[0]
+		for token in chunk.tokens
+			token.parent = this
 		@tokens[@tokens.length..] = chunk.tokens
 		@next = chunk.next
 
@@ -220,7 +228,6 @@ class Osekkai
 				text: chunkText
 			chunk = new Chunk [token],
 				index: index
-			token.parent = chunk
 			@chunks.push chunk
 
 		# Glue chunks
@@ -278,7 +285,7 @@ class Osekkai
 
 			if start < chunkEnd
 				substrStart = Math.max 0, start - chunkStart
-				substrLength = Math.min chunkLength, start + length - chunkStart
+				substrLength = Math.min chunkLength, start + length - substrStart
 				ret.push chunk.substr substrStart, substrLength
 
 			if start + length <= chunkEnd
@@ -349,6 +356,8 @@ class Osekkai
 		lumps = text.split splitter
 		chunkses = []
 
+		# TODO: Handle null
+
 		offset = 0
 		for lump, index in lumps
 			chunkses.push @substr offset, lump.length
@@ -404,7 +413,7 @@ class Osekkai
 				if token.type is 'plain' and token?.text is ''
 					token.remove()
 				else if token.prev?.type is 'plain'
-					if token?.type is 'plain'
+					if token?.type is 'plain' and token.prev.parent is token.parent
 						token.prev.joinNext()
 
 	replaceToken: (token, tokens) ->
