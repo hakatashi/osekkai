@@ -1,4 +1,5 @@
 extend = require 'xtend'
+util = require 'util'
 
 class Token
 	constructor: (params) ->
@@ -80,6 +81,16 @@ class Token
 			@next.remove()
 		return this
 
+	# Override to add possibility to return null
+	substr: (start, length) ->
+		substrText = @text.substr start, length
+		return new Token
+			type: @type
+			text: substrText
+			parent: @parent
+			prev: @prev
+			next: @next
+
 	before: (token) ->
 		@prev?.next = token
 		token.prev = @prev
@@ -105,20 +116,90 @@ class Token
 		return this
 
 class Chunk
-	constructor: (text, options) ->
-		@tokens = [
-			new Token
-				type: 'plain'
-				text: text
-				parent: this
-				prev: null
-				next: null
-		]
+	constructor: (tokens = [], options = {}) ->
+		@tokens = tokens
 
 		@prev = options.prev ? null
 		@next = options.next ? null
+		@index = options.index ? null
 
 	getText: -> (token.text ? '' for token in @tokens).join ''
+
+	###
+	Chunk.prototype.substr(start[, length])
+	Null may be returned if unsplittable token will be splitted.
+	WARNING: length cannot be omitted
+	###
+	substr: (start, length) ->
+		tokenStart = 0
+		tokenEnd = 0
+		ret = []
+
+		for token in @tokens
+			tokenLength = token.text.length
+			tokenEnd += tokenLength
+
+			if start < tokenStart
+				substrStart = Math.max 0, start - tokenStart
+				substrLength = Math.min tokenLength, start + length - tokenStart
+
+				substrToken = token.substr substrStart, substrLength
+				if substrToken is null
+					return null
+				else
+					ret.push substrToken
+
+			if start + length <= tokenEnd
+				break
+
+			tokenStart = tokenEnd
+
+		# Glue tokens
+		for token, index in ret
+			if ret[index + 1]?
+				token.next = ret[index + 1]
+			if ret[index - 1]?
+				token.prev = ret[index - 1]
+
+		return new Chunk tokens,
+			index: @index
+			prev: null
+			next: null
+
+	setNext: (chunk) ->
+		@next = chunk
+
+		nextChunk = @next
+		while nextChunk isnt null
+			if nextChunk.tokens[0]?
+				@tokens[@tokens.length - 1]?.next = nextChunk.tokens[0]
+				break
+			else
+				nextChunk = nextChunk.next
+
+		return this
+
+	setPrev: (chunk) ->
+		@prev = chunk
+
+		prevChunk = @prev
+		while prevChunk isnt null
+			if prevChunk.tokens[prevChunk.tokens.length - 1]?
+				@tokens[0]?.prev = prevChunk.tokens[prevChunk.tokens.length - 1]
+				break
+			else
+				prevChunk = prevChunk.prev
+
+		return this
+
+	concat: (chunk) ->
+		if @tokens[@tokens.length - 1]? and chunk.tokens[0]?
+			chunk.tokens[0].prev = @tokens[@tokens.length - 1]
+			@tokens[@tokens.length - 1].next = chunk.tokens[0]
+		@tokens[@tokens.length..] = chunk.tokens
+		@next = chunk.next
+
+		return this
 
 class Osekkai
 	constructor: (chunks, options = {}) ->
@@ -129,7 +210,21 @@ class Osekkai
 		else
 			throw new Error 'Unknown chunks'
 
-		@chunks = new Chunk(chunk, parent: this) for chunk in chunks
+		@chunks = []
+		for chunkText, index in chunks
+			token = new Token
+				type: 'plain'
+				text: chunkText
+				parent: this
+			@chunks.push new Chunk [token],
+				index: index
+
+		# Glue chunks
+		for chunk, index in @chunks
+			if @chunks[index + 1]?
+				chunk.setNext @chunks[index + 1]
+			if @chunks[index - 1]?
+				chunk.setPrev @chunks[index - 1]
 
 		if options.converters?
 			@convert options.converters
@@ -160,6 +255,142 @@ class Osekkai
 				osekkai.converters[converter].call this, config
 
 			@normalize()
+
+		return this
+
+	getText: -> (chunk.getText() for chunk in @tokens).join ''
+
+	# WARNING: length cannnot be omitted
+	# Returns array of "array of tokens (simeq block)."
+	# Null may be returned if unsplittable token will be splitted.
+	substr: (start, length) ->
+		chunkStart = 0
+		chunkEnd = 0
+		ret = []
+
+		for chunk in @chunks
+			chunkLength = chunk.getText().length
+			chunkEnd += chunkLength
+
+			if start < chunkStart
+				substrStart = Math.max 0, start - chunkStart
+				substrLength = Math.min chunkLength, start + length - chunkStart
+				ret.push chunk.substr substrStart, substrLength
+
+			if start + length <= chunkEnd
+				break
+
+			chunkStart = chunkEnd
+
+		# Glue chunks
+		for chunk, index in ret
+			if ret[index + 1]?
+				chunk.setNext ret[index + 1]
+			if ret[index - 1]?
+				chunk.setPrev ret[index - 1]
+
+		return ret
+
+	###
+	Osekkai.prototype.replace: Replace text by pattern
+	@param pattern {RegExp | Array of RegExp} - The pattern(s) which this method replaces
+		APIs can use Array of RegExp to split the matched string into some blocks.
+		If you didn't specify any parenthesis for pattern, the entire match string will be returned.
+		If specified Array of RegExp is about to split the unsplittable token,
+		then the match is skipped and callback is not called for the match.
+		Do not include parenthesis matches in the patterns.
+		Replacement will always be performed with global option (//g)
+	@param callback {Function(blocks)} - The callback called for each matches of pattern
+	@example
+		osekkai(['ho', 'ge ', 'fuga']).replace([/\w+/, / /, /\w+/], function (blocks) {
+			console.log(blocks);
+			-> Something like the following are printed.
+				[ // matches
+					[ // Chunks
+						[ // Tokens
+							{type: 'plain', text: 'ho'}
+						],
+						[ // Tokens
+							{type: 'plain', text: 'ge'}
+						]
+					],
+					[ // Chunks
+						[ // Tokens
+							{type: 'plain', text: ' '}
+						]
+					],
+					[ //Chunks
+						[ //Tokens
+							{type: 'plain', text: 'fuga'}
+						]
+					]
+				]
+		});
+	###
+	replace: (patterns, callback) ->
+		# Sanitize patterns
+		if util.isRegExp patterns
+			patterns = [patterns]
+		else if not Array.isArray patterns
+			throw new Error 'Unknown replacement patterns'
+
+		splitterStr = ''
+		for pattern in patterns
+			splitterStr += "(#{pattern.source})"
+
+		splitter = new RegExp splitterStr, 'g'
+
+		text = @getText()
+
+		lumps = text.split splitter
+		chunkses = []
+
+		offset = 0
+		for lump, index in lumps
+			chunkses.push @substr offset, lump.length
+			offset += lump.length
+
+		# Glue chunkses
+		for chunks, index in chunkses
+			if chunkses[index + 1]?[0]?
+				chunks[chunks.length - 1]?.setNext chunkses[index + 1][0]
+			if cuhnkses[index - 1]?[chunkses[index - 1].length - 1]?
+				chunks[0].setPrev chunkses[index - 1][chunkses[index - 1].length - 1]
+
+		retChunkses = []
+
+		# Execute replacement
+		for chunks, index in chunkses
+			if index % (patterns.length + 1) is 0
+				retChunkses.push chunks
+			else if index % (patterns.length + 1) is 1
+				if patterns.length is 1
+					appendChankses = [callback.call this, chunks]
+				else
+					appendChankses = callback.call this, (chunkses[index + i] for i in [0...patterns.length])
+				retChunkses[retChunkses.length..] = appendChankses
+
+		# Reorganize chunks
+		newChunks = []
+		chunkPtr = 0
+		offset = 0
+		for chunks in retChunkses
+			for chunk in chunks
+				chunkLength = chunk.getText().length
+
+				if not newChunks[chunkPtr]?
+					newChunks[chunkPtr] = chunk
+				else
+					newChunks[chunkPtr].concat chunk
+
+				offset += chunkLength
+
+				if offset >= @chunks[chunkPtr].getText().length
+					chunkPtr++
+					offset = 0
+
+		# Replace chunks
+		@chunks = newChunks
 
 		return this
 
@@ -222,6 +453,7 @@ osekkai.converterPresets =
 		exclamations: true
 
 osekkai.Token = Token
+osekkai.Chunk = Chunk
 osekkai.Osekkai = Osekkai
 
 # Load built-in converters and formatters
