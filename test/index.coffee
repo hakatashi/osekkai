@@ -304,6 +304,7 @@ describe 'osekkai', ->
 
 			beforeEach ->
 				config = {}
+				tests = {}
 
 			afterEach ->
 				for own from, to of tests
@@ -347,6 +348,99 @@ describe 'osekkai', ->
 					,
 						type: 'plain'
 						text: '日'
+					]
+
+			it 'should convert up to two numbers into upright by default', ->
+				tests =
+					'ゴルゴ１３': [
+						type: 'plain'
+						text: 'ゴルゴ'
+					,
+						type: 'upright'
+						text: '13'
+						original: '１３'
+					]
+
+					'ゴルゴ３１１': [
+						type: 'plain'
+						text: 'ゴルゴ３１１'
+					]
+
+					'ゴルゴ２０１５': [
+						type: 'plain'
+						text: 'ゴルゴ２０１５'
+					]
+
+			it 'should be configurable of number of upright numbers with length property', ->
+				config =
+					length: 3
+
+				tests =
+					'ゴルゴ１３': [
+						type: 'plain'
+						text: 'ゴルゴ'
+					,
+						type: 'upright'
+						text: '13'
+						original: '１３'
+					]
+
+					'ゴルゴ３１１': [
+						type: 'plain'
+						text: 'ゴルゴ'
+					,
+						type: 'upright'
+						text: '311'
+						original: '３１１'
+					]
+
+					'ゴルゴ２０１５': [
+						type: 'plain'
+						text: 'ゴルゴ２０１５'
+					]
+
+			it 'should not convert numbers inside latin script into upright', ->
+				tests =
+					"""
+					10 little Indian boys went out to dine;
+					1 choked his little self and then there were 9.
+					""" : [
+						type: 'plain'
+						text: """
+						10 little Indian boys went out to dine;
+						1 choked his little self and then there were 9.
+						"""
+					]
+
+					"""
+					10人のインディアンが食事に出かけた
+					1人がのどを詰まらせて、9人になった
+					""" : [
+						type: 'upright'
+						text: '10'
+						original: '10'
+					,
+						type: 'plain'
+						text: """
+						人のインディアンが食事に出かけた
+
+						"""
+					,
+						type: 'upright'
+						text: '１'
+						original: '1'
+					,
+						type: 'plain'
+						text: """
+						人がのどを詰まらせて、
+						"""
+					,
+						type: 'upright'
+						text: '９'
+						original: '9'
+					,
+						type: 'plain'
+						text: '人になった'
 					]
 
 	describe 'Formatters', ->

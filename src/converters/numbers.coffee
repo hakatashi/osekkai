@@ -1,7 +1,9 @@
 module.exports = (osekkai) ->
 	replace = (config) ->
 		if @text.length <= config.length
-			prevChar = @prevChar() or @nextChar()
+			prevChar = @prevChar()
+			if prevChar is '' or osekkai.util.type.isNewline prevChar
+				prevChar = @nextChar()
 			prevOrientation = osekkai.util.orientation.get prevChar
 			prevWidth = osekkai.util.width.type prevChar
 
