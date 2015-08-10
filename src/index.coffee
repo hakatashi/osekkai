@@ -108,6 +108,7 @@ class Osekkai
 	constructor: (text, options = {}) ->
 		@text = text
 		@tokens = []
+
 		@converters = options.converters ? {}
 
 		@parse()
@@ -123,6 +124,35 @@ class Osekkai
 		]
 
 		for own converter, config of @converters
+			break if config is false or config is null
+
+			if typeof config is 'boolean'
+				osekkai.converters[converter].call this, {}
+			else
+				osekkai.converters[converter].call this, config
+
+			@normalize()
+
+		return this
+
+	convert: (converters, config = {}) ->
+		switch typeof converters
+			when 'string'
+				temp = []
+				temp.push [converters, config]
+				converters = temp
+
+			when 'object'
+				if not Array.isArray converters
+					temp = []
+					for converter, config of converters
+						temp.push [converter, config]
+					converters = temp
+
+			else
+				throw new Error 'Unknow  converters'
+
+		for [converter, config] in converters
 			break if config is false or config is null
 
 			if typeof config is 'boolean'
