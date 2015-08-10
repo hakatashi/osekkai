@@ -1,3 +1,17 @@
+0.1.0
+-----
+
+* Core
+	* More logic and strong text processing by Chunk is introduced!
+	* Continuous quality improvement thanks to [Coveralls](https://coveralls.io/)
+	* Browser package size improvement
+* Converters
+	* Insert margin after exclamations
+	* More precise upright-or-plain decision with East Asian Width database
+	* Numbers converter is implemented
+* Formatters
+	* Aozora formatter describes single upright text without ［＃縦中横］
+
 0.0.6
 -----
 
