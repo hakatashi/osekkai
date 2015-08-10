@@ -26,7 +26,7 @@ describe 'osekkai', ->
 		describe 'Tokens', ->
 			afterEach ->
 				for own from, to of tests
-					text = osekkai(from, {}).format 'object'
+					text = osekkai(from).format 'object'
 					expect(text).to.eql to
 
 			it 'converts plain texts as is', ->
@@ -43,15 +43,15 @@ describe 'osekkai', ->
 	describe 'Converters', ->
 
 		describe 'Exclamations', ->
-			config = {}
+			config = null
 
 			beforeEach ->
-				config = converters: exclamations: true
+				config = true
 
 			afterEach ->
 				for own from, to of tests
-					text = osekkai from, config
-					expect(text.format('object')).to.eql to
+					text = osekkai(from).convert('exclamations', config).format 'object'
+					expect(text).to.eql to
 
 			it 'should convert halfwidth exclamation mark into fullwidth', ->
 				tests =
@@ -262,9 +262,7 @@ describe 'osekkai', ->
 
 			it 'should be configurable of the length of upright exclamations', ->
 				config =
-					converters:
-						exclamations:
-							length: 3
+					length: 3
 
 				tests =
 					'焼きそばだよ!!': [
