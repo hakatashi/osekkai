@@ -104,28 +104,35 @@ class Token
 
 		return this
 
-class Osekkai
-	constructor: (text, options = {}) ->
-		@text = text
-		@tokens = []
-
-		@converters = options.converters ? {}
-
-		@parse()
-
-	parse: ->
+class Chunk
+	constructor: (text, options) ->
 		@tokens = [
 			new Token
 				type: 'plain'
-				text: @text
+				text: text
 				parent: this
 				prev: null
 				next: null
 		]
 
-		@convert @converters
+		@prev = options.prev ? null
+		@next = options.next ? null
 
-		return this
+	getText: -> (token.text ? '' for token in @tokens).join ''
+
+class Osekkai
+	constructor: (chunks, options = {}) ->
+		if typeof chunks is 'string'
+			chunks = [chunks]
+		else if Array.isArray chunks
+			chunks = chunks
+		else
+			throw new Error 'Unknown chunks'
+
+		@chunks = new Chunk(chunk, parent: this) for chunk in chunks
+
+		if options.converters?
+			@convert options.converters
 
 	convert: (converters, config = {}) ->
 		switch typeof converters
@@ -142,7 +149,7 @@ class Osekkai
 					converters = temp
 
 			else
-				throw new Error 'Unknow  converters'
+				throw new Error 'Unknown converters'
 
 		for [converter, config] in converters
 			break if config is false or config is null
