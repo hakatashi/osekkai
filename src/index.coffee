@@ -90,6 +90,32 @@ class Token
 
 		return this
 
+	replaceWith: (tokens) ->
+		if tokens instanceof Token
+			tokens = [token]
+
+		# Glue tokens
+		for token, index in tokens
+			token.parent = @parent
+			if tokens[index + 1]?
+				token.next = tokens[index + 1]
+			if tokens[index - 1]?
+				token.prev = tokens[index - 1]
+
+		@prev?.next = tokens[0] ? null
+		tokens[0]?.prev = @prev
+		@next?.prev = tokens[tokens.length - 1] ? null
+		tokens[tokens.length - 1]?.next = @next
+
+		index = @parent.tokens.indexOf this
+		@parent.tokens[index..index] = tokens
+
+		@prev = null
+		@next = null
+		@parent = null
+
+		return this
+
 class Chunk
 	constructor: (tokens = [], options = {}) ->
 		@tokens = tokens
@@ -436,6 +462,7 @@ osekkai.Osekkai = Osekkai
 require('./converters/exclamations') osekkai
 require('./converters/numbers') osekkai
 require('./converters/dashes') osekkai
+require('./converters/alphabet-upright') osekkai
 require('./formatters/plain') osekkai
 require('./formatters/object') osekkai
 require('./formatters/aozora') osekkai

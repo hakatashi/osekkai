@@ -508,6 +508,40 @@ describe 'osekkai', ->
 						text: '!!'
 					]
 
+		describe 'Alphabet Upright', ->
+			config = {}
+
+			beforeEach ->
+				config = {}
+				tests = {}
+
+			afterEach ->
+				for own from, to of tests
+					text = osekkai(from).convert('alphabetUpright', config).format 'object'
+					expect(text).to.eql to
+
+			it 'should convert hankaku alphabet inside Japanese text upright', ->
+				tests =
+					'ピクシブのPDF変換機能': [
+						type: 'plain'
+						text: 'ピクシブの'
+					,
+						type: 'upright'
+						text: 'Ｐ'
+						original: 'P'
+					,
+						type: 'upright'
+						text: 'Ｄ'
+						original: 'D'
+					,
+						type: 'upright'
+						text: 'Ｆ'
+						original: 'F'
+					,
+						type: 'plain'
+						text: '変換機能'
+					]
+
 	describe 'Formatters', ->
 
 		it 'should throw error when unsupported formatters are specified', ->
