@@ -123,15 +123,7 @@ class Osekkai
 				next: null
 		]
 
-		for own converter, config of @converters
-			break if config is false or config is null
-
-			if typeof config is 'boolean'
-				osekkai.converters[converter].call this, {}
-			else
-				osekkai.converters[converter].call this, config
-
-			@normalize()
+		@convert @converters
 
 		return this
 
