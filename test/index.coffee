@@ -42,7 +42,7 @@ describe 'osekkai', ->
 
 	describe 'Converters', ->
 
-		describe 'Exclamations', ->
+		describe 'Exclamations and Questions', ->
 			config = {}
 
 			beforeEach ->
