@@ -866,6 +866,31 @@ describe 'osekkai', ->
 						text: 'あ”ーーーーーーーっ'
 					]
 
+		describe 'Converters Chain', ->
+
+			it 'should be able to chain some converters', ->
+				result = osekkai '"執刀！？"'
+				.convert 'exclamations'
+				.convert 'quotations'
+				.format 'object'
+
+				expect(result).to.eql [
+					type: 'alter'
+					text: '〝'
+					original: '"'
+				,
+					type: 'plain'
+					text: '執刀'
+				,
+					type: 'upright'
+					text: '!?'
+					original: '！？'
+				,
+					type: 'alter'
+					text: '〟'
+					original: '"'
+				]
+
 	describe 'Formatters', ->
 
 		describe 'plain', ->
@@ -904,3 +929,7 @@ describe 'osekkai', ->
 				tests =
 					'侵略!イカ娘': '侵略！　イカ娘'
 					'侵略!?イカ娘': '侵略［＃縦中横］!?［＃縦中横終わり］　イカ娘'
+
+			it 'should convert altered token into corresponding text', ->
+				text = osekkai('"文学少女"').convert('quotations').format('aozora')
+				expect(text).to.eql '〝文学少女〟'
