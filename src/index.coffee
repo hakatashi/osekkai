@@ -417,23 +417,13 @@ class Osekkai
 					if token?.type is 'plain' and token.prev.parent is token.parent
 						token.prev.joinNext()
 
-osekkai = ->
-	switch typeof arguments[0]
-		when 'string'
-			text = arguments[0]
-			options = arguments[1] ? {}
-		when 'object'
-			options = arguments[0]
-			text = optoins.text
-		else
-			throw new Error 'Unsupported arguments'
-
+osekkai = (chunks, options) ->
 	options = extend osekkai.defaultConfig, options
 
 	if typeof options.converters is 'string'
 		options.converters = osekkai.converterPresets[options.converters]
 
-	return new Osekkai text, options
+	return new Osekkai chunks, options
 
 osekkai.util = require './util'
 

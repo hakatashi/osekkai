@@ -19,9 +19,32 @@ TEST_OUT = '日本語組版の壮大なお節介'
 describe 'osekkai', ->
 	tests = {}
 
-	afterEach -> tests = {}
+	beforeEach -> tests = {}
 
 	describe 'Core', ->
+
+		it 'should accept array of chunks as first argument', ->
+			expect(osekkai.bind(osekkai, [
+				'暇を持て余した'
+				'神々の'
+				'遊び'
+			])).to.not.throwError()
+
+		it 'should format array of chunks as array', ->
+			expect(osekkai(['暇を持て余した', '神々の', '遊び']).format('plain'))
+			.to.be.eql ['暇を持て余した', '神々の', '遊び']
+
+		it 'should convert array of chunks as array', ->
+			expect(osekkai(['暇を持て余した', '神々の', '遊び']).convert('numbers').format('plain'))
+			.to.be.eql ['暇を持て余した', '神々の', '遊び']
+
+		it 'should error when unknown converter is specified', ->
+			obj = osekkai 'ちくわ大明神'
+			expect(obj.convert.bind(obj, 'UNKNOWN')).to.throwError()
+
+		it 'should error when unknown formatter is supplied', ->
+			obj = osekkai 'ちくわ大明神'
+			expect(obj.format.bind(obj, 'UNKNOWN')).to.throwError()
 
 		describe 'Tokens', ->
 			afterEach ->
