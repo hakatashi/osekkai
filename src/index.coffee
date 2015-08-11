@@ -62,20 +62,6 @@ class Token
 			prev: @prev
 			next: @next
 
-	before: (token) ->
-		token.parent = @parent
-
-		@prev?.next = token
-		token.prev = @prev
-
-		@prev = token
-		token.next = this
-
-		index = @parent.tokens.indexOf this
-		@parent.tokens[index .. index - 1] = [token]
-
-		return this
-
 	after: (token) ->
 		token.parent = @parent
 
