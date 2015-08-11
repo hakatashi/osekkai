@@ -1,18 +1,18 @@
 module.exports = (osekkai) ->
 	replace = (config) ->
-		if @text.length <= config.length
-			prevChar = @prevChar()
-			if prevChar is '' or osekkai.util.type.isNewline prevChar
-				prevChar = @nextChar()
-			prevOrientation = osekkai.util.orientation.get prevChar
-			prevWidth = osekkai.util.width.type prevChar
+		prevChar = @prevChar()
+		if prevChar is '' or osekkai.util.type.isNewline prevChar
+			prevChar = @nextChar()
+		prevOrientation = osekkai.util.orientation.get prevChar
+		prevWidth = osekkai.util.width.type prevChar
 
-			# Upright exclamations if next char is uprighting
-			if prevOrientation is 'U' or
-			prevOrientation is 'Tu' or
-			prevWidth is 'F' or
-			prevWidth is 'W' or
-			prevWidth is 'A'
+		if prevOrientation is 'U' or
+		prevOrientation is 'Tu' or
+		prevWidth is 'F' or
+		prevWidth is 'W' or
+		prevWidth is 'A'
+
+			if @text.length <= config.length
 				@type = 'upright'
 				@original = @text
 
@@ -21,6 +21,17 @@ module.exports = (osekkai) ->
 					@text = osekkai.util.width.zenkaku @text
 				else
 					@text = osekkai.util.width.hankaku @text
+
+			else
+				tokens = []
+
+				for char in @text
+					tokens.push new osekkai.Token
+						type: 'upright'
+						text: osekkai.util.width.zenkaku char
+						original: char
+
+				@replaceWith tokens
 
 	osekkai.converters.numbers = (config) ->
 		config.length ?= 2

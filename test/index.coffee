@@ -407,12 +407,40 @@ describe 'osekkai', ->
 
 					'ゴルゴ３１１': [
 						type: 'plain'
-						text: 'ゴルゴ３１１'
+						text: 'ゴルゴ'
+					,
+						type: 'upright'
+						text: '３'
+						original: '３'
+					,
+						type: 'upright'
+						text: '１'
+						original: '１'
+					,
+						type: 'upright'
+						text: '１'
+						original: '１'
 					]
 
 					'ゴルゴ２０１５': [
 						type: 'plain'
-						text: 'ゴルゴ２０１５'
+						text: 'ゴルゴ'
+					,
+						type: 'upright'
+						text: '２'
+						original: '２'
+					,
+						type: 'upright'
+						text: '０'
+						original: '０'
+					,
+						type: 'upright'
+						text: '１'
+						original: '１'
+					,
+						type: 'upright'
+						text: '５'
+						original: '５'
 					]
 
 			it 'should be configurable of number of upright numbers with length property', ->
@@ -440,7 +468,23 @@ describe 'osekkai', ->
 
 					'ゴルゴ２０１５': [
 						type: 'plain'
-						text: 'ゴルゴ２０１５'
+						text: 'ゴルゴ'
+					,
+						type: 'upright'
+						text: '２'
+						original: '２'
+					,
+						type: 'upright'
+						text: '０'
+						original: '０'
+					,
+						type: 'upright'
+						text: '１'
+						original: '１'
+					,
+						type: 'upright'
+						text: '５'
+						original: '５'
 					]
 
 			it 'should not convert numbers inside latin script into upright', ->
