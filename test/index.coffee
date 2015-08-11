@@ -42,7 +42,7 @@ describe 'osekkai', ->
 			obj = osekkai 'ちくわ大明神'
 			expect(obj.convert.bind(obj, 'UNKNOWN')).to.throwError()
 
-		it 'should error when unknown formatter is supplied', ->
+		it 'should error when unknown formatter is specified', ->
 			obj = osekkai 'ちくわ大明神'
 			expect(obj.format.bind(obj, 'UNKNOWN')).to.throwError()
 
@@ -763,11 +763,6 @@ describe 'osekkai', ->
 					]
 
 	describe 'Formatters', ->
-
-		it 'should throw error when unsupported formatters are specified', ->
-			text = osekkai TEST_IN
-			format = text.format.bind(text, 'blah')
-			expect(format).to.throwError()
 
 		describe 'plain', ->
 			afterEach ->
