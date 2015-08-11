@@ -128,7 +128,7 @@ class Chunk
 
 			if start < tokenEnd
 				substrStart = Math.max 0, start - tokenStart
-				substrLength = Math.min tokenLength, start + length - substrStart
+				substrLength = Math.min tokenLength, start + length - tokenStart - substrStart
 
 				substrToken = token.substr substrStart, substrLength
 				if substrToken is null
@@ -267,7 +267,7 @@ class Osekkai
 
 			if start < chunkEnd
 				substrStart = Math.max 0, start - chunkStart
-				substrLength = Math.min chunkLength, start + length - substrStart
+				substrLength = Math.min chunkLength, start + length - chunkStart - substrStart
 				ret.push chunk.substr substrStart, substrLength
 
 			if start + length <= chunkEnd
