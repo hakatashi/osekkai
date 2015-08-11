@@ -1,5 +1,5 @@
 /*!
- * osekkai - v0.2.0 - 2015-08-11
+ * osekkai - v0.2.1 - 2015-08-11
  * https://github.com/hakatashi/osekkai#readme
  * Copyright (c) 2015 Koki Takahashi
  * Licensed under MIT License
@@ -1109,7 +1109,9 @@ function extend() {
       if (prevOrientation === 'U' || prevOrientation === 'Tu' || prevWidth === 'F' || prevWidth === 'W' || prevWidth === 'A') {
         if (this.text.length <= config.length) {
           this.type = 'upright';
-          this.original = this.text;
+          if (this.original == null) {
+            this.original = this.text;
+          }
           if (this.text.length === 1) {
             this.text = osekkai.util.width.zenkaku(this.text);
           } else {
@@ -1121,6 +1123,7 @@ function extend() {
               if (spaceWidth < 1) {
                 return this.after(new osekkai.Token({
                   type: 'margin',
+                  original: '',
                   text: '',
                   length: 1 - spaceWidth
                 }));
@@ -1128,6 +1131,7 @@ function extend() {
             } else {
               return this.after(new osekkai.Token({
                 type: 'margin',
+                original: '',
                 text: '',
                 length: 1
               }));
@@ -1325,6 +1329,9 @@ function extend() {
             case 'plain':
               chunkString += token.text;
               break;
+            case 'alter':
+              chunkString += token.text;
+              break;
             case 'upright':
               if (token.text.length === 1) {
                 chunkString += osekkai.util.width.zenkaku(token.text);
@@ -1428,18 +1435,18 @@ function extend() {
 
   Token = (function() {
     function Token(params) {
-      var ref, ref1, ref2, ref3, ref4, ref5;
+      var ref, ref1, ref2, ref3, ref4;
       this.type = (ref = params.type) != null ? ref : 'plain';
       this.text = (ref1 = params.text) != null ? ref1 : '';
       if (this.type !== 'plain') {
-        this.original = (ref2 = params.original) != null ? ref2 : this.text;
+        this.original = params.original != null ? params.original : null;
         if (params.length != null) {
           this.length = params.length;
         }
       }
-      this.parent = (ref3 = params.parent) != null ? ref3 : null;
-      this.prev = (ref4 = params.prev) != null ? ref4 : null;
-      this.next = (ref5 = params.next) != null ? ref5 : null;
+      this.parent = (ref2 = params.parent) != null ? ref2 : null;
+      this.prev = (ref3 = params.prev) != null ? ref3 : null;
+      this.next = (ref4 = params.next) != null ? ref4 : null;
     }
 
     Token.prototype.prevChar = function() {
@@ -1498,14 +1505,23 @@ function extend() {
     };
 
     Token.prototype.substr = function(start, length) {
-      var substrText;
-      substrText = this.text.substr(start, length);
-      return new Token({
-        type: this.type,
-        text: substrText,
-        prev: this.prev,
-        next: this.next
-      });
+      var params;
+      params = {
+        text: this.text.substr(start, length)
+      };
+      if (this.type != null) {
+        params.type = this.type;
+      }
+      if (this.original != null) {
+        params.original = this.original;
+      }
+      if (this.prev != null) {
+        params.prev = this.prev;
+      }
+      if (this.next != null) {
+        params.next = this.next;
+      }
+      return new Token(params);
     };
 
     Token.prototype.after = function(token) {
@@ -1611,7 +1627,7 @@ function extend() {
         tokenEnd += tokenLength;
         if (start < tokenEnd) {
           substrStart = Math.max(0, start - tokenStart);
-          substrLength = Math.min(tokenLength, start + length - substrStart);
+          substrLength = Math.min(tokenLength, start + length - tokenStart - substrStart);
           substrToken = token.substr(substrStart, substrLength);
           if (substrToken === null) {
             return null;
@@ -1803,7 +1819,7 @@ function extend() {
         chunkEnd += chunkLength;
         if (start < chunkEnd) {
           substrStart = Math.max(0, start - chunkStart);
-          substrLength = Math.min(chunkLength, start + length - substrStart);
+          substrLength = Math.min(chunkLength, start + length - chunkStart - substrStart);
           ret.push(chunk.substr(substrStart, substrLength));
         }
         if (start + length <= chunkEnd) {

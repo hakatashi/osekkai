@@ -1,3 +1,13 @@
+0.2.1
+-----
+
+* Core
+	* Fixed bug on chaining converters
+* Converters
+	* Fixed bug on exclamations converter
+* Formatters
+	* Fixed bug on aozora formatter
+
 0.2.0
 -----
 
