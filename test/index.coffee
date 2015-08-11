@@ -869,7 +869,7 @@ describe 'osekkai', ->
 		describe 'Converters Chain', ->
 
 			it 'should be able to chain some converters', ->
-				result = osekkai '"執刀！？"'
+				result = osekkai '"なんだと！？"'
 				.convert 'exclamations'
 				.convert 'quotations'
 				.format 'object'
@@ -880,7 +880,7 @@ describe 'osekkai', ->
 					original: '"'
 				,
 					type: 'plain'
-					text: '執刀'
+					text: 'なんだと'
 				,
 					type: 'upright'
 					text: '!?'

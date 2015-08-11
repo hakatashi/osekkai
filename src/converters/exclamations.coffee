@@ -18,7 +18,7 @@ module.exports = (osekkai) ->
 
 			if @text.length <= config.length
 				@type = 'upright'
-				@original = @text
+				@original ?= @text
 
 				# Text must be fullwidth if token is one character
 				if @text.length is 1
@@ -36,11 +36,13 @@ module.exports = (osekkai) ->
 						if spaceWidth < 1
 							@after new osekkai.Token
 								type: 'margin'
+								original: ''
 								text: ''
 								length: 1 - spaceWidth
 					else
 						@after new osekkai.Token
 							type: 'margin'
+							original: ''
 							text: ''
 							length: 1
 				else if @next?.type is 'margin'

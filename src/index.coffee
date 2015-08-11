@@ -6,7 +6,7 @@ class Token
 		@type = params.type ? 'plain'
 		@text = params.text ? ''
 		if @type isnt 'plain'
-			@original = params.original ? @text
+			@original = if params.original? then params.original else null
 			@length = params.length if params.length?
 		@parent = params.parent ? null
 		@prev = params.prev ? null
@@ -55,12 +55,13 @@ class Token
 
 	# Override to add possibility to return null
 	substr: (start, length) ->
-		substrText = @text.substr start, length
-		return new Token
-			type: @type
-			text: substrText
-			prev: @prev
-			next: @next
+		params = text: @text.substr start, length
+		params.type = @type if @type?
+		params.original = @original if @original?
+		params.prev = @prev if @prev?
+		params.next = @next if @next?
+
+		return new Token params
 
 	after: (token) ->
 		token.parent = @parent
