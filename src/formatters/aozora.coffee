@@ -11,6 +11,9 @@ module.exports = (osekkai) ->
 					when 'plain'
 						chunkString += token.text
 
+					when 'alter'
+						chunkString += token.text
+
 					when 'upright'
 						if token.text.length is 1
 							chunkString += osekkai.util.width.zenkaku token.text
