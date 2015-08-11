@@ -252,12 +252,40 @@ describe 'osekkai', ->
 
 					'命を燃やせ!!!': [
 						type: 'plain'
-						text: '命を燃やせ!!!'
+						text: '命を燃やせ'
+					,
+						type: 'upright'
+						text: '！'
+						original: '!'
+					,
+						type: 'upright'
+						text: '！'
+						original: '!'
+					,
+						type: 'upright'
+						text: '！'
+						original: '!'
 					]
 
 					'アウトだよ!!!!': [
 						type: 'plain'
-						text: 'アウトだよ!!!!'
+						text: 'アウトだよ'
+					,
+						type: 'upright'
+						text: '！'
+						original: '!'
+					,
+						type: 'upright'
+						text: '！'
+						original: '!'
+					,
+						type: 'upright'
+						text: '！'
+						original: '!'
+					,
+						type: 'upright'
+						text: '！'
+						original: '!'
 					]
 
 			it 'should be configurable of the length of upright exclamations', ->
@@ -285,7 +313,23 @@ describe 'osekkai', ->
 
 					'アウトだよ!!!!': [
 						type: 'plain'
-						text: 'アウトだよ!!!!'
+						text: 'アウトだよ'
+					,
+						type: 'upright'
+						text: '！'
+						original: '!'
+					,
+						type: 'upright'
+						text: '！'
+						original: '!'
+					,
+						type: 'upright'
+						text: '！'
+						original: '!'
+					,
+						type: 'upright'
+						text: '！'
+						original: '!'
 					]
 
 			it 'should be safe with heading exclamation', ->

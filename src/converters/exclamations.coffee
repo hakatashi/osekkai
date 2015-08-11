@@ -5,17 +5,18 @@ module.exports = (osekkai) ->
 		nextCharCategory = osekkai.util.type.category nextChar
 		nextCharIsNewline = osekkai.util.type.isNewline nextChar
 
-		if @text.length <= config.length
-			prevChar = @prevChar()
-			prevOrientation = osekkai.util.orientation.get prevChar
-			prevWidth = osekkai.util.width.type prevChar
+		prevChar = @prevChar()
+		prevOrientation = osekkai.util.orientation.get prevChar
+		prevWidth = osekkai.util.width.type prevChar
 
-			# Upright exclamations if next char is uprighting
-			if prevOrientation is 'U' or
-			prevOrientation is 'Tu' or
-			prevWidth is 'F' or
-			prevWidth is 'W' or
-			prevWidth is 'A'
+		# Upright exclamations if next char is uprighting
+		if prevOrientation is 'U' or
+		prevOrientation is 'Tu' or
+		prevWidth is 'F' or
+		prevWidth is 'W' or
+		prevWidth is 'A'
+
+			if @text.length <= config.length
 				@type = 'upright'
 				@original = @text
 
@@ -45,7 +46,17 @@ module.exports = (osekkai) ->
 				else if @next?.type is 'margin'
 					@next.length = 1 if @next.length < 1
 
-		# TODO: Make long exclamation arrays upright
+			# Each char of long exclamation series into upright
+			else
+				tokens = []
+
+				for char in @text
+					tokens.push new osekkai.Token
+						type: 'upright'
+						text: osekkai.util.width.zenkaku char
+						original: char
+
+				@replaceWith tokens
 
 	osekkai.converters.exclamations = (config) ->
 		config.length ?= 2
