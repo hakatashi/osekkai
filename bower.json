@@ -1,7 +1,7 @@
 {
   "name": "osekkai",
   "main": "src/index.js",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "homepage": "https://github.com/hakatashi/osekkai",
   "authors": [
     "Koki Takahashi <hakatasiloving@gmail.com>"

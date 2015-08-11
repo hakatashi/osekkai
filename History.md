@@ -1,3 +1,14 @@
+0.2.0
+-----
+
+* Core
+	* Add ability to pack multiple chunks together
+	* Removed Token.prototype.before()
+* Converters
+	* New Alphabet-Upright converter is supported
+	* New Quotations converter is supported
+	* Exclamations converter and Numbers converter can convert each char in long matches into upright
+
 0.1.0
 -----
 
