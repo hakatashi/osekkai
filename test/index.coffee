@@ -542,6 +542,115 @@ describe 'osekkai', ->
 						text: '変換機能'
 					]
 
+					'M-1グランプリ': [
+						type: 'upright'
+						text: 'Ｍ'
+						original: 'M'
+					,
+						type: 'alter'
+						text: '－'
+						original: '-'
+					,
+						type: 'upright'
+						text: '１'
+						original: '1'
+					,
+						type: 'plain'
+						text: 'グランプリ'
+					]
+
+			it 'should convert heading and trailing alphabet inside Japanese text upright', ->
+				tests =
+					'スーパーマリオRPG': [
+						type: 'plain'
+						text: 'スーパーマリオ'
+					,
+						type: 'upright'
+						text: 'Ｒ'
+						original: 'R'
+					,
+						type: 'upright'
+						text: 'Ｐ'
+						original: 'P'
+					,
+						type: 'upright'
+						text: 'Ｇ'
+						original: 'G'
+					]
+
+					'RPGツクール': [
+						type: 'upright'
+						text: 'Ｒ'
+						original: 'R'
+					,
+						type: 'upright'
+						text: 'Ｐ'
+						original: 'P'
+					,
+						type: 'upright'
+						text: 'Ｇ'
+						original: 'G'
+					,
+						type: 'plain'
+						text: 'ツクール'
+					]
+
+					"""
+					艦これRPG
+					RPGツクール2
+					""" : [
+						type: 'plain'
+						text: '艦これ'
+					,
+						type: 'upright'
+						text: 'Ｒ'
+						original: 'R'
+					,
+						type: 'upright'
+						text: 'Ｐ'
+						original: 'P'
+					,
+						type: 'upright'
+						text: 'Ｇ'
+						original: 'G'
+					,
+						type: 'plain'
+						text: '\n'
+					,
+						type: 'upright'
+						text: 'Ｒ'
+						original: 'R'
+					,
+						type: 'upright'
+						text: 'Ｐ'
+						original: 'P'
+					,
+						type: 'upright'
+						text: 'Ｇ'
+						original: 'G'
+					,
+						type: 'plain'
+						text: 'ツクール'
+					,
+						type: 'upright'
+						text: '２'
+						original: '2'
+					]
+
+			it 'should not convert lowercase alphabet upright', ->
+				tests =
+					'Go！プリンセスプリキュア': [
+						type: 'plain'
+						text: 'Go！プリンセスプリキュア'
+					]
+
+			it 'should not convert alphabets inside latin script upright', ->
+				tests =
+					'ARIA The ANIMATION': [
+						type: 'plain'
+						text: 'ARIA The ANIMATION'
+					]
+
 	describe 'Formatters', ->
 
 		it 'should throw error when unsupported formatters are specified', ->

@@ -16,15 +16,15 @@ module.exports = (osekkai) ->
 		nextOrientation = osekkai.util.orientation.get nextChar
 		nextWidth = osekkai.util.width.type nextChar
 
-		console.log prevChar, nextChar
-
 		if (
+			@prev?.type is 'upright' or
 			prevOrientation is 'U' or
 			prevOrientation is 'Tu' or
 			prevWidth is 'F' or
 			prevWidth is 'W' or
 			prevWidth is 'A'
 		) and (
+			@next?.type is 'upright'
 			nextOrientation is 'U' or
 			nextOrientation is 'Tu' or
 			nextWidth is 'F' or
@@ -34,8 +34,9 @@ module.exports = (osekkai) ->
 			tokens = []
 
 			for char in @text
+				orientation = osekkai.util.orientation.get osekkai.util.width.zenkaku char
 				tokens.push new osekkai.Token
-					type: 'upright'
+					type: if orientation is 'U' or orientation is 'Tu' then 'upright' else 'alter'
 					text: osekkai.util.width.zenkaku char
 					original: char
 
