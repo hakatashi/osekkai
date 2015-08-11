@@ -91,9 +91,6 @@ class Token
 		return this
 
 	replaceWith: (tokens) ->
-		if tokens instanceof Token
-			tokens = [token]
-
 		# Glue tokens
 		for token, index in tokens
 			token.parent = @parent
@@ -216,7 +213,6 @@ class Osekkai
 			chunks = [chunks]
 			@singleReturn = yes
 		else if Array.isArray chunks
-			chunks = chunks
 			@singleReturn = no
 		else
 			throw new Error 'Unknown chunks'
