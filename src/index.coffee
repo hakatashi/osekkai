@@ -435,6 +435,7 @@ require('./converters/exclamations') osekkai
 require('./converters/numbers') osekkai
 require('./converters/dashes') osekkai
 require('./converters/alphabet-upright') osekkai
+require('./converters/quotations') osekkai
 require('./formatters/plain') osekkai
 require('./formatters/object') osekkai
 require('./formatters/aozora') osekkai

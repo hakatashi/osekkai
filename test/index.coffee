@@ -762,6 +762,110 @@ describe 'osekkai', ->
 						text: 'ARIA The ANIMATION'
 					]
 
+		describe 'Quotations', ->
+
+			config = {}
+
+			beforeEach ->
+				config = {}
+				tests = {}
+
+			afterEach ->
+				for own from, to of tests
+					text = osekkai(from).convert('quotations', config).format 'object'
+					expect(text).to.eql to
+
+			it 'should convert kind of double quotations around Japanese text into double minutes', ->
+				tests =
+					'"蠍火"': [
+						type: 'alter'
+						text: '〝'
+						original: '"'
+					,
+						type: 'plain'
+						text: '蠍火'
+					,
+						type: 'alter'
+						text: '〟'
+						original: '"'
+					]
+
+					'“文学少女”シリーズ': [
+						type: 'alter'
+						text: '〝'
+						original: '“'
+					,
+						type: 'plain'
+						text: '文学少女'
+					,
+						type: 'alter'
+						text: '〟'
+						original: '”'
+					,
+						type: 'plain'
+						text: 'シリーズ'
+					]
+
+					'ワルツ第17番ト短調”大犬のワルツ”': [
+						type: 'plain'
+						text: 'ワルツ第17番ト短調'
+					,
+						type: 'alter'
+						text: '〝'
+						original: '”'
+					,
+						type: 'plain'
+						text: '大犬のワルツ'
+					,
+						type: 'alter'
+						text: '〟'
+						original: '”'
+					]
+
+					'"ＨＥＬＬＯ!!"': [
+						type: 'alter'
+						text: '〝'
+						original: '"'
+					,
+						type: 'plain'
+						text: 'ＨＥＬＬＯ!!'
+					,
+						type: 'alter'
+						text: '〟'
+						original: '"'
+					]
+
+			it 'should not convert kind of double quotations around latin text into double minutes', ->
+				tests =
+					'"HELLO!!"': [
+						type: 'plain'
+						text: '"HELLO!!"'
+					]
+
+					'Don\'t say “lazy”': [
+						type: 'plain'
+						text: 'Don\'t say “lazy”'
+					]
+
+			it 'should not convert double quotations that encloses one character', ->
+				tests =
+					'"萌"': [
+						type: 'plain'
+						text: '"萌"'
+					]
+
+					'あ”あ”あ”あ”あ”あ”っー': [
+						type: 'plain'
+						text: 'あ”あ”あ”あ”あ”あ”っー'
+					]
+
+			it 'should not convert double quotations not paired', ->
+				tests =
+					'あ”ーーーーーーーっ': [
+						type: 'plain'
+						text: 'あ”ーーーーーーーっ'
+					]
+
 	describe 'Formatters', ->
 
 		describe 'plain', ->
