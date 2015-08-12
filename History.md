@@ -1,3 +1,8 @@
+0.2.2
+-----
+
+* Small bugfix on converter chaining
+
 0.2.1
 -----
 
