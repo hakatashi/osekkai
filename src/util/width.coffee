@@ -88,4 +88,6 @@ width.spaces = (spaces) ->
 		ret += width.space space
 	return ret
 
+width.widths = widths
+
 module.exports = width

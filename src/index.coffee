@@ -64,6 +64,20 @@ class Token
 
 		return new Token params
 
+	before: (token) ->
+		token.parent = @parent
+
+		@prev?.next = token
+		token.prev = @prev
+
+		@prev = token
+		token.next = this
+
+		index = @parent.tokens.indexOf this
+		@parent.tokens[index .. index - 1] = [token]
+
+		return this
+
 	after: (token) ->
 		token.parent = @parent
 
@@ -437,6 +451,7 @@ require('./converters/exclamations') osekkai
 require('./converters/numbers') osekkai
 require('./converters/dashes') osekkai
 require('./converters/alphabet-upright') osekkai
+require('./converters/alphabet-margin') osekkai
 require('./converters/quotations') osekkai
 require('./formatters/plain') osekkai
 require('./formatters/object') osekkai

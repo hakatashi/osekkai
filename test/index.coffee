@@ -773,6 +773,40 @@ describe 'osekkai', ->
 						text: 'ARIA The ANIMATION'
 					]
 
+		describe 'Alphabet Margin', ->
+			config = {}
+
+			beforeEach ->
+				config = {}
+
+			afterEach ->
+				for own from, to of tests
+					text = osekkai(from).convert('alphabetMargin', config).format 'object'
+					expect(text).to.eql to
+
+			it 'should insert margins before and after the latin words inside Japanese text', ->
+				tests =
+					'横浜DeNAベイスターズ': [
+						type: 'plain'
+						text: '横浜'
+					,
+						type: 'margin'
+						text: ''
+						original: ''
+						length: 1 / 4
+					,
+						type: 'plain'
+						text: 'DeNA'
+					,
+						type: 'margin'
+						text: ''
+						original: ''
+						length: 1 / 4
+					,
+						type: 'plain'
+						text: 'ベイスターズ'
+					]
+
 		describe 'Quotations', ->
 
 			config = {}
