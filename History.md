@@ -1,3 +1,10 @@
+0.2.3
+-----
+
+* Small bugfix about upright token
+* Export ES5 shim for IE8 along with core.js
+* (Alphabet Margin Converter is coming. Hang tight!)
+
 0.2.2
 -----
 
