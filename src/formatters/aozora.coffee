@@ -15,7 +15,7 @@ module.exports = (osekkai) ->
 						chunkString += token.text
 
 					when 'upright'
-						if token.text.length is 1
+						if token.text.length <= 1
 							chunkString += osekkai.util.width.zenkaku token.text
 						else
 							text = osekkai.util.width.hankaku token.text

@@ -57,10 +57,15 @@ class Token
 	substr: (start, length) ->
 		params = text: @text.substr start, length
 		params.type = @type if @type?
+		# TODO: Consider
 		params.original = @original if @original?
 		params.prev = @prev if @prev?
 		params.next = @next if @next?
 		params.length = @length if @length?
+
+		if @type is 'upright' and length is 0
+			params.type = 'plain'
+			delete params.original
 
 		return new Token params
 
