@@ -60,6 +60,7 @@ class Token
 		params.original = @original if @original?
 		params.prev = @prev if @prev?
 		params.next = @next if @next?
+		params.length = @length if @length?
 
 		return new Token params
 
