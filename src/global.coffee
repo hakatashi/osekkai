@@ -14,6 +14,7 @@ isIE = ->
 		false
 
 if isIE() and isIE() <= 8
-	require 'core-js/es5'
+	# core.js is missing various shims such as String.prototype.split, which fails in old IEs
+	require 'es5-shim'
 
 global.osekkai = require '../'

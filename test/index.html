@@ -9,7 +9,10 @@
 		<div id="mocha"></div>
 
 		<!-- PhantomJS <2.0 is missing Function.prototype.bind. Fix it. -->
+		<!-- Also, bind-polyfill is broken in IE<=8. Since we bundled es5-shim for IE, this is no use for now. -->
+		<!--[if !IE]><!-->
 		<script src="../bower_components/bind-polyfill/index.js"></script>
+		<!--<![endif]-->
 
 		<script src="../bower_components/mocha/mocha.js"></script>
 
