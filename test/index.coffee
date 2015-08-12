@@ -63,7 +63,7 @@ describe 'osekkai', ->
 						text: 'お節介'
 					]
 
-			describe 'token.substr()', ->
+			describe 'osekkai.substr()', ->
 				it 'should inherit length property of every margin token on creating substring', ->
 					osek = osekkai 'いあ!いあ!'
 					osek.convert 'exclamations'
@@ -73,6 +73,20 @@ describe 'osekkai', ->
 					expect(chunks[0].tokens).to.have.length 5
 					expect(chunks[0].tokens[2]).to.have.property 'length'
 					expect(chunks[0].tokens[2].length).to.eql 1
+
+				it 'should be separatable of zero-width upright token into plain', ->
+					osek = osekkai '1ページ'
+					osek.convert 'numbers'
+					osek.convert 'alphabetUpright'
+					result = osek.format 'object'
+					expect(result).to.eql [
+						type: 'upright'
+						text: '１'
+						original: '1'
+					,
+						type: 'plain'
+						text: 'ページ'
+					]
 
 	describe 'Converters', ->
 
