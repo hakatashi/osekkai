@@ -989,6 +989,10 @@ describe 'osekkai', ->
 					'侵略!イカ娘': '侵略！　イカ娘'
 					'侵略!?イカ娘': '侵略［＃縦中横］!?［＃縦中横終わり］　イカ娘'
 
+			it 'should insert halfwidth space after alphabets', ->
+				text = osekkai('The麻雀').convert('alphabet-margin').format 'aozora'
+				expect(text).to.eql 'The 麻雀'
+
 			it 'should convert altered token into corresponding text', ->
 				text = osekkai('"文学少女"').convert('quotations').format('aozora')
 				expect(text).to.eql '〝文学少女〟'
