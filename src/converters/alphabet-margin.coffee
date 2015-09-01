@@ -45,7 +45,8 @@ module.exports = (osekkai) ->
 					character = prevChar
 					adjoiningToken = tokens[0].prev
 
-				if not osekkai.util.type.isNewline character and
+				if character isnt '' and
+				not osekkai.util.type.isNewline character and
 				(orientation is 'U' or orientation is 'Tu') and
 				not osekkai.util.type.category(character) is 'Zs' and
 				not adjoiningToken.type is 'margin'
