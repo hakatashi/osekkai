@@ -996,3 +996,17 @@ describe 'osekkai', ->
 			it 'should convert altered token into corresponding text', ->
 				text = osekkai('"文学少女"').convert('quotations').format('aozora')
 				expect(text).to.eql '〝文学少女〟'
+
+			it 'should escape special characters into entities', ->
+				text = osekkai('《えっ!?》').convert('exclamations').format 'aozora'
+				expect(text).to.eql '
+					※［＃始め二重山括弧、1-1-52］\
+					えっ［＃縦中横］!?［＃縦中横終わり］\
+					※［＃終わり二重山括弧、1-1-53］
+				'
+
+			it 'should be customizable of custom entities', ->
+				text = osekkai('<ruby>').format 'aozora', entities:
+					'<': '&lt;'
+					'>': '&gt;'
+				expect(text).to.eql '&lt;ruby&gt;'

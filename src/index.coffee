@@ -400,11 +400,11 @@ class Osekkai
 
 		return this
 
-	format: (type, options) ->
+	format: (type, config = {}) ->
 		if not osekkai.formatters[type]?
 			throw new Error "Unknown formatter type #{type}"
 
-		formatChunks = osekkai.formatters[type].call this
+		formatChunks = osekkai.formatters[type].call this, config
 
 		if @singleReturn
 			return formatChunks[0]
