@@ -1,3 +1,12 @@
+0.3.0
+-----
+
+* BACK-COMPAT BREAKING CHANGE
+	* Aozora formatter now automatically escapes special characters such as ※ into their entities
+		* Use `entities: {}` to turn off convertion
+* Exchange ES5 shim from [core-js](https://github.com/zloirock/core-js) to [es5-shim](https://github.com/es-shims/es5-shim)
+* Add 'entities' option to aozora formatter
+
 0.2.3
 -----
 
