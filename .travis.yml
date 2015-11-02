@@ -6,7 +6,7 @@ before_script:
   - bower install
 node_js:
   - '0.12'
-  - '0.10'
+  - '5'
 after_success:
   - grunt coverage
   - istanbul report text-summary lcov
