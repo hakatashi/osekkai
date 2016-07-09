@@ -38,6 +38,7 @@
   "devDependencies": {
     "coffee-coverage": "^0.6.2",
     "coffee-script": "^1.9.3",
+    "coffeelint": "^1.15.7",
     "coveralls": "^2.11.3",
     "es5-shim": "^4.1.10",
     "expect.js": "^0.3.1",
@@ -64,5 +65,14 @@
     "iconv-lite": "^0.4.11",
     "xtend": "^4.0.0"
   },
-  "bin": "./cli.js"
+  "bin": "./cli.js",
+  "coffeelintConfig": {
+    "indentation": {
+      "level": "error",
+      "value": 1
+    },
+    "no_tabs": {
+      "level": "ignore"
+    }
+  }
 }
