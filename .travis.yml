@@ -5,8 +5,9 @@ before_script:
   - npm install -g grunt-cli
   - bower install
 node_js:
-  - '0.12'
-  - '5'
+  - 0.12
+  - 4
+  - node
 after_success:
   - grunt coverage
   - istanbul report text-summary lcov
