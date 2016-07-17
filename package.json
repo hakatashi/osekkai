@@ -61,7 +61,7 @@
   },
   "dependencies": {
     "commander": "^2.8.1",
-    "core-js": "^1.0.1",
+    "core-js": "^2.4.1",
     "iconv-lite": "^0.4.11",
     "xtend": "^4.0.0"
   },
