@@ -1,3 +1,5 @@
+child_process = require 'child_process'
+
 module.exports = (grunt) ->
 	require('load-grunt-tasks') grunt
 	require('time-grunt') grunt
@@ -109,6 +111,10 @@ module.exports = (grunt) ->
 	# hack to make grunt-contrib-concat NOT insert CRLF on Windows:
 	# https://github.com/gruntjs/grunt-contrib-concat/issues/105
 	grunt.util.linefeed = '\n'
+
+	grunt.registerMultiTask 'execute', ->
+		done = @async()
+		child_process.exec "node \"#{@filesSrc[0]}\"", done
 
 	grunt.registerTask 'build', ['newer:coffee', 'concat:shebang', 'newer:execute', 'browserify']
 	grunt.registerTask 'coverage', ['clean:build', 'mochaTest:coverage']
