@@ -5,9 +5,9 @@ before_script:
   - npm install -g grunt-cli
   - bower install
 node_js:
-  - 0.12
-  - 4
   - node
+  - 4
+  - 0.12
 before_install:
   # install NPM 2
   - npm i -g npm@^2.0.0
