@@ -1,9 +1,9 @@
 {
   "name": "osekkai",
-  "version": "0.3.0",
   "description": "日本語組版のお節介",
   "main": "src/index.js",
   "scripts": {
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "test": "grunt"
   },
   "files": [
@@ -56,6 +56,7 @@
     "istanbul": "^0.4.4",
     "load-grunt-tasks": "^3.5.0",
     "request": "^2.74.0",
+    "semantic-release": "^4.3.5",
     "time-grunt": "^1.4.0"
   },
   "dependencies": {

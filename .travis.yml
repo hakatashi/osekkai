@@ -8,9 +8,18 @@ node_js:
   - 0.12
   - 4
   - node
+before_install:
+  # install NPM 2
+  - npm i -g npm@^2.0.0
 after_success:
   - grunt coverage
   - istanbul report text-summary lcov
   - cat ./coverage/lcov.info | coveralls
+  # install travis-after-all script to enable running `semantic-release` after ALL build succeed
+  - 'curl -Lo travis_after_all.py https://git.io/travis_after_all'
+  # run `semantic-release` exactly once after all builds pass
+  - python travis_after_all.py
+  - export $(cat .to_export_back) &> /dev/null
+  - npm run semantic-release
 notifications:
   webhooks: http://webhook.hakatashi.com/travis
