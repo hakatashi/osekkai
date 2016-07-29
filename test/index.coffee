@@ -38,6 +38,14 @@ describe 'osekkai', ->
 			expect(osekkai(['暇を持て余した', '神々の', '遊び']).convert('numbers').format('plain'))
 			.to.be.eql ['暇を持て余した', '神々の', '遊び']
 
+		it 'should correctly handle the empty strings as input', ->
+			result = osekkai ['', 'a', '']
+			.convert 'numbers'
+			.format 'plain'
+
+			expect result
+			.to.be.eql ['', 'a', '']
+
 		it 'should error when unknown converter is specified', ->
 			obj = osekkai 'ちくわ大明神'
 			expect(obj.convert.bind(obj, 'UNKNOWN')).to.throwError()
