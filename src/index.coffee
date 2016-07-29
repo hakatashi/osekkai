@@ -282,16 +282,22 @@ class Osekkai
 		chunkEnd = 0
 		ret = []
 
-		for chunk in @chunks
+		for chunk, index in @chunks
 			chunkLength = chunk.getText().length
 			chunkEnd += chunkLength
 
-			if start < chunkEnd
+			if start < chunkEnd or
+			# Run on an empty chunk  at start position
+			chunkStart is chunkEnd is start
 				substrStart = Math.max 0, start - chunkStart
 				substrLength = Math.min chunkLength, start + length - chunkStart - substrStart
 				ret.push chunk.substr substrStart, substrLength
 
 			if start + length <= chunkEnd
+				# If every remaining chunks is empty chunks, let them run on to the ret chunks
+				remainingChunks = @chunks.slice(index + 1)
+				if remainingChunks.length > 0 and remainingChunks.every((chunk) -> chunk.getText().length is 0)
+					ret.push.apply ret, remainingChunks.map (chunk) -> chunk.substr 0, 0
 				break
 
 			chunkStart = chunkEnd
