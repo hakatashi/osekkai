@@ -20,6 +20,7 @@ after_success:
   # run `semantic-release` exactly once after all builds pass
   - python travis_after_all.py
   - export $(cat .to_export_back) &> /dev/null
+  - ls -la
   - npm run semantic-release
 branches:
   except:
