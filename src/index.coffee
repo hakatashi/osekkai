@@ -10,11 +10,6 @@ osekkai = (chunks, options) ->
 
 	return new Osekkai chunks, options
 
-osekkai.util = require './util'
-
-osekkai.converters = {}
-osekkai.formatters = {}
-
 osekkai.defaultConfig =
 	converters: 'default'
 	joinableTokens: ['plain']
@@ -26,9 +21,5 @@ osekkai.converterPresets =
 		exclamations: true
 
 osekkai.Osekkai = Osekkai
-
-# Load built-in converters and formatters
-osekkai.converters = require './converters'
-osekkai.formatters = require './formatters'
 
 module.exports = osekkai
