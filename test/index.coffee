@@ -56,9 +56,9 @@ describe 'osekkai', ->
 
 		describe 'Tokens', ->
 			afterEach ->
-				for own from, to of tests
-					text = osekkai(from).format 'object'
-					expect(text).to.eql to
+				for own textFrom, textTo of tests
+					text = osekkai(textFrom).format 'object'
+					expect(text).to.eql textTo
 
 			it 'converts plain texts as is', ->
 				tests =
@@ -105,9 +105,9 @@ describe 'osekkai', ->
 				config = {}
 
 			afterEach ->
-				for own from, to of tests
-					text = osekkai(from).convert('exclamations', config).format 'object'
-					expect(text).to.eql to
+				for own textFrom, textTo of tests
+					text = osekkai(textFrom).convert('exclamations', config).format 'object'
+					expect(text).to.eql textTo
 
 			it 'should convert halfwidth exclamation mark into fullwidth', ->
 				tests =
@@ -407,9 +407,9 @@ describe 'osekkai', ->
 				tests = {}
 
 			afterEach ->
-				for own from, to of tests
-					text = osekkai(from).convert('numbers', config).format 'object'
-					expect(text).to.eql to
+				for own textFrom, textTo of tests
+					text = osekkai(textFrom).convert('numbers', config).format 'object'
+					expect(text).to.eql textTo
 
 			it 'should convert single zenkaku and hankaku number into upright', ->
 				tests =
@@ -595,9 +595,9 @@ describe 'osekkai', ->
 				tests = {}
 
 			afterEach ->
-				for own from, to of tests
-					text = osekkai(from).convert('dashes', config).format 'object'
-					expect(text).to.eql to
+				for own textFrom, textTo of tests
+					text = osekkai(textFrom).convert('dashes', config).format 'object'
+					expect(text).to.eql textTo
 
 			it 'should convert dashes into U+2500 (BOX DRAWINGS LIGHT HORIZONTAL)', ->
 				tests =
@@ -660,9 +660,9 @@ describe 'osekkai', ->
 				tests = {}
 
 			afterEach ->
-				for own from, to of tests
-					text = osekkai(from).convert('alphabetUpright', config).format 'object'
-					expect(text).to.eql to
+				for own textFrom, textTo of tests
+					text = osekkai(textFrom).convert('alphabetUpright', config).format 'object'
+					expect(text).to.eql textTo
 
 			it 'should convert hankaku alphabet inside Japanese text upright', ->
 				tests =
@@ -802,9 +802,9 @@ describe 'osekkai', ->
 				config = {}
 
 			afterEach ->
-				for own from, to of tests
-					text = osekkai(from).convert('alphabetMargin', config).format 'object'
-					expect(text).to.eql to
+				for own textFrom, textTo of tests
+					text = osekkai(textFrom).convert('alphabetMargin', config).format 'object'
+					expect(text).to.eql textTo
 
 			it 'should insert margins before and after the latin words inside Japanese text', ->
 				tests =
@@ -838,9 +838,9 @@ describe 'osekkai', ->
 				tests = {}
 
 			afterEach ->
-				for own from, to of tests
-					text = osekkai(from).convert('quotations', config).format 'object'
-					expect(text).to.eql to
+				for own textFrom, textTo of tests
+					text = osekkai(textFrom).convert('quotations', config).format 'object'
+					expect(text).to.eql textTo
 
 			it 'should convert kind of double quotations around Japanese text into double minutes', ->
 				tests =
@@ -962,10 +962,10 @@ describe 'osekkai', ->
 
 		describe 'plain', ->
 			afterEach ->
-				for own from, to of tests
-					text = osekkai(from).format('plain')
+				for own textFrom, textTo of tests
+					text = osekkai(textFrom).format('plain')
 					expect(text).to.be.a 'string'
-					expect(text).to.eql to
+					expect(text).to.eql textTo
 
 			it 'converts texts as is', ->
 				tests =
@@ -974,10 +974,10 @@ describe 'osekkai', ->
 
 		describe 'aozora', ->
 			afterEach ->
-				for own from, to of tests
-					text = osekkai(from, converters: exclamations: true).format 'aozora'
+				for own textFrom, textTo of tests
+					text = osekkai(textFrom, converters: exclamations: true).format 'aozora'
 					expect(text).to.be.a 'string'
-					expect(text).to.eql to
+					expect(text).to.eql textTo
 
 			it 'converts plain texts as is', ->
 				tests =
