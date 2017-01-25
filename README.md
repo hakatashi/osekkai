@@ -3,6 +3,7 @@ Osekkai
 
 [![Build Status][travis-img]][travis-url]
 [![Coverage Status][coveralls-img]][coveralls-url]
+[![Greenkeeper badge](https://badges.greenkeeper.io/hakatashi/osekkai.svg)](https://greenkeeper.io/)
 
 [travis-img]: https://travis-ci.org/hakatashi/osekkai.svg?branch=master
 [travis-url]: https://travis-ci.org/hakatashi/osekkai
