@@ -1,6 +1,8 @@
 Osekkai
 =======
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/hakatashi/osekkai.svg)](https://greenkeeper.io/)
+
 [![Build Status][travis-img]][travis-url]
 [![Coverage Status][coveralls-img]][coveralls-url]
 
