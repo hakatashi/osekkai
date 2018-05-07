@@ -52,7 +52,7 @@
     "grunt-mocha-test": "^0.13.0",
     "grunt-newer": "^1.2.0",
     "istanbul": "^0.4.4",
-    "load-grunt-tasks": "^3.5.0",
+    "load-grunt-tasks": "^4.0.0",
     "request": "^2.74.0",
     "semantic-release": "^12.2.4",
     "time-grunt": "^1.4.0"
