@@ -105,7 +105,7 @@ module.exports = function(grunt) {
 		},
 
 		clean: {
-			build: ['build/*', 'src/**/*.js', 'src/**/*.es6', 'test/**/*.js', 'test/**/*.es6', '*.js', '*.es6'],
+			build: ['build/*'],
 		},
 	});
 
