@@ -118,7 +118,7 @@ module.exports = (grunt) ->
 
 	grunt.registerTask 'build', ['newer:coffee', 'concat:shebang', 'newer:execute', 'browserify']
 	grunt.registerTask 'coverage', ['clean:build', 'mochaTest:coverage']
-	grunt.registerTask 'test', ['coffeelint:module', 'mochaTest:module', 'mocha']
+	grunt.registerTask 'test', ['coffeelint:module', 'mochaTest:module']
 	grunt.registerTask 'dist', ['build', 'test', 'copy', 'uglify']
 
 	grunt.registerTask 'default', ['build', 'test']
