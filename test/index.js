@@ -7,22 +7,8 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
 // Node.js detection
-let expect, inNode, osekkai;
-if (typeof module !== 'undefined' && module.exports != null) {
-	inNode = true;
-} else {
-	inNode = false;
-}
-
-// require() modules in node
-if (inNode) {
-	expect = require('expect.js');
-	osekkai = require('../src');
-	// Inport Global to Local
-} else {
-	({expect} = window);
-	({osekkai} = window);
-}
+const osekkai = require('../src');
+const expect = require('expect.js');
 
 const TEST_IN = '日本語組版の壮大なお節介';
 const TEST_OUT = '日本語組版の壮大なお節介';

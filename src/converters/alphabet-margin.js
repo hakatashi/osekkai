@@ -46,7 +46,7 @@ module.exports = function(config) {
 		let tokens;
 		let chunk;
 		for (chunk of chunks) {
-			({tokens} = chunk);
+			(({tokens} = chunk));
 		}
 		const text = (() => {
 			const result = [];
