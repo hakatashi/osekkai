@@ -43,14 +43,13 @@ const replace = function(config) {
 	)) {
 		const tokens = [];
 
-		for (let char of this.text) {
+		for (const char of this.text) {
 			const orientation = util.orientation.get(util.width.zenkaku(char));
 			tokens.push(new Token({
 				type: (orientation === 'U') || (orientation === 'Tu') ? 'upright' : 'alter',
 				text: util.width.zenkaku(char),
-				original: char
-			})
-			);
+				original: char,
+			}));
 		}
 
 		return this.replaceWith(tokens);
@@ -58,9 +57,9 @@ const replace = function(config) {
 };
 
 module.exports = function(config) {
-	return this.replace(/[\-=/0-9@A-Z－＝／０-９＠Ａ-Ｚ]+/, function(chunks) {
-		for (let chunk of chunks) {
-			for (let token of chunk.tokens) {
+	return this.replace(/[\-=/0-9@A-Z－＝／０-９＠Ａ-Ｚ]+/, (chunks) => {
+		for (const chunk of chunks) {
+			for (const token of chunk.tokens) {
 				if (token.type === 'plain') {
 					replace.call(token, config);
 				}

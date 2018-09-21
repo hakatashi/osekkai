@@ -30,7 +30,7 @@ class Osekkai {
 			const chunkText = chunks[index];
 			const token = new Token({
 				type: 'plain',
-				text: chunkText
+				text: chunkText,
 			});
 			chunk = new Chunk([token],
 				{index});
@@ -78,7 +78,9 @@ class Osekkai {
 		}
 
 		for ([converter, config] of converters) {
-			if ((config === false) || (config === null)) { break; }
+			if ((config === false) || (config === null)) {
+				break;
+			}
 
 			if (typeof config === 'boolean') {
 				builtinConverters[converter].call(this, {});
@@ -92,7 +94,9 @@ class Osekkai {
 		return this;
 	}
 
-	getText() { return (this.chunks.map((chunk) => chunk.getText())).join(''); }
+	getText() {
+		return (this.chunks.map((chunk) => chunk.getText())).join('');
+	}
 
 	// WARNING: length cannnot be omitted
 	// Returns array of "array of tokens (simeq block)."
@@ -119,8 +123,8 @@ class Osekkai {
 			if ((start + length) <= chunkEnd) {
 				// If every remaining chunks is empty chunks, let them run on to the ret chunks
 				const remainingChunks = this.chunks.slice(index + 1);
-				if ((remainingChunks.length > 0) && remainingChunks.every(chunk => chunk.getText().length === 0)) {
-					ret.push.apply(ret, remainingChunks.map(chunk => chunk.substr(0, 0)));
+				if ((remainingChunks.length > 0) && remainingChunks.every((chunk) => chunk.getText().length === 0)) {
+					ret.push(...remainingChunks.map((chunk) => chunk.substr(0, 0)));
 				}
 				break;
 			}
@@ -188,7 +192,7 @@ class Osekkai {
 		}
 
 		let splitterStr = '';
-		for (let pattern of patterns) {
+		for (const pattern of patterns) {
 			splitterStr += `(${pattern.source})`;
 		}
 
@@ -211,10 +215,10 @@ class Osekkai {
 		// Glue chunkses
 		for (index = 0; index < chunkses.length; index++) {
 			chunks = chunkses[index];
-			if (__guard__(chunkses[index + 1], x => x[0]) != null) {
-				__guard__(chunks[chunks.length - 1], x1 => x1.setNext(chunkses[index + 1][0]));
+			if (__guard__(chunkses[index + 1], (x) => x[0]) != null) {
+				__guard__(chunks[chunks.length - 1], (x1) => x1.setNext(chunkses[index + 1][0]));
 			}
-			if (__guard__(chunkses[index - 1], x2 => x2[chunkses[index - 1].length - 1]) != null) {
+			if (__guard__(chunkses[index - 1], (x2) => x2[chunkses[index - 1].length - 1]) != null) {
 				if (chunks[0] != null) {
 					chunks[0].setPrev(chunkses[index - 1][chunkses[index - 1].length - 1]);
 				}
@@ -242,7 +246,7 @@ class Osekkai {
 		// Reorganize chunks
 		const newChunks = [];
 		for (chunks of retChunkses) {
-			for (let chunk of chunks) {
+			for (const chunk of chunks) {
 				if ((newChunks[chunk.index] == null)) {
 					newChunks[chunk.index] = chunk;
 				} else {
@@ -266,23 +270,21 @@ class Osekkai {
 
 		if (this.singleReturn) {
 			return formatChunks[0];
-		} else {
-			return formatChunks;
 		}
+		return formatChunks;
 	}
 
 	normalize() {
 		return (() => {
 			const result = [];
-			for (let chunk of this.chunks) {
+			for (const chunk of this.chunks) {
 			// Tip: [..] is a magic for copying array, bro.
 				var tokens = chunk.tokens.slice();
 				tokens.push({prev: tokens[tokens.length - 1]});
 
 				result.push((() => {
 					const result1 = [];
-					for (let index = 0; index < tokens.length; index++) {
-						const token = tokens[index];
+					for (const token of tokens) {
 						if ((token.type === 'plain') && ((token != null ? token.text : undefined) === '')) {
 							result1.push(token.remove());
 						} else if ((token.prev != null ? token.prev.type : undefined) === 'plain') {
@@ -306,14 +308,14 @@ class Osekkai {
 module.exports = Osekkai;
 
 function __guard__(value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+	return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
 }
 function __range__(left, right, inclusive) {
-  let range = [];
-  let ascending = left < right;
-  let end = !inclusive ? right : ascending ? right + 1 : right - 1;
-  for (let i = left; ascending ? i < end : i > end; ascending ? i++ : i--) {
-    range.push(i);
-  }
-  return range;
+	const range = [];
+	const ascending = left < right;
+	const end = !inclusive ? right : ascending ? right + 1 : right - 1;
+	for (let i = left; ascending ? i < end : i > end; ascending ? i++ : i--) {
+		range.push(i);
+	}
+	return range;
 }

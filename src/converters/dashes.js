@@ -15,9 +15,9 @@ const replace = function(config) {
 };
 
 module.exports = function(config) {
-	return this.replace(/[—―]+/g, function(chunks) {
-		for (let chunk of chunks) {
-			for (let token of chunk.tokens) {
+	return this.replace(/[—―]+/g, (chunks) => {
+		for (const chunk of chunks) {
+			for (const token of chunk.tokens) {
 				replace.call(token, config);
 			}
 		}

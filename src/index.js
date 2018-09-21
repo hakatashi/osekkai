@@ -14,16 +14,16 @@ var osekkai = function(chunks, options) {
 
 osekkai.defaultConfig = {
 	converters: 'default',
-	joinableTokens: ['plain']
+	joinableTokens: ['plain'],
 };
 
 osekkai.converterPresets = {
 	default: {
-		exclamations: false
+		exclamations: false,
 	},
 	vertical: {
-		exclamations: true
-	}
+		exclamations: true,
+	},
 };
 
 osekkai.Osekkai = Osekkai;

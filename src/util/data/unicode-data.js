@@ -29,15 +29,17 @@ const decompositionTypes = [
 	'small',
 	'square',
 	'fraction',
-	'compat'
+	'compat',
 ];
 
-request(UDATA_URL, function(error, response, data) {
+request(UDATA_URL, (error, response, data) => {
 	let category, type;
-	if (error || (response.statusCode !== 200)) { throw new Error(); }
+	if (error || (response.statusCode !== 200)) {
+		throw new Error();
+	}
 
 	const decompositions = {};
-	for (let decompositionType of decompositionTypes) {
+	for (const decompositionType of decompositionTypes) {
 		decompositions[decompositionType] = {};
 	}
 
@@ -59,7 +61,7 @@ request(UDATA_URL, function(error, response, data) {
 			categories.push({
 				from: codePoint,
 				to: codePoint,
-				type
+				type,
 			});
 		}
 
@@ -67,10 +69,12 @@ request(UDATA_URL, function(error, response, data) {
 	};
 
 	for (let line of data.split('\n')) {
-		let bidiCategory, codePoint, combiningClasses, decimalDigit, decomposition, digit, ISO10646, lowercase, mirrored, name, numeric, titlecase, unicode1, uppercase, uppoercase;
+		let ISO10646, bidiCategory, codePoint, combiningClasses, decimalDigit, decomposition, digit, lowercase, mirrored, name, numeric, titlecase, unicode1, uppercase, uppoercase;
 		line = line.replace(/#.*$/, '');
 
-		if (line.length === 0) { continue; }
+		if (line.length === 0) {
+			continue;
+		}
 
 		[
 			codePoint,
@@ -87,8 +91,8 @@ request(UDATA_URL, function(error, response, data) {
 			ISO10646,
 			uppoercase,
 			lowercase,
-			titlecase
-		] = Array.from(line.split(';').map(token => token.trim()));
+			titlecase,
+		] = Array.from(line.split(';').map((token) => token.trim()));
 
 		// normalization
 		codePoint = parseInt(codePoint, 16);
@@ -100,8 +104,10 @@ request(UDATA_URL, function(error, response, data) {
 
 		if (decomposition[0] != null ? decomposition[0].match(/^<.+>$/) : undefined) {
 			type = decomposition[0].replace(/^<(.+)>$/, '$1');
-			if (!decompositionTypes.includes(type)) { type = 'compat'; }
-			const decomposedString = decomposition.slice(1).map(str => fromCodePoint(parseInt(str, 16))).join('');
+			if (!decompositionTypes.includes(type)) {
+				type = 'compat';
+			}
+			const decomposedString = decomposition.slice(1).map((str) => fromCodePoint(parseInt(str, 16))).join('');
 			decompositions[type][fromCodePoint(codePoint)] = decomposedString;
 		}
 

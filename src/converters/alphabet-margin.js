@@ -14,14 +14,16 @@ const fromCodePoint = require('core-js/library/fn/string/from-code-point');
 const util = require('../util');
 const Token = require('../token');
 
-const { widths } = util.width;
+const {widths} = util.width;
 let latinRegexpString = '';
 
-const codePoints = map(ObjectKeys(util.width.widths), codePoint => parseInt(codePoint, 10));
-reduce(codePoints, function(previous, current) {
+const codePoints = map(ObjectKeys(util.width.widths), (codePoint) => parseInt(codePoint, 10));
+reduce(codePoints, (previous, current) => {
 	const width = widths[previous];
 
-	if ((previous >= 0x10000) || (current >= 0x10000)) { return current; }
+	if ((previous >= 0x10000) || (current >= 0x10000)) {
+		return current;
+	}
 
 	if ((width === 'N') || (width === 'Na')) {
 		const startChar = util.regexp.escape(fromCodePoint(previous));
@@ -40,22 +42,25 @@ latinRegexpString = `[${latinRegexpString}]`;
 const latinWordRegexp = new RegExp(`${latinRegexpString}+`, 'g');
 
 module.exports = function(config) {
-	return this.replace(latinWordRegexp, function(chunks) {
+	return this.replace(latinWordRegexp, (chunks) => {
 		let tokens;
 		let chunk;
-		for (chunk of chunks) { ({ tokens } = (chunk)); }
+		for (chunk of chunks) {
+			({tokens} = (chunk));
+		}
 		const text = ((() => {
 			const result = [];
-			for (chunk of chunks) { 				result.push(chunk);
+			for (chunk of chunks) {
+ 				result.push(chunk);
 			}
 			return result;
 		})()).join('');
 
 		// Tip: [-1..][0] means the last element of array
-		const nextChar = __guard__(tokens.slice(-1)[0], x => x.nextChar());
+		const nextChar = __guard__(tokens.slice(-1)[0], (x) => x.nextChar());
 		const prevChar = tokens[0] != null ? tokens[0].prevChar() : undefined;
 
-		for (let direction of [-1, +1]) {
+		for (const direction of [-1, +1]) {
 			var adjoiningToken, character;
 			const orientation = util.orientation.get(character);
 
@@ -71,24 +76,21 @@ module.exports = function(config) {
 			!util.type.isNewline(character &&
 			((orientation === 'U') || (orientation === 'Tu')) &&
 			(!util.type.category(character) === 'Zs') &&
-			(!adjoiningToken.type === 'margin')
-			)) {
+			(!adjoiningToken.type === 'margin'))) {
 				if (direction === +1) {
 					tokens.slice(-1)[0].after(new Token({
 						type: 'margin',
 						original: '',
 						text: '',
-						length: 1 / 4
-					})
-					);
+						length: 1 / 4,
+					}));
 				} else {
 					tokens.slice(-1)[0].before(new Token({
 						type: 'margin',
 						original: '',
 						text: '',
-						length: 1 / 4
-					})
-					);
+						length: 1 / 4,
+					}));
 				}
 			}
 		}
@@ -98,5 +100,5 @@ module.exports = function(config) {
 };
 
 function __guard__(value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+	return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
 }

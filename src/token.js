@@ -12,7 +12,9 @@ class Token {
 		this.text = params.text != null ? params.text : '';
 		if (this.type !== 'plain') {
 			this.original = (params.original != null) ? params.original : null;
-			if (params.length != null) { this.length = params.length; }
+			if (params.length != null) {
+				this.length = params.length;
+			}
 		}
 		this.parent = params.parent != null ? params.parent : null;
 		this.prev = params.prev != null ? params.prev : null;
@@ -32,9 +34,8 @@ class Token {
 
 		if (prevChar === null) {
 			return '';
-		} else {
-			return prevChar;
 		}
+		return prevChar;
 	}
 
 	// TODO: Support surrogates
@@ -50,9 +51,8 @@ class Token {
 
 		if (nextChar === null) {
 			return '';
-		} else {
-			return nextChar;
 		}
+		return nextChar;
 	}
 
 	remove() {
@@ -78,12 +78,22 @@ class Token {
 	// Override to add possibility to return null
 	substr(start, length) {
 		const params = {text: this.text.substr(start, length)};
-		if (this.type != null) { params.type = this.type; }
+		if (this.type != null) {
+			params.type = this.type;
+		}
 		// TODO: Consider
-		if (this.original != null) { params.original = this.original; }
-		if (this.prev != null) { params.prev = this.prev; }
-		if (this.next != null) { params.next = this.next; }
-		if (this.length != null) { params.length = this.length; }
+		if (this.original != null) {
+			params.original = this.original;
+		}
+		if (this.prev != null) {
+			params.prev = this.prev;
+		}
+		if (this.next != null) {
+			params.next = this.next;
+		}
+		if (this.length != null) {
+			params.length = this.length;
+		}
 
 		if ((this.type === 'upright') && (length === 0)) {
 			params.type = 'plain';
@@ -105,7 +115,7 @@ class Token {
 		token.next = this;
 
 		const index = this.parent.tokens.indexOf(this);
-		this.parent.tokens.splice(index ,  (index - 1) - index + 1, ...[].concat([token]));
+		this.parent.tokens.splice(index, (index - 1) - index + 1, ...[].concat([token]));
 
 		return this;
 	}
@@ -123,7 +133,7 @@ class Token {
 		token.prev = this;
 
 		const index = this.parent.tokens.indexOf(this);
-		this.parent.tokens.splice(ref = index + 1 ,  index - ref + 1, ...[].concat([token]));
+		this.parent.tokens.splice(ref = index + 1, index - ref + 1, ...[].concat([token]));
 
 		return this;
 	}
@@ -152,7 +162,7 @@ class Token {
 			let left;
 			this.next.prev = (left = tokens[tokens.length - 1]) != null ? left : null;
 		}
-		__guard__(tokens[tokens.length - 1], x => x.next = this.next);
+		__guard__(tokens[tokens.length - 1], (x) => x.next = this.next);
 
 		index = this.parent.tokens.indexOf(this);
 		this.parent.tokens.splice(index, index - index + 1, ...[].concat(tokens));
@@ -168,5 +178,5 @@ class Token {
 module.exports = Token;
 
 function __guard__(value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+	return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
 }

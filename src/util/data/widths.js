@@ -10,33 +10,36 @@ const request = require('request');
 
 const EAW_URL = 'http://www.unicode.org/Public/UCD/latest/ucd/EastAsianWidth.txt';
 
-request(EAW_URL, function(error, response, data) {
+request(EAW_URL, (error, response, data) => {
 	let from, type;
-	if (error || (response.statusCode !== 200)) { throw new Error(); }
+	if (error || (response.statusCode !== 200)) {
+		throw new Error();
+	}
 
 	let nextPoint = 0;
 	const widths = [];
 
 	const pushWidth = function(to, type) {
-		if (__guard__(widths[widths.length - 1], x => x.type) === type) {
+		if (__guard__(widths[widths.length - 1], (x) => x.type) === type) {
 			return widths[widths.length - 1].to = to;
-		} else {
-			return widths.push({
-				from: nextPoint,
-				to,
-				type
-			});
 		}
+		return widths.push({
+			from: nextPoint,
+			to,
+			type,
+		});
 	};
 
 	for (let line of data.split('\n')) {
 		var codepoint, to;
 		line = line.replace(/#.*$/, '');
 
-		if (line.length === 0) { continue; }
+		if (line.length === 0) {
+			continue;
+		}
 
-		[codepoint, type] = Array.from(line.split(';').map(token => token.trim()));
-		const codepoints = codepoint.split('..').map(token => parseInt(token, 16));
+		[codepoint, type] = Array.from(line.split(';').map((token) => token.trim()));
+		const codepoints = codepoint.split('..').map((token) => parseInt(token, 16));
 
 		if (codepoints.length === 1) {
 			[from, to] = Array.from([codepoints[0], codepoints[0]]);
@@ -55,7 +58,7 @@ request(EAW_URL, function(error, response, data) {
 
 	const widthsObj = {};
 
-	for (let width of widths) {
+	for (const width of widths) {
 		widthsObj[width.from] = width.type;
 	}
 
@@ -63,5 +66,5 @@ request(EAW_URL, function(error, response, data) {
 });
 
 function __guard__(value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+	return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
 }

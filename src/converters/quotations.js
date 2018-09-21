@@ -15,36 +15,43 @@ const isRotateChar = function(char) {
 };
 
 module.exports = function(config) {
-	if (config.ratio == null) { config.ratio = 0.5; }
+	if (config.ratio == null) {
+		config.ratio = 0.5;
+	}
 
-	return this.replace([/[“”„〝"]/, /.+?/, /[”“〟〞"]/], function(blocks) {
+	return this.replace([/[“”„〝"]/, /.+?/, /[”“〟〞"]/], (blocks) => {
 		let chunk;
 		const [quotStart, body, quotEnd] = Array.from(blocks);
 
 		for (var quotation of [quotStart, quotEnd]) {
-			const tokenType = __guard__(quotation[0] != null ? quotation[0].tokens[0] : undefined, x => x.type);
-			if ((tokenType !== 'plain') && (tokenType !== 'alter')) { return blocks; }
+			const tokenType = __guard__(quotation[0] != null ? quotation[0].tokens[0] : undefined, (x) => x.type);
+			if ((tokenType !== 'plain') && (tokenType !== 'alter')) {
+				return blocks;
+			}
 		}
 
 		const bodyText = ((() => {
 			const result = [];
-			for (chunk of body) { 				result.push(chunk.getText());
+			for (chunk of body) {
+ 				result.push(chunk.getText());
 			}
 			return result;
 		})()).join('');
 
-		if (bodyText.length <= 1) { return blocks; }
+		if (bodyText.length <= 1) {
+			return blocks;
+		}
 
-		const rotateRatio = bodyText.split('').filter(char => isRotateChar(char)).length / bodyText.length;
+		const rotateRatio = bodyText.split('').filter((char) => isRotateChar(char)).length / bodyText.length;
 
 		if (rotateRatio < config.ratio) {
-
 			for (quotation of [quotStart, quotEnd]) {
 				for (chunk of quotation) {
-					for (let token of chunk.tokens) {
-
+					for (const token of chunk.tokens) {
 						if ((token.type === 'plain') || (token.type === 'alter')) {
-							if (token.original == null) { token.original = token.text; }
+							if (token.original == null) {
+								token.original = token.text;
+							}
 							token.type = 'alter';
 
 							if (quotation === quotStart) {
@@ -63,5 +70,5 @@ module.exports = function(config) {
 };
 
 function __guard__(value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+	return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
 }

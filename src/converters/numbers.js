@@ -20,7 +20,6 @@ const replace = function(config) {
 	(prevWidth === 'F') ||
 	(prevWidth === 'W') ||
 	(prevWidth === 'A')) {
-
 		if (this.text.length <= config.length) {
 			this.type = 'upright';
 			this.original = this.text;
@@ -28,33 +27,31 @@ const replace = function(config) {
 			// Text must be fullwidth if token is one character
 			if (this.text.length === 1) {
 				return this.text = util.width.zenkaku(this.text);
-			} else {
-				return this.text = util.width.hankaku(this.text);
 			}
-
-		} else {
-			const tokens = [];
-
-			for (let char of this.text) {
-				tokens.push(new Token({
-					type: 'upright',
-					text: util.width.zenkaku(char),
-					original: char
-				})
-				);
-			}
-
-			return this.replaceWith(tokens);
+			return this.text = util.width.hankaku(this.text);
 		}
+		const tokens = [];
+
+		for (const char of this.text) {
+			tokens.push(new Token({
+				type: 'upright',
+				text: util.width.zenkaku(char),
+				original: char,
+			}));
+		}
+
+		return this.replaceWith(tokens);
 	}
 };
 
 module.exports = function(config) {
-	if (config.length == null) { config.length = 2; }
+	if (config.length == null) {
+		config.length = 2;
+	}
 
-	return this.replace(/[0-9０-９]+/g, function(chunks) {
-		for (let chunk of chunks) {
-			for (let token of chunk.tokens) {
+	return this.replace(/[0-9０-９]+/g, (chunks) => {
+		for (const chunk of chunks) {
+			for (const token of chunk.tokens) {
 				if (token.type === 'plain') {
 					replace.call(token, config);
 				}

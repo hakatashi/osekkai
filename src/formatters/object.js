@@ -5,16 +5,24 @@
  */
 module.exports = function() {
 	const chunks = [];
-	for (let chunk of this.chunks) {
+	for (const chunk of this.chunks) {
 		const tokens = [];
-		for (let token of chunk.tokens) {
+		for (const token of chunk.tokens) {
 			const tokenObj =
 				{type: token.type};
 
-			if (token.text != null) { tokenObj.text = token.text; }
-			if (token.length != null) { tokenObj.length = token.length; }
-			if (token.original != null) { tokenObj.original = token.original; }
-			if (token.transform != null) { tokenObj.transform = token.transform; }
+			if (token.text != null) {
+				tokenObj.text = token.text;
+			}
+			if (token.length != null) {
+				tokenObj.length = token.length;
+			}
+			if (token.original != null) {
+				tokenObj.original = token.original;
+			}
+			if (token.transform != null) {
+				tokenObj.transform = token.transform;
+			}
 
 			tokens.push(tokenObj);
 		}

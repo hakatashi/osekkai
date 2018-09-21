@@ -15,18 +15,20 @@ const osekkai = require('./');
 const pkg = require('./package.json');
 
 program
-.version(pkg.version)
-.description(pkg.description)
-.usage('[options] <file>')
-.option('-o, --output <file>', 'Write output to <file> instead of stdout', String)
-.option('-c, --config <json>', 'Configure osekkai', String)
-.option('-f, --format <formatter>', 'Format result with specified formatter', String)
-.option('--input-encoding <encoding>', 'Specify encoding to read from input. Defaults to utf8', String)
-.option('--output-encoding <encoding>', 'Specify encoding to write to output. Defaults to utf8', String)
-.parse(process.argv);
+	.version(pkg.version)
+	.description(pkg.description)
+	.usage('[options] <file>')
+	.option('-o, --output <file>', 'Write output to <file> instead of stdout', String)
+	.option('-c, --config <json>', 'Configure osekkai', String)
+	.option('-f, --format <formatter>', 'Format result with specified formatter', String)
+	.option('--input-encoding <encoding>', 'Specify encoding to read from input. Defaults to utf8', String)
+	.option('--output-encoding <encoding>', 'Specify encoding to write to output. Defaults to utf8', String)
+	.parse(process.argv);
 
 program.config = JSON.parse(program.config != null ? program.config : '{}');
-if (program.format == null) { program.format = 'aozora'; }
+if (program.format == null) {
+	program.format = 'aozora';
+}
 
 // Process input
 if ((program.args != null ? program.args[0] : undefined) === undefined) {
@@ -36,14 +38,18 @@ if ((program.args != null ? program.args[0] : undefined) === undefined) {
 }
 
 // Encoding defaults to UTF-8
-if (program.inputEncoding == null) { program.inputEncoding = 'utf8'; }
-if (program.outputEncoding == null) { program.outputEncoding = 'utf8'; }
+if (program.inputEncoding == null) {
+	program.inputEncoding = 'utf8';
+}
+if (program.outputEncoding == null) {
+	program.outputEncoding = 'utf8';
+}
 
 // Store data to buffer
 let bufferIn = new Buffer(0);
 
-input.on('data', chunk => bufferIn = Buffer.concat([bufferIn, chunk]));
-input.on('end', function() {
+input.on('data', (chunk) => bufferIn = Buffer.concat([bufferIn, chunk]));
+input.on('end', () => {
 	let output;
 	const inputString = iconv.decode(bufferIn, program.inputEncoding);
 	const outputString = osekkai(inputString, program.config).format(program.format);

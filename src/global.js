@@ -17,9 +17,8 @@ const isIE = function() {
 
 	if (myNav.indexOf('msie') !== -1) {
 		return parseInt(myNav.split('msie')[1]);
-	} else {
-		return false;
 	}
+	return false;
 };
 
 if (isIE() && (isIE() <= 8)) {

@@ -24,37 +24,37 @@ module.exports = function(grunt) {
 		concat: {
 			shebang: {
 				options: {
-					banner: '#!/usr/bin/env node\n\n'
+					banner: '#!/usr/bin/env node\n\n',
 				},
 				src: '_cli.js',
-				dest: 'cli.js'
-			}
+				dest: 'cli.js',
+			},
 		},
 
 		browserify: {
 			build: {
 				options: {
-					banner: '<%= banner %>'
+					banner: '<%= banner %>',
 				},
 				src: 'src/global.js',
-				dest: 'build/osekkai.js'
-			}
+				dest: 'build/osekkai.js',
+			},
 		},
 
 		// Server side mocha test
 		mochaTest: {
 			module: {
 				options: {
-					reporter: 'spec'
+					reporter: 'spec',
 				},
-				src: ['test/index.js']
+				src: ['test/index.js'],
 			},
 			coverage: {
 				options: {
-					reporter: 'spec'
+					reporter: 'spec',
 				},
-				src: ['test/index.js']
-			}
+				src: ['test/index.js'],
+			},
 		},
 
 		// Client side mocha test
@@ -62,10 +62,10 @@ module.exports = function(grunt) {
 			test: {
 				options: {
 					reporter: 'Spec',
-					run: true
+					run: true,
 				},
-				src: ['test/index.html']
-			}
+				src: ['test/index.html'],
+			},
 		},
 
 		copy: {
@@ -74,34 +74,34 @@ module.exports = function(grunt) {
 				cwd: 'build/',
 				src: '*',
 				dest: 'dist/',
-				filter: 'isFile'
-			}
+				filter: 'isFile',
+			},
 		},
 
 		execute: {
 			orientations: {
 				src: 'src/util/data/orientations.js',
-				dest: 'src/util/data/orientations.json'
+				dest: 'src/util/data/orientations.json',
 			},
 			widths: {
 				src: 'src/util/data/widths.js',
-				dest: 'src/util/data/widths.json'
+				dest: 'src/util/data/widths.json',
 			},
 			unicodeData: {
 				src: 'src/util/data/unicode-data.js',
-				dest: 'src/util/data/decompositions.json'
-			}
+				dest: 'src/util/data/decompositions.json',
+			},
 		},
 
 		uglify: {
 			dist: {
 				options: {
 					banner: '<%= banner %>',
-					sourceMap: true
+					sourceMap: true,
 				},
 				src: 'dist/osekkai.js',
-				dest: 'dist/osekkai.min.js'
-			}
+				dest: 'dist/osekkai.min.js',
+			},
 		},
 
 		clean: {
@@ -113,7 +113,7 @@ module.exports = function(grunt) {
 				'test/**/*.es6',
 				'*.js',
 				'*.es6',
-			]
+			],
 		}});
 
 	// hack to make grunt-contrib-concat NOT insert CRLF on Windows:

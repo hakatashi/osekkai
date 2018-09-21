@@ -10,31 +10,34 @@ const request = require('request');
 
 const UTR50_URL = 'http://www.unicode.org/Public/vertical/revision-13/VerticalOrientation-13.txt';
 
-request(UTR50_URL, function(error, response, data) {
+request(UTR50_URL, (error, response, data) => {
 	let from, type;
-	if (error || (response.statusCode !== 200)) { throw new Error(); }
+	if (error || (response.statusCode !== 200)) {
+		throw new Error();
+	}
 
 	let nextPoint = 0;
 	const orientations = [];
 
 	const pushOrientation = function(to, type) {
-		if (__guard__(orientations[orientations.length - 1], x => x.type) === type) {
+		if (__guard__(orientations[orientations.length - 1], (x) => x.type) === type) {
 			return orientations[orientations.length - 1].to = to;
-		} else {
-			return orientations.push({
-				from: nextPoint,
-				to,
-				type
-			});
 		}
+		return orientations.push({
+			from: nextPoint,
+			to,
+			type,
+		});
 	};
 
-	for (let line of data.split('\n')) {
+	for (const line of data.split('\n')) {
 		var codepoint, to;
-		if ((line.length === 0) || (line[0] === '#')) { continue; }
+		if ((line.length === 0) || (line[0] === '#')) {
+			continue;
+		}
 
-		[codepoint, type] = Array.from(line.split(';').map(token => token.trim()));
-		const codepoints = codepoint.split('..').map(token => parseInt(token, 16));
+		[codepoint, type] = Array.from(line.split(';').map((token) => token.trim()));
+		const codepoints = codepoint.split('..').map((token) => parseInt(token, 16));
 
 		if (codepoints.length === 1) {
 			[from, to] = Array.from([codepoints[0], codepoints[0]]);
@@ -53,7 +56,7 @@ request(UTR50_URL, function(error, response, data) {
 
 	const newOrientations = {};
 
-	for (let orientation of orientations) {
+	for (const orientation of orientations) {
 		newOrientations[orientation.from] = orientation.type;
 	}
 
@@ -61,5 +64,5 @@ request(UTR50_URL, function(error, response, data) {
 });
 
 function __guard__(value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+	return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
 }

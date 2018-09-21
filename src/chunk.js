@@ -9,7 +9,7 @@ class Chunk {
 	constructor(tokens = [], options = {}) {
 		this.tokens = tokens;
 
-		for (let token of this.tokens) {
+		for (const token of this.tokens) {
 			token.parent = this;
 		}
 
@@ -18,7 +18,9 @@ class Chunk {
 		this.index = options.index != null ? options.index : null;
 	}
 
-	getText() { return (this.tokens.map((token) => token.text != null ? token.text : '')).join(''); }
+	getText() {
+		return (this.tokens.map((token) => token.text != null ? token.text : '')).join('');
+	}
 
 	/*
 	Chunk.prototype.substr(start[, length])
@@ -42,9 +44,8 @@ class Chunk {
 				const substrToken = token.substr(substrStart, substrLength);
 				if (substrToken === null) {
 					return null;
-				} else {
-					ret.push(substrToken);
 				}
+				ret.push(substrToken);
 			}
 
 			if ((start + length) <= tokenEnd) {
@@ -68,9 +69,8 @@ class Chunk {
 		return new Chunk(ret, {
 			index: this.index,
 			prev: null,
-			next: null
-		}
-		);
+			next: null,
+		});
 	}
 
 	setNext(chunk) {
@@ -79,7 +79,7 @@ class Chunk {
 		let nextChunk = this.next;
 		while (nextChunk !== null) {
 			if (nextChunk.tokens[0] != null) {
-				__guard__(this.tokens[this.tokens.length - 1], x => x.next = nextChunk.tokens[0]);
+				__guard__(this.tokens[this.tokens.length - 1], (x) => x.next = nextChunk.tokens[0]);
 				break;
 			} else {
 				nextChunk = nextChunk.next;
@@ -116,7 +116,7 @@ class Chunk {
 			chunk.tokens[0].prev = this.tokens[this.tokens.length - 1];
 			this.tokens[this.tokens.length - 1].next = chunk.tokens[0];
 		}
-		for (let token of chunk.tokens) {
+		for (const token of chunk.tokens) {
 			token.parent = this;
 		}
 		this.tokens.splice(this.tokens.length, 9e9, ...[].concat(chunk.tokens));
@@ -129,5 +129,5 @@ class Chunk {
 module.exports = Chunk;
 
 function __guard__(value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+	return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
 }

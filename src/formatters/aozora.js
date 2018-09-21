@@ -13,12 +13,12 @@ const util = require('../util');
 // longest first margins array
 const margins = [{
 	char: '　',
-	length: 1
-}
-, {
+	length: 1,
+},
+{
 	char: ' ',
-	length: 1 / 4
-}
+	length: 1 / 4,
+},
 ];
 
 const entityPresets = {
@@ -31,7 +31,7 @@ const entityPresets = {
 		'〕': '※［＃終わりきっこう（亀甲）括弧、1-1-45］',
 		'｜': '※［＃縦線、1-1-35］',
 		'＃': '※［＃井げた、1-1-84］',
-		'※': '※［＃米印、1-2-8］'
+		'※': '※［＃米印、1-2-8］',
 	},
 	publishing: {
 		'《': '｜《',
@@ -42,8 +42,8 @@ const entityPresets = {
 		'〕': '〕',
 		'｜': '｜｜',
 		'＃': '＃',
-		'※': '※'
-	}
+		'※': '※',
+	},
 };
 
 const defaultConfig =
@@ -67,13 +67,13 @@ module.exports = function(config) {
 	})()).join('');
 	const entityCharsRegEx = new RegExp(`[${entityChars.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')}]`, 'g');
 
-	const escapeText = text => text.replace(entityCharsRegEx, char => config.entities[char]);
+	const escapeText = (text) => text.replace(entityCharsRegEx, (char) => config.entities[char]);
 
 	const ret = [];
 
-	for (let chunk of this.chunks) {
+	for (const chunk of this.chunks) {
 		let chunkString = '';
-		for (let token of chunk.tokens) {
+		for (const token of chunk.tokens) {
 			var text;
 			switch (token.type) {
 				case 'upright':
@@ -86,11 +86,11 @@ module.exports = function(config) {
 					break;
 
 				case 'margin':
-					var { length } = token;
+					var {length} = token;
 					var marginString = '';
 
 					while (length >= margins.slice(-1)[0].length) {
-						for (let margin of margins) {
+						for (const margin of margins) {
 							if (length >= margin.length) {
 								marginString += margin.char;
 								length -= margin.length;

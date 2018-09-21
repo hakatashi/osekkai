@@ -23,10 +23,11 @@ const replace = function(config) {
 	(prevWidth === 'F') ||
 	(prevWidth === 'W') ||
 	(prevWidth === 'A')) {
-
 		if (this.text.length <= config.length) {
 			this.type = 'upright';
-			if (this.original == null) { this.original = this.text; }
+			if (this.original == null) {
+				this.original = this.text;
+			}
 
 			// Text must be fullwidth if token is one character
 			if (this.text.length === 1) {
@@ -47,34 +48,33 @@ const replace = function(config) {
 							type: 'margin',
 							original: '',
 							text: '',
-							length: 1 - spaceWidth
-						})
-						);
+							length: 1 - spaceWidth,
+						}));
 					}
 				} else {
 					return this.after(new Token({
 						type: 'margin',
 						original: '',
 						text: '',
-						length: 1
-					})
-					);
+						length: 1,
+					}));
 				}
 			} else if ((this.next != null ? this.next.type : undefined) === 'margin') {
-				if (this.next.length < 1) { return this.next.length = 1; }
+				if (this.next.length < 1) {
+					return this.next.length = 1;
+				}
 			}
 
 		// Each char of long exclamation series into upright
 		} else {
 			const tokens = [];
 
-			for (let char of this.text) {
+			for (const char of this.text) {
 				tokens.push(new Token({
 					type: 'upright',
 					text: util.width.zenkaku(char),
-					original: char
-				})
-				);
+					original: char,
+				}));
 			}
 
 			return this.replaceWith(tokens);
@@ -83,11 +83,13 @@ const replace = function(config) {
 };
 
 module.exports = function(config) {
-	if (config.length == null) { config.length = 2; }
+	if (config.length == null) {
+		config.length = 2;
+	}
 
-	return this.replace(/[!?！？]+/g, function(chunks) {
-		for (let chunk of chunks) {
-			for (let token of chunk.tokens) {
+	return this.replace(/[!?！？]+/g, (chunks) => {
+		for (const chunk of chunks) {
+			for (const token of chunk.tokens) {
 				if (token.type === 'plain') {
 					replace.call(token, config);
 				}

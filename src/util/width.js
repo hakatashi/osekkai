@@ -11,7 +11,7 @@ const codePointAt = require('core-js/library/fn/string/code-point-at');
 const binarySearch = require('./binarySearch');
 
 const widths = require('./data/widths.json');
-const widthKeys = map(ObjectKeys(widths), key => parseInt(key, 10));
+const widthKeys = map(ObjectKeys(widths), (key) => parseInt(key, 10));
 
 const decompositions = require('./data/decompositions.json');
 
@@ -19,28 +19,30 @@ const width = {};
 
 // Build reverse hash (= composition) of some decompositions
 const compositions = {};
-for (let type of ['wide', 'narrow']) {
+for (const type of ['wide', 'narrow']) {
 	compositions[type] = {};
-	for (let composition in decompositions[type]) {
+	for (const composition in decompositions[type]) {
 		const decomposition = decompositions[type][composition];
 		compositions[type][decomposition] = composition;
 	}
 }
 
 width.type = function(char) {
-	if ((typeof char !== 'string') || (char.length === 0)) { return null; }
+	if ((typeof char !== 'string') || (char.length === 0)) {
+		return null;
+	}
 
 	const codePoint = codePointAt(char, 0);
-	const index = binarySearch(widthKeys.length, n => widthKeys[n] <= codePoint);
+	const index = binarySearch(widthKeys.length, (n) => widthKeys[n] <= codePoint);
 
 	return widths[widthKeys[index]] != null ? widths[widthKeys[index]] : 'A';
 };
 
-width.composeHankakuChar = char => compositions.wide[char] != null ? compositions.wide[char] : char;
-width.composeZenkakuChar = char => compositions.narrow[char] != null ? compositions.narrow[char] : char;
+width.composeHankakuChar = (char) => compositions.wide[char] != null ? compositions.wide[char] : char;
+width.composeZenkakuChar = (char) => compositions.narrow[char] != null ? compositions.narrow[char] : char;
 
-width.decomposeHankakuChar = char => decompositions.narrow[char] != null ? decompositions.narrow[char] : char;
-width.decomposeZenkakuChar = char => decompositions.wide[char] != null ? decompositions.wide[char] : char;
+width.decomposeHankakuChar = (char) => decompositions.narrow[char] != null ? decompositions.narrow[char] : char;
+width.decomposeZenkakuChar = (char) => decompositions.wide[char] != null ? decompositions.wide[char] : char;
 
 width.hankaku = function(string) {
 	let ret = '';
@@ -91,14 +93,14 @@ const spaceWidths = {
 	'\u200A': 1 / 6, // HAIR SPACE
 	'\u202F': 4 / 18, // NARROW NO-BREAK SPACE
 	'\u205F': 4 / 18, // MEDIUM MATHEMATICAL SPACE
-	'\u3000': 1 // IDEOGRAPHIC SPACE
+	'\u3000': 1, // IDEOGRAPHIC SPACE
 };
 
-width.space = space => spaceWidths[space] != null ? spaceWidths[space] : 0;
+width.space = (space) => spaceWidths[space] != null ? spaceWidths[space] : 0;
 
 width.spaces = function(spaces) {
 	let ret = 0;
-	for (let space of spaces) {
+	for (const space of spaces) {
 		ret += width.space(space);
 	}
 	return ret;
