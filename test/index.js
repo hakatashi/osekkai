@@ -1,3 +1,4 @@
+/* eslint-env jest */
 /*
  * decaffeinate suggestions:
  * DS102: Remove unnecessary code created because of implicit returns
@@ -34,20 +35,20 @@ describe('osekkai', () => {
 				.convert('numbers')
 				.format('plain');
 
-			return expect(result).to.be.eql(['', 'a', '']);
+			expect(result).to.be.eql(['', 'a', '']);
 		});
 
 		it('should error when unknown converter is specified', () => {
 			const obj = osekkai('ちくわ大明神');
-			return expect(obj.convert.bind(obj, 'UNKNOWN')).to.throwError();
+			expect(obj.convert.bind(obj, 'UNKNOWN')).to.throwError();
 		});
 
 		it('should error when unknown formatter is specified', () => {
 			const obj = osekkai('ちくわ大明神');
-			return expect(obj.format.bind(obj, 'UNKNOWN')).to.throwError();
+			expect(obj.format.bind(obj, 'UNKNOWN')).to.throwError();
 		});
 
-		return describe('Tokens', () => {
+		describe('Tokens', () => {
 			afterEach(() => (() => {
 				const result = [];
 				for (const textFrom of Object.keys(tests || {})) {
@@ -55,7 +56,6 @@ describe('osekkai', () => {
 					const text = osekkai(textFrom).format('object');
 					result.push(expect(text).to.eql(textTo));
 				}
-				return result;
 			})());
 
 			it('converts plain texts as is', () => (tests = {
@@ -73,7 +73,7 @@ describe('osekkai', () => {
 				],
 			}));
 
-			return describe('osekkai.substr()', () => {
+			describe('osekkai.substr()', () => {
 				it('should inherit length property of every margin token on creating substring', () => {
 					const osek = osekkai('いあ!いあ!');
 					osek.convert('exclamations');
@@ -82,15 +82,15 @@ describe('osekkai', () => {
 					expect(chunks[0].getText()).to.eql('いあ！いあ！');
 					expect(chunks[0].tokens).to.have.length(5);
 					expect(chunks[0].tokens[2]).to.have.property('length');
-					return expect(chunks[0].tokens[2].length).to.eql(1);
+					expect(chunks[0].tokens[2].length).to.eql(1);
 				});
 
-				return it('should be separatable of zero-width upright token into plain', () => {
+				it('should be separatable of zero-width upright token into plain', () => {
 					const osek = osekkai('1ページ');
 					osek.convert('numbers');
 					osek.convert('alphabetUpright');
 					const result = osek.format('object');
-					return expect(result).to.eql([
+					expect(result).to.eql([
 						{
 							type: 'upright',
 							text: '１',
@@ -121,7 +121,6 @@ describe('osekkai', () => {
 						.format('object');
 					result.push(expect(text).to.eql(textTo));
 				}
-				return result;
 			})());
 
 			it('should convert halfwidth exclamation mark into fullwidth', () => (tests = {
@@ -428,7 +427,7 @@ describe('osekkai', () => {
 			it('should be configurable of the length of upright exclamations', () => {
 				config = {length: 3};
 
-				return (tests = {
+				(tests = {
 					'焼きそばだよ!!': [
 						{
 							type: 'plain',
@@ -482,7 +481,7 @@ describe('osekkai', () => {
 				});
 			});
 
-			return it('should be safe with heading exclamation', () => (tests = {
+			it('should be safe with heading exclamation', () => (tests = {
 				'！あてんしょん！': [
 					{
 						type: 'plain',
@@ -502,7 +501,7 @@ describe('osekkai', () => {
 
 			beforeEach(() => {
 				config = {};
-				return (tests = {});
+				(tests = {});
 			});
 
 			afterEach(() => (() => {
@@ -514,7 +513,6 @@ describe('osekkai', () => {
 						.format('object');
 					result.push(expect(text).to.eql(textTo));
 				}
-				return result;
 			})());
 
 			it('should convert single zenkaku and hankaku number into upright', () => (tests = {
@@ -634,7 +632,7 @@ describe('osekkai', () => {
 			it('should be configurable of number of upright numbers with length property', () => {
 				config = {length: 3};
 
-				return (tests = {
+				(tests = {
 					ゴルゴ１３: [
 						{
 							type: 'plain',
@@ -688,7 +686,7 @@ describe('osekkai', () => {
 				});
 			});
 
-			return it('should not convert numbers inside latin script into upright', () => (tests = {
+			it('should not convert numbers inside latin script into upright', () => (tests = {
 				[`\
 10 little Indian boys went out to dine;
 1 choked his little self and then there were 9.\
@@ -747,7 +745,7 @@ describe('osekkai', () => {
 
 			beforeEach(() => {
 				config = {};
-				return (tests = {});
+				(tests = {});
 			});
 
 			afterEach(() => (() => {
@@ -759,7 +757,6 @@ describe('osekkai', () => {
 						.format('object');
 					result.push(expect(text).to.eql(textTo));
 				}
-				return result;
 			})());
 
 			it('should convert dashes into U+2500 (BOX DRAWINGS LIGHT HORIZONTAL)', () => (tests = {
@@ -803,7 +800,7 @@ describe('osekkai', () => {
 				],
 			}));
 
-			return it('should convert mixed string with U+2014 and U+2015 into single dashes', () => (tests = {
+			it('should convert mixed string with U+2014 and U+2015 into single dashes', () => (tests = {
 				'ｷﾀ—―—(ﾟ∀ﾟ)—――!!': [
 					{
 						type: 'plain',
@@ -836,7 +833,7 @@ describe('osekkai', () => {
 
 			beforeEach(() => {
 				config = {};
-				return (tests = {});
+				(tests = {});
 			});
 
 			afterEach(() => (() => {
@@ -848,7 +845,6 @@ describe('osekkai', () => {
 						.format('object');
 					result.push(expect(text).to.eql(textTo));
 				}
-				return result;
 			})());
 
 			it('should convert hankaku alphabet inside Japanese text upright', () => (tests = {
@@ -1009,7 +1005,7 @@ RPGツクール2\
 				],
 			}));
 
-			return it('should not convert alphabets inside latin script upright', () => (tests = {
+			it('should not convert alphabets inside latin script upright', () => (tests = {
 				'ARIA The ANIMATION': [
 					{
 						type: 'plain',
@@ -1033,10 +1029,9 @@ RPGツクール2\
 						.format('object');
 					result.push(expect(text).to.eql(textTo));
 				}
-				return result;
 			})());
 
-			return it('should insert margins before and after the latin words inside Japanese text', () => (tests = {
+			it('should insert margins before and after the latin words inside Japanese text', () => (tests = {
 				横浜DeNAベイスターズ: [
 					{
 						type: 'plain',
@@ -1071,7 +1066,7 @@ RPGツクール2\
 
 			beforeEach(() => {
 				config = {};
-				return (tests = {});
+				(tests = {});
 			});
 
 			afterEach(() => (() => {
@@ -1083,7 +1078,6 @@ RPGツクール2\
 						.format('object');
 					result.push(expect(text).to.eql(textTo));
 				}
-				return result;
 			})());
 
 			it('should convert kind of double quotations around Japanese text into double minutes', () => (tests = {
@@ -1196,7 +1190,7 @@ RPGツクール2\
 				],
 			}));
 
-			return it('should not convert double quotations not paired', () => (tests = {
+			it('should not convert double quotations not paired', () => (tests = {
 				'あ”ーーーーーーーっ': [
 					{
 						type: 'plain',
@@ -1206,13 +1200,13 @@ RPGツクール2\
 			}));
 		});
 
-		return describe('Converters Chain', () => it('should be able to chain some converters', () => {
+		describe('Converters Chain', () => it('should be able to chain some converters', () => {
 			const result = osekkai('"なんだと！？"')
 				.convert('exclamations')
 				.convert('quotations')
 				.format('object');
 
-			return expect(result).to.eql([
+			expect(result).to.eql([
 				{
 					type: 'alter',
 					text: '〝',
@@ -1236,7 +1230,7 @@ RPGツクール2\
 		}));
 	});
 
-	return describe('Formatters', () => {
+	describe('Formatters', () => {
 		describe('plain', () => {
 			afterEach(() => (() => {
 				const result = [];
@@ -1246,16 +1240,15 @@ RPGツクール2\
 					expect(text).to.be.a('string');
 					result.push(expect(text).to.eql(textTo));
 				}
-				return result;
 			})());
 
-			return it('converts texts as is', () => (tests = {
+			it('converts texts as is', () => (tests = {
 				日本語: '日本語',
 				お節介: 'お節介',
 			}));
 		});
 
-		return describe('aozora', () => {
+		describe('aozora', () => {
 			afterEach(() => (() => {
 				const result = [];
 				for (const textFrom of Object.keys(tests || {})) {
@@ -1264,7 +1257,6 @@ RPGツクール2\
 					expect(text).to.be.a('string');
 					result.push(expect(text).to.eql(textTo));
 				}
-				return result;
 			})());
 
 			it('converts plain texts as is', () => (tests = {
@@ -1285,35 +1277,35 @@ RPGツクール2\
 				const text = osekkai('The麻雀')
 					.convert('alphabetMargin')
 					.format('aozora');
-				return expect(text).to.eql('The 麻雀');
+				expect(text).to.eql('The 麻雀');
 			});
 
 			it('should convert altered token into corresponding text', () => {
 				const text = osekkai('"文学少女"')
 					.convert('quotations')
 					.format('aozora');
-				return expect(text).to.eql('〝文学少女〟');
+				expect(text).to.eql('〝文学少女〟');
 			});
 
 			it('should escape special characters into entities', () => {
 				const text = osekkai('《えっ!?》')
 					.convert('exclamations')
 					.format('aozora');
-				return expect(text).to.eql('\
+				expect(text).to.eql('\
 ※［＃始め二重山括弧、1-1-52］\
 えっ［＃縦中横］!?［＃縦中横終わり］\
 ※［＃終わり二重山括弧、1-1-53］\
 ');
 			});
 
-			return it('should be customizable of custom entities', () => {
+			it('should be customizable of custom entities', () => {
 				const text = osekkai('<ruby>').format('aozora', {
 					entities: {
 						'<': '&lt;',
 						'>': '&gt;',
 					},
 				});
-				return expect(text).to.eql('&lt;ruby&gt;');
+				expect(text).to.eql('&lt;ruby&gt;');
 			});
 		});
 	});
