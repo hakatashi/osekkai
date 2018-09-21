@@ -95,5 +95,5 @@ request UDATA_URL, (error, response, data) ->
 	for category in categories
 		categoriesObj[category.from] = category.type
 
-	fs.writeFile "#{__dirname}/decompositions.json", JSON.stringify decompositions
-	fs.writeFile "#{__dirname}/categories.json", JSON.stringify categoriesObj
+	fs.writeFileSync "#{__dirname}/decompositions.json", JSON.stringify decompositions
+	fs.writeFileSync "#{__dirname}/categories.json", JSON.stringify categoriesObj

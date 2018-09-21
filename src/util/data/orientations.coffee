@@ -41,4 +41,4 @@ request UTR50_URL, (error, response, data) ->
 	for orientation in orientations
 		newOrientations[orientation.from] = orientation.type
 
-	fs.writeFile "#{__dirname}/orientations.json", JSON.stringify newOrientations
+	fs.writeFileSync "#{__dirname}/orientations.json", JSON.stringify newOrientations

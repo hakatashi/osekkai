@@ -43,4 +43,4 @@ request EAW_URL, (error, response, data) ->
 	for width in widths
 		widthsObj[width.from] = width.type
 
-	fs.writeFile "#{__dirname}/widths.json", JSON.stringify widthsObj
+	fs.writeFileSync "#{__dirname}/widths.json", JSON.stringify widthsObj
