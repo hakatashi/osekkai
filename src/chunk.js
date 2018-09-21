@@ -19,7 +19,7 @@ class Chunk {
 	}
 
 	getText() {
-		return (this.tokens.map((token) => token.text != null ? token.text : '')).join('');
+		return this.tokens.map((token) => (token.text != null ? token.text : '')).join('');
 	}
 
 	/*
@@ -39,7 +39,7 @@ class Chunk {
 
 			if (start < tokenEnd) {
 				const substrStart = Math.max(0, start - tokenStart);
-				const substrLength = Math.min(tokenLength, (start + length) - tokenStart - substrStart);
+				const substrLength = Math.min(tokenLength, start + length - tokenStart - substrStart);
 
 				const substrToken = token.substr(substrStart, substrLength);
 				if (substrToken === null) {
@@ -48,7 +48,7 @@ class Chunk {
 				ret.push(substrToken);
 			}
 
-			if ((start + length) <= tokenEnd) {
+			if (start + length <= tokenEnd) {
 				break;
 			}
 
@@ -79,7 +79,7 @@ class Chunk {
 		let nextChunk = this.next;
 		while (nextChunk !== null) {
 			if (nextChunk.tokens[0] != null) {
-				__guard__(this.tokens[this.tokens.length - 1], (x) => x.next = nextChunk.tokens[0]);
+				__guard__(this.tokens[this.tokens.length - 1], (x) => (x.next = nextChunk.tokens[0]));
 				break;
 			} else {
 				nextChunk = nextChunk.next;
@@ -112,7 +112,7 @@ class Chunk {
 			throw new Error('Concatenating chunks whose indexes differ');
 		}
 
-		if ((this.tokens[this.tokens.length - 1] != null) && (chunk.tokens[0] != null)) {
+		if (this.tokens[this.tokens.length - 1] != null && chunk.tokens[0] != null) {
 			chunk.tokens[0].prev = this.tokens[this.tokens.length - 1];
 			this.tokens[this.tokens.length - 1].next = chunk.tokens[0];
 		}
@@ -129,5 +129,5 @@ class Chunk {
 module.exports = Chunk;
 
 function __guard__(value, transform) {
-	return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+	return typeof value !== 'undefined' && value !== null ? transform(value) : undefined;
 }

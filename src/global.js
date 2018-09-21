@@ -21,7 +21,7 @@ const isIE = function() {
 	return false;
 };
 
-if (isIE() && (isIE() <= 8)) {
+if (isIE() && isIE() <= 8) {
 	// core.js is missing various shims such as String.prototype.split, which fails in old IEs
 	require('es5-shim');
 }

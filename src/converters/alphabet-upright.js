@@ -13,11 +13,11 @@ const Token = require('../token');
 
 const replace = function(config) {
 	let prevChar = this.prevChar();
-	if ((prevChar === '') || util.type.isNewline(prevChar)) {
+	if (prevChar === '' || util.type.isNewline(prevChar)) {
 		prevChar = this.nextChar();
 	}
 	let nextChar = this.nextChar();
-	if ((nextChar === '') || util.type.isNewline(nextChar)) {
+	if (nextChar === '' || util.type.isNewline(nextChar)) {
 		nextChar = this.prevChar();
 	}
 
@@ -26,30 +26,27 @@ const replace = function(config) {
 	const nextOrientation = util.orientation.get(nextChar);
 	const nextWidth = util.width.type(nextChar);
 
-	if ((
-		((this.prev != null ? this.prev.type : undefined) === 'upright') ||
-		(prevOrientation === 'U') ||
-		(prevOrientation === 'Tu') ||
-		(prevWidth === 'F') ||
-		(prevWidth === 'W') ||
-		(prevWidth === 'A')
-	) && (
-		(this.next != null ? this.next.type : undefined) === 'upright',
-		(nextOrientation === 'U') ||
-		(nextOrientation === 'Tu') ||
-		(nextWidth === 'F') ||
-		(nextWidth === 'W') ||
-		(nextWidth === 'A')
-	)) {
+	if (
+		((this.prev != null ? this.prev.type : undefined) === 'upright' ||
+			prevOrientation === 'U' ||
+			prevOrientation === 'Tu' ||
+			prevWidth === 'F' ||
+			prevWidth === 'W' ||
+			prevWidth === 'A') &&
+		((this.next != null ? this.next.type : undefined) === 'upright',
+		nextOrientation === 'U' || nextOrientation === 'Tu' || nextWidth === 'F' || nextWidth === 'W' || nextWidth === 'A')
+	) {
 		const tokens = [];
 
 		for (const char of this.text) {
 			const orientation = util.orientation.get(util.width.zenkaku(char));
-			tokens.push(new Token({
-				type: (orientation === 'U') || (orientation === 'Tu') ? 'upright' : 'alter',
-				text: util.width.zenkaku(char),
-				original: char,
-			}));
+			tokens.push(
+				new Token({
+					type: orientation === 'U' || orientation === 'Tu' ? 'upright' : 'alter',
+					text: util.width.zenkaku(char),
+					original: char,
+				})
+			);
 		}
 
 		return this.replaceWith(tokens);

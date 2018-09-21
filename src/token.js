@@ -11,7 +11,7 @@ class Token {
 		this.type = params.type != null ? params.type : 'plain';
 		this.text = params.text != null ? params.text : '';
 		if (this.type !== 'plain') {
-			this.original = (params.original != null) ? params.original : null;
+			this.original = params.original != null ? params.original : null;
 			if (params.length != null) {
 				this.length = params.length;
 			}
@@ -25,8 +25,8 @@ class Token {
 	prevChar() {
 		let prevChar = null;
 		let prevToken = this.prev;
-		while ((prevChar === null) && (prevToken !== null)) {
-			if ((prevToken !== null) && (prevToken.text.length !== 0)) {
+		while (prevChar === null && prevToken !== null) {
+			if (prevToken !== null && prevToken.text.length !== 0) {
 				prevChar = prevToken.text[prevToken.text.length - 1];
 			}
 			prevToken = prevToken.prev;
@@ -42,8 +42,8 @@ class Token {
 	nextChar() {
 		let nextChar = null;
 		let nextToken = this.next;
-		while ((nextChar === null) && (nextToken !== null)) {
-			if ((nextToken !== null) && (nextToken.text.length !== 0)) {
+		while (nextChar === null && nextToken !== null) {
+			if (nextToken !== null && nextToken.text.length !== 0) {
 				nextChar = nextToken.text[0];
 			}
 			nextToken = nextToken.next;
@@ -95,7 +95,7 @@ class Token {
 			params.length = this.length;
 		}
 
-		if ((this.type === 'upright') && (length === 0)) {
+		if (this.type === 'upright' && length === 0) {
 			params.type = 'plain';
 			delete params.original;
 		}
@@ -115,7 +115,7 @@ class Token {
 		token.next = this;
 
 		const index = this.parent.tokens.indexOf(this);
-		this.parent.tokens.splice(index, (index - 1) - index + 1, ...[].concat([token]));
+		this.parent.tokens.splice(index, index - 1 - index + 1, ...[].concat([token]));
 
 		return this;
 	}
@@ -133,7 +133,7 @@ class Token {
 		token.prev = this;
 
 		const index = this.parent.tokens.indexOf(this);
-		this.parent.tokens.splice(ref = index + 1, index - ref + 1, ...[].concat([token]));
+		this.parent.tokens.splice((ref = index + 1), index - ref + 1, ...[].concat([token]));
 
 		return this;
 	}
@@ -162,7 +162,7 @@ class Token {
 			let left;
 			this.next.prev = (left = tokens[tokens.length - 1]) != null ? left : null;
 		}
-		__guard__(tokens[tokens.length - 1], (x) => x.next = this.next);
+		__guard__(tokens[tokens.length - 1], (x) => (x.next = this.next));
 
 		index = this.parent.tokens.indexOf(this);
 		this.parent.tokens.splice(index, index - index + 1, ...[].concat(tokens));
@@ -178,5 +178,5 @@ class Token {
 module.exports = Token;
 
 function __guard__(value, transform) {
-	return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+	return typeof value !== 'undefined' && value !== null ? transform(value) : undefined;
 }

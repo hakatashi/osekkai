@@ -34,7 +34,7 @@ const decompositionTypes = [
 
 request(UDATA_URL, (error, response, data) => {
 	let category, type;
-	if (error || (response.statusCode !== 200)) {
+	if (error || response.statusCode !== 200) {
 		throw new Error();
 	}
 
@@ -49,7 +49,7 @@ request(UDATA_URL, (error, response, data) => {
 	const pushCategory = function(codePoint, type) {
 		const lastCategory = categories[categories.length - 1];
 
-		if ((lastCategory != null ? lastCategory.to : undefined) !== (codePoint - 1)) {
+		if ((lastCategory != null ? lastCategory.to : undefined) !== codePoint - 1) {
 			if (lastCategory != null) {
 				lastCategory.to = codePoint - 1;
 			}
@@ -65,11 +65,25 @@ request(UDATA_URL, (error, response, data) => {
 			});
 		}
 
-		return nextPoint = codePoint + 1;
+		return (nextPoint = codePoint + 1);
 	};
 
 	for (let line of data.split('\n')) {
-		let ISO10646, bidiCategory, codePoint, combiningClasses, decimalDigit, decomposition, digit, lowercase, mirrored, name, numeric, titlecase, unicode1, uppercase, uppoercase;
+		let ISO10646,
+			bidiCategory,
+			codePoint,
+			combiningClasses,
+			decimalDigit,
+			decomposition,
+			digit,
+			lowercase,
+			mirrored,
+			name,
+			numeric,
+			titlecase,
+			unicode1,
+			uppercase,
+			uppoercase;
 		line = line.replace(/#.*$/, '');
 
 		if (line.length === 0) {
@@ -99,15 +113,19 @@ request(UDATA_URL, (error, response, data) => {
 		decomposition = decomposition.split(' ');
 		decimalDigit = parseInt(decimalDigit, 10);
 		mirrored = mirrored === 'Y';
-		[uppercase, lowercase, titlecase] =
-			Array.from([uppoercase, lowercase, titlecase].map((point) => (point.length === 0 ? null : parseInt(point, 16))));
+		[uppercase, lowercase, titlecase] = Array.from(
+			[uppoercase, lowercase, titlecase].map((point) => (point.length === 0 ? null : parseInt(point, 16)))
+		);
 
 		if (decomposition[0] != null ? decomposition[0].match(/^<.+>$/) : undefined) {
 			type = decomposition[0].replace(/^<(.+)>$/, '$1');
 			if (!decompositionTypes.includes(type)) {
 				type = 'compat';
 			}
-			const decomposedString = decomposition.slice(1).map((str) => fromCodePoint(parseInt(str, 16))).join('');
+			const decomposedString = decomposition
+				.slice(1)
+				.map((str) => fromCodePoint(parseInt(str, 16)))
+				.join('');
 			decompositions[type][fromCodePoint(codePoint)] = decomposedString;
 		}
 

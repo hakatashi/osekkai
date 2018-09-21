@@ -8,8 +8,7 @@ module.exports = function() {
 	for (const chunk of this.chunks) {
 		const tokens = [];
 		for (const token of chunk.tokens) {
-			const tokenObj =
-				{type: token.type};
+			const tokenObj = {type: token.type};
 
 			if (token.text != null) {
 				tokenObj.text = token.text;

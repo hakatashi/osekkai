@@ -25,7 +25,7 @@ type.category = function(char) {
 
 // See also: Unicode 7.0.0 $5.8 Newline Guidelines
 // http://www.unicode.org/versions/Unicode7.0.0/ch05.pdf
-type.isNewline = (char) => (typeof char === 'string') && Boolean(char.match(new RegExp('^(\
+type.isNewline = (char) => typeof char === 'string' && Boolean(char.match(new RegExp('^(\
 \\r|\
 \\n|\
 \\r\\n|\

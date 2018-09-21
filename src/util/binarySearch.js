@@ -4,7 +4,7 @@ module.exports = function(size, test) {
 	let max = size; // min failed
 
 	while (min !== max) {
-		const mid = Math.floor(((min - 1) + max) / 2);
+		const mid = Math.floor((min - 1 + max) / 2);
 		const result = test(mid);
 		if (result) {
 			// if passed

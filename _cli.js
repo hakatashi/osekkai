@@ -48,7 +48,7 @@ if (program.outputEncoding == null) {
 // Store data to buffer
 let bufferIn = new Buffer(0);
 
-input.on('data', (chunk) => bufferIn = Buffer.concat([bufferIn, chunk]));
+input.on('data', (chunk) => (bufferIn = Buffer.concat([bufferIn, chunk])));
 input.on('end', () => {
 	let output;
 	const inputString = iconv.decode(bufferIn, program.inputEncoding);

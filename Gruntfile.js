@@ -105,16 +105,9 @@ module.exports = function(grunt) {
 		},
 
 		clean: {
-			build: [
-				'build/*',
-				'src/**/*.js',
-				'src/**/*.es6',
-				'test/**/*.js',
-				'test/**/*.es6',
-				'*.js',
-				'*.es6',
-			],
-		}});
+			build: ['build/*', 'src/**/*.js', 'src/**/*.es6', 'test/**/*.js', 'test/**/*.es6', '*.js', '*.es6'],
+		},
+	});
 
 	// hack to make grunt-contrib-concat NOT insert CRLF on Windows:
 	// https://github.com/gruntjs/grunt-contrib-concat/issues/105

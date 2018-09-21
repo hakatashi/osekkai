@@ -13,7 +13,7 @@ const orientations = require('./data/orientations.json');
 const orientationKeys = map(ObjectKeys(orientations), (key) => parseInt(key, 10));
 
 module.exports.get = function(char) {
-	if ((typeof char !== 'string') || (char.length === 0)) {
+	if (typeof char !== 'string' || char.length === 0) {
 		return null;
 	}
 

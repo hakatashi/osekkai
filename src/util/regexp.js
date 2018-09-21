@@ -12,9 +12,9 @@ regexp.escape = function(text) {
 		text = text.slice(char.length);
 
 		if (codePoint <= 0xff) {
-			ret += `\\x${(`00${codePoint.toString(16)}`).slice(-2)}`;
+			ret += `\\x${`00${codePoint.toString(16)}`.slice(-2)}`;
 		} else if (codePoint <= 0xffff) {
-			ret += `\\u${(`0000${codePoint.toString(16)}`).slice(-4)}`;
+			ret += `\\u${`0000${codePoint.toString(16)}`.slice(-4)}`;
 		}
 	}
 

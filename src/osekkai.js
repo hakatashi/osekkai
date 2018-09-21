@@ -32,8 +32,7 @@ class Osekkai {
 				type: 'plain',
 				text: chunkText,
 			});
-			chunk = new Chunk([token],
-				{index});
+			chunk = new Chunk([token], {index});
 			this.chunks.push(chunk);
 		}
 
@@ -78,7 +77,7 @@ class Osekkai {
 		}
 
 		for ([converter, config] of converters) {
-			if ((config === false) || (config === null)) {
+			if (config === false || config === null) {
 				break;
 			}
 
@@ -95,7 +94,7 @@ class Osekkai {
 	}
 
 	getText() {
-		return (this.chunks.map((chunk) => chunk.getText())).join('');
+		return this.chunks.map((chunk) => chunk.getText()).join('');
 	}
 
 	// WARNING: length cannnot be omitted
@@ -112,18 +111,20 @@ class Osekkai {
 			const chunkLength = chunk.getText().length;
 			chunkEnd += chunkLength;
 
-			if ((start < chunkEnd) ||
-			// Run on an empty chunk  at start position
-			(chunkStart === chunkEnd && chunkEnd === start)) {
+			if (
+				start < chunkEnd ||
+				// Run on an empty chunk  at start position
+				(chunkStart === chunkEnd && chunkEnd === start)
+			) {
 				const substrStart = Math.max(0, start - chunkStart);
-				const substrLength = Math.min(chunkLength, (start + length) - chunkStart - substrStart);
+				const substrLength = Math.min(chunkLength, start + length - chunkStart - substrStart);
 				ret.push(chunk.substr(substrStart, substrLength));
 			}
 
-			if ((start + length) <= chunkEnd) {
+			if (start + length <= chunkEnd) {
 				// If every remaining chunks is empty chunks, let them run on to the ret chunks
 				const remainingChunks = this.chunks.slice(index + 1);
-				if ((remainingChunks.length > 0) && remainingChunks.every((chunk) => chunk.getText().length === 0)) {
+				if (remainingChunks.length > 0 && remainingChunks.every((chunk) => chunk.getText().length === 0)) {
 					ret.push(...remainingChunks.map((chunk) => chunk.substr(0, 0)));
 				}
 				break;
@@ -230,14 +231,14 @@ class Osekkai {
 		// Execute replacement
 		for (index = 0; index < chunkses.length; index++) {
 			chunks = chunkses[index];
-			if ((index % (patterns.length + 1)) === 0) {
+			if (index % (patterns.length + 1) === 0) {
 				retChunkses.push(chunks);
-			} else if ((index % (patterns.length + 1)) === 1) {
+			} else if (index % (patterns.length + 1) === 1) {
 				var appendChunkses;
 				if (patterns.length === 1) {
 					appendChunkses = [callback.call(this, chunks)];
 				} else {
-					appendChunkses = callback.call(this, (__range__(0, patterns.length, false).map((i) => chunkses[index + i])));
+					appendChunkses = callback.call(this, __range__(0, patterns.length, false).map((i) => chunkses[index + i]));
 				}
 				retChunkses.splice(retChunkses.length, 9e9, ...[].concat(appendChunkses));
 			}
@@ -247,7 +248,7 @@ class Osekkai {
 		const newChunks = [];
 		for (chunks of retChunkses) {
 			for (const chunk of chunks) {
-				if ((newChunks[chunk.index] == null)) {
+				if (newChunks[chunk.index] == null) {
 					newChunks[chunk.index] = chunk;
 				} else {
 					newChunks[chunk.index].concat(chunk);
@@ -262,7 +263,7 @@ class Osekkai {
 	}
 
 	format(type, config = {}) {
-		if ((builtinFormatters[type] == null)) {
+		if (builtinFormatters[type] == null) {
 			throw new Error(`Unknown formatter type ${type}`);
 		}
 
@@ -278,27 +279,29 @@ class Osekkai {
 		return (() => {
 			const result = [];
 			for (const chunk of this.chunks) {
-			// Tip: [..] is a magic for copying array, bro.
+				// Tip: [..] is a magic for copying array, bro.
 				var tokens = chunk.tokens.slice();
 				tokens.push({prev: tokens[tokens.length - 1]});
 
-				result.push((() => {
-					const result1 = [];
-					for (const token of tokens) {
-						if ((token.type === 'plain') && ((token != null ? token.text : undefined) === '')) {
-							result1.push(token.remove());
-						} else if ((token.prev != null ? token.prev.type : undefined) === 'plain') {
-							if (((token != null ? token.type : undefined) === 'plain') && (token.prev.parent === token.parent)) {
-								result1.push(token.prev.joinNext());
+				result.push(
+					(() => {
+						const result1 = [];
+						for (const token of tokens) {
+							if (token.type === 'plain' && (token != null ? token.text : undefined) === '') {
+								result1.push(token.remove());
+							} else if ((token.prev != null ? token.prev.type : undefined) === 'plain') {
+								if ((token != null ? token.type : undefined) === 'plain' && token.prev.parent === token.parent) {
+									result1.push(token.prev.joinNext());
+								} else {
+									result1.push(undefined);
+								}
 							} else {
 								result1.push(undefined);
 							}
-						} else {
-							result1.push(undefined);
 						}
-					}
-					return result1;
-				})());
+						return result1;
+					})()
+				);
 			}
 			return result;
 		})();
@@ -308,7 +311,7 @@ class Osekkai {
 module.exports = Osekkai;
 
 function __guard__(value, transform) {
-	return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+	return typeof value !== 'undefined' && value !== null ? transform(value) : undefined;
 }
 function __range__(left, right, inclusive) {
 	const range = [];

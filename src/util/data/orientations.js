@@ -12,7 +12,7 @@ const UTR50_URL = 'http://www.unicode.org/Public/vertical/revision-13/VerticalOr
 
 request(UTR50_URL, (error, response, data) => {
 	let from, type;
-	if (error || (response.statusCode !== 200)) {
+	if (error || response.statusCode !== 200) {
 		throw new Error();
 	}
 
@@ -21,7 +21,7 @@ request(UTR50_URL, (error, response, data) => {
 
 	const pushOrientation = function(to, type) {
 		if (__guard__(orientations[orientations.length - 1], (x) => x.type) === type) {
-			return orientations[orientations.length - 1].to = to;
+			return (orientations[orientations.length - 1].to = to);
 		}
 		return orientations.push({
 			from: nextPoint,
@@ -32,7 +32,7 @@ request(UTR50_URL, (error, response, data) => {
 
 	for (const line of data.split('\n')) {
 		var codepoint, to;
-		if ((line.length === 0) || (line[0] === '#')) {
+		if (line.length === 0 || line[0] === '#') {
 			continue;
 		}
 
@@ -64,5 +64,5 @@ request(UTR50_URL, (error, response, data) => {
 });
 
 function __guard__(value, transform) {
-	return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+	return typeof value !== 'undefined' && value !== null ? transform(value) : undefined;
 }

@@ -11,7 +11,7 @@ const util = require('../util');
 
 const isRotateChar = function(char) {
 	const orientation = util.orientation.get(char);
-	return (orientation === 'R') || (orientation === 'Tr');
+	return orientation === 'R' || orientation === 'Tr';
 };
 
 module.exports = function(config) {
@@ -25,18 +25,18 @@ module.exports = function(config) {
 
 		for (var quotation of [quotStart, quotEnd]) {
 			const tokenType = __guard__(quotation[0] != null ? quotation[0].tokens[0] : undefined, (x) => x.type);
-			if ((tokenType !== 'plain') && (tokenType !== 'alter')) {
+			if (tokenType !== 'plain' && tokenType !== 'alter') {
 				return blocks;
 			}
 		}
 
-		const bodyText = ((() => {
+		const bodyText = (() => {
 			const result = [];
 			for (chunk of body) {
- 				result.push(chunk.getText());
+				result.push(chunk.getText());
 			}
 			return result;
-		})()).join('');
+		})().join('');
 
 		if (bodyText.length <= 1) {
 			return blocks;
@@ -48,7 +48,7 @@ module.exports = function(config) {
 			for (quotation of [quotStart, quotEnd]) {
 				for (chunk of quotation) {
 					for (const token of chunk.tokens) {
-						if ((token.type === 'plain') || (token.type === 'alter')) {
+						if (token.type === 'plain' || token.type === 'alter') {
 							if (token.original == null) {
 								token.original = token.text;
 							}
@@ -56,7 +56,8 @@ module.exports = function(config) {
 
 							if (quotation === quotStart) {
 								token.text = '〝';
-							} else { // quotEnd
+							} else {
+								// quotEnd
 								token.text = '〟';
 							}
 						}
@@ -70,5 +71,5 @@ module.exports = function(config) {
 };
 
 function __guard__(value, transform) {
-	return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+	return typeof value !== 'undefined' && value !== null ? transform(value) : undefined;
 }

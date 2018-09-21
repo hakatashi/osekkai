@@ -12,7 +12,7 @@ const EAW_URL = 'http://www.unicode.org/Public/UCD/latest/ucd/EastAsianWidth.txt
 
 request(EAW_URL, (error, response, data) => {
 	let from, type;
-	if (error || (response.statusCode !== 200)) {
+	if (error || response.statusCode !== 200) {
 		throw new Error();
 	}
 
@@ -21,7 +21,7 @@ request(EAW_URL, (error, response, data) => {
 
 	const pushWidth = function(to, type) {
 		if (__guard__(widths[widths.length - 1], (x) => x.type) === type) {
-			return widths[widths.length - 1].to = to;
+			return (widths[widths.length - 1].to = to);
 		}
 		return widths.push({
 			from: nextPoint,
@@ -66,5 +66,5 @@ request(EAW_URL, (error, response, data) => {
 });
 
 function __guard__(value, transform) {
-	return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+	return typeof value !== 'undefined' && value !== null ? transform(value) : undefined;
 }

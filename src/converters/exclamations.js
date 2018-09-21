@@ -18,11 +18,7 @@ const replace = function(config) {
 	const prevWidth = util.width.type(prevChar);
 
 	// Upright exclamations if next char is uprighting
-	if ((prevOrientation === 'U') ||
-	(prevOrientation === 'Tu') ||
-	(prevWidth === 'F') ||
-	(prevWidth === 'W') ||
-	(prevWidth === 'A')) {
+	if (prevOrientation === 'U' || prevOrientation === 'Tu' || prevWidth === 'F' || prevWidth === 'W' || prevWidth === 'A') {
 		if (this.text.length <= config.length) {
 			this.type = 'upright';
 			if (this.original == null) {
@@ -38,43 +34,49 @@ const replace = function(config) {
 
 			// Insert margin after Exclamation mark
 			// Pe is Punctuation Close of Unicode Category
-			if ((nextChar !== '') && (nextCharCategory !== 'Pe') && !nextCharIsNewline) {
+			if (nextChar !== '' && nextCharCategory !== 'Pe' && !nextCharIsNewline) {
 				// Do not insert space before space
 				// TODO: Reach out to the next char of the next char of...
 				if (nextCharCategory === 'Zs') {
 					const spaceWidth = util.width.space(nextChar);
 					if (spaceWidth < 1) {
-						return this.after(new Token({
+						return this.after(
+							new Token({
+								type: 'margin',
+								original: '',
+								text: '',
+								length: 1 - spaceWidth,
+							})
+						);
+					}
+				} else {
+					return this.after(
+						new Token({
 							type: 'margin',
 							original: '',
 							text: '',
-							length: 1 - spaceWidth,
-						}));
-					}
-				} else {
-					return this.after(new Token({
-						type: 'margin',
-						original: '',
-						text: '',
-						length: 1,
-					}));
+							length: 1,
+						})
+					);
 				}
 			} else if ((this.next != null ? this.next.type : undefined) === 'margin') {
 				if (this.next.length < 1) {
-					return this.next.length = 1;
+					return (this.next.length = 1);
 				}
 			}
 
-		// Each char of long exclamation series into upright
+			// Each char of long exclamation series into upright
 		} else {
 			const tokens = [];
 
 			for (const char of this.text) {
-				tokens.push(new Token({
-					type: 'upright',
-					text: util.width.zenkaku(char),
-					original: char,
-				}));
+				tokens.push(
+					new Token({
+						type: 'upright',
+						text: util.width.zenkaku(char),
+						original: char,
+					})
+				);
 			}
 
 			return this.replaceWith(tokens);

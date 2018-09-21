@@ -21,14 +21,14 @@ const codePoints = map(ObjectKeys(util.width.widths), (codePoint) => parseInt(co
 reduce(codePoints, (previous, current) => {
 	const width = widths[previous];
 
-	if ((previous >= 0x10000) || (current >= 0x10000)) {
+	if (previous >= 0x10000 || current >= 0x10000) {
 		return current;
 	}
 
-	if ((width === 'N') || (width === 'Na')) {
+	if (width === 'N' || width === 'Na') {
 		const startChar = util.regexp.escape(fromCodePoint(previous));
 		const endChar = util.regexp.escape(fromCodePoint(current));
-		if ((current - 1) === previous) {
+		if (current - 1 === previous) {
 			latinRegexpString += startChar;
 		} else {
 			latinRegexpString += `${startChar}-${endChar}`;
@@ -46,15 +46,15 @@ module.exports = function(config) {
 		let tokens;
 		let chunk;
 		for (chunk of chunks) {
-			({tokens} = (chunk));
+			({tokens} = chunk);
 		}
-		const text = ((() => {
+		const text = (() => {
 			const result = [];
 			for (chunk of chunks) {
- 				result.push(chunk);
+				result.push(chunk);
 			}
 			return result;
-		})()).join('');
+		})().join('');
 
 		// Tip: [-1..][0] means the last element of array
 		const nextChar = __guard__(tokens.slice(-1)[0], (x) => x.nextChar());
@@ -72,25 +72,33 @@ module.exports = function(config) {
 				adjoiningToken = tokens[0].prev;
 			}
 
-			if ((character !== '') &&
-			!util.type.isNewline(character &&
-			((orientation === 'U') || (orientation === 'Tu')) &&
-			(!util.type.category(character) === 'Zs') &&
-			(!adjoiningToken.type === 'margin'))) {
+			if (
+				character !== '' &&
+				!util.type.isNewline(
+					character &&
+						(orientation === 'U' || orientation === 'Tu') &&
+						!util.type.category(character) === 'Zs' &&
+						!adjoiningToken.type === 'margin'
+				)
+			) {
 				if (direction === +1) {
-					tokens.slice(-1)[0].after(new Token({
-						type: 'margin',
-						original: '',
-						text: '',
-						length: 1 / 4,
-					}));
+					tokens.slice(-1)[0].after(
+						new Token({
+							type: 'margin',
+							original: '',
+							text: '',
+							length: 1 / 4,
+						})
+					);
 				} else {
-					tokens.slice(-1)[0].before(new Token({
-						type: 'margin',
-						original: '',
-						text: '',
-						length: 1 / 4,
-					}));
+					tokens.slice(-1)[0].before(
+						new Token({
+							type: 'margin',
+							original: '',
+							text: '',
+							length: 1 / 4,
+						})
+					);
 				}
 			}
 		}
@@ -100,5 +108,5 @@ module.exports = function(config) {
 };
 
 function __guard__(value, transform) {
-	return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+	return typeof value !== 'undefined' && value !== null ? transform(value) : undefined;
 }

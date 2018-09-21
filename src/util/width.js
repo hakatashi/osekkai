@@ -28,7 +28,7 @@ for (const type of ['wide', 'narrow']) {
 }
 
 width.type = function(char) {
-	if ((typeof char !== 'string') || (char.length === 0)) {
+	if (typeof char !== 'string' || char.length === 0) {
 		return null;
 	}
 
@@ -38,11 +38,11 @@ width.type = function(char) {
 	return widths[widthKeys[index]] != null ? widths[widthKeys[index]] : 'A';
 };
 
-width.composeHankakuChar = (char) => compositions.wide[char] != null ? compositions.wide[char] : char;
-width.composeZenkakuChar = (char) => compositions.narrow[char] != null ? compositions.narrow[char] : char;
+width.composeHankakuChar = (char) => (compositions.wide[char] != null ? compositions.wide[char] : char);
+width.composeZenkakuChar = (char) => (compositions.narrow[char] != null ? compositions.narrow[char] : char);
 
-width.decomposeHankakuChar = (char) => decompositions.narrow[char] != null ? decompositions.narrow[char] : char;
-width.decomposeZenkakuChar = (char) => decompositions.wide[char] != null ? decompositions.wide[char] : char;
+width.decomposeHankakuChar = (char) => (decompositions.narrow[char] != null ? decompositions.narrow[char] : char);
+width.decomposeZenkakuChar = (char) => (decompositions.wide[char] != null ? decompositions.wide[char] : char);
 
 width.hankaku = function(string) {
 	let ret = '';
@@ -96,7 +96,7 @@ const spaceWidths = {
 	'\u3000': 1, // IDEOGRAPHIC SPACE
 };
 
-width.space = (space) => spaceWidths[space] != null ? spaceWidths[space] : 0;
+width.space = (space) => (spaceWidths[space] != null ? spaceWidths[space] : 0);
 
 width.spaces = function(spaces) {
 	let ret = 0;

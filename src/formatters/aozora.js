@@ -11,14 +11,15 @@ const extend = require('xtend');
 const util = require('../util');
 
 // longest first margins array
-const margins = [{
-	char: '　',
-	length: 1,
-},
-{
-	char: ' ',
-	length: 1 / 4,
-},
+const margins = [
+	{
+		char: '　',
+		length: 1,
+	},
+	{
+		char: ' ',
+		length: 1 / 4,
+	},
 ];
 
 const entityPresets = {
@@ -46,8 +47,7 @@ const entityPresets = {
 	},
 };
 
-const defaultConfig =
-	{entities: 'aozora'};
+const defaultConfig = {entities: 'aozora'};
 
 module.exports = function(config) {
 	let char;
@@ -57,14 +57,14 @@ module.exports = function(config) {
 		config.entities = entityPresets[config.entities] != null ? entityPresets[config.entities] : {};
 	}
 
-	const entityChars = ((() => {
+	const entityChars = (() => {
 		const result = [];
 		for (char of Object.keys(config.entities || {})) {
 			const entity = config.entities[char];
 			result.push(char);
 		}
 		return result;
-	})()).join('');
+	})().join('');
 	const entityCharsRegEx = new RegExp(`[${entityChars.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')}]`, 'g');
 
 	const escapeText = (text) => text.replace(entityCharsRegEx, (char) => config.entities[char]);

@@ -11,7 +11,7 @@ const replace = function(config) {
 		this.type = 'alter';
 	}
 
-	return this.text = repeat('─', this.text.length);
+	return (this.text = repeat('─', this.text.length));
 };
 
 module.exports = function(config) {
