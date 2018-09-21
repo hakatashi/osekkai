@@ -2,7 +2,7 @@
   "name": "osekkai",
   "description": "日本語組版のお節介",
   "main": "src/index.js",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "scripts": {
     "test": "grunt"
   },
