@@ -21,16 +21,6 @@ module.exports = function(grunt) {
  */\
 `,
 
-		coffee: {
-			build: {
-				expand: true,
-				cwd: '.',
-				src: ['*.coffee', 'src/**/*.coffee', 'test/**/*.coffee', '!Gruntfile.coffee'],
-				dest: '.',
-				ext: '.js'
-			}
-		},
-
 		concat: {
 			shebang: {
 				options: {
@@ -51,22 +41,6 @@ module.exports = function(grunt) {
 			}
 		},
 
-		// Lint Cafe
-		coffeelint: {
-			options: {
-				no_tabs: {
-					level: 'ignore'
-				},
-				indentation: {
-					level: 'ignore'
-				},
-				max_line_length: {
-					value: 120
-				}
-			},
-			module: ['src/**/*.coffee', 'test/**/*.coffee', '!_cli.coffee']
-		},
-
 		// Server side mocha test
 		mochaTest: {
 			module: {
@@ -77,10 +51,9 @@ module.exports = function(grunt) {
 			},
 			coverage: {
 				options: {
-					require: ['coffee-script/register', './coffeecoverage-loader.js'],
 					reporter: 'spec'
 				},
-				src: ['test/index.coffee']
+				src: ['test/index.js']
 			}
 		},
 
@@ -140,7 +113,6 @@ module.exports = function(grunt) {
 				'test/**/*.es6',
 				'*.js',
 				'*.es6',
-				'!coffeecoverage-loader.js'
 			]
 		}});
 
@@ -153,9 +125,9 @@ module.exports = function(grunt) {
 		return child_process.exec(`node \"${this.filesSrc[0]}\"`, done);
 	});
 
-	grunt.registerTask('build', ['newer:coffee', 'concat:shebang', 'newer:execute', 'browserify']);
+	grunt.registerTask('build', ['concat:shebang', 'newer:execute', 'browserify']);
 	grunt.registerTask('coverage', ['clean:build', 'mochaTest:coverage']);
-	grunt.registerTask('test', ['coffeelint:module', 'mochaTest:module']);
+	grunt.registerTask('test', ['mochaTest:module']);
 	grunt.registerTask('dist', ['build', 'test', 'copy', 'uglify']);
 
 	return grunt.registerTask('default', ['build', 'test']);
