@@ -6,9 +6,8 @@ before_script:
   - bower install
 node_js:
   - node
+  - 10
   - 8
-  - 6
-  - 4
 before_install:
   # install NPM 2
   - npm i -g npm@^2.0.0
