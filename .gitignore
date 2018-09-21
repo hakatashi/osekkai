@@ -77,8 +77,6 @@ $RECYCLE.BIN/
 
 # Builds
 build
-*.es6
-*.js
 *.json
 !/*.json
 
