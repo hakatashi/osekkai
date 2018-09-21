@@ -80,6 +80,7 @@ build
 *.es6
 *.js
 *.json
+!/*.json
 
 # Distribution
 !dist/*.js
