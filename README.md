@@ -2,13 +2,13 @@ Osekkai
 =======
 
 [![Build Status][travis-img]][travis-url]
-[![Coverage Status][coveralls-img]][coveralls-url]
+[![Coverage Status][codecov-img]][codecov-url]
 [![Greenkeeper badge](https://badges.greenkeeper.io/hakatashi/osekkai.svg)](https://greenkeeper.io/)
 
 [travis-img]: https://travis-ci.org/hakatashi/osekkai.svg?branch=master
 [travis-url]: https://travis-ci.org/hakatashi/osekkai
-[coveralls-img]: https://coveralls.io/repos/hakatashi/osekkai/badge.svg?branch=master&service=github
-[coveralls-url]: https://coveralls.io/github/hakatashi/osekkai?branch=master
+[codecov-img]: https://codecov.io/gh/hakatashi/osekkai/branch/master/graphs/badge.svg
+[codecov-url]: https://codecov.io/gh/hakatashi/osekkai/branch/master
 
 日本語平文を組版に合わせて最適化する、日本語出版史上最強のお節介(予定)
 
