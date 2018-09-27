@@ -6,8 +6,6 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const repeat = require('core-js/library/fn/string/repeat');
-const extend = require('xtend');
 const util = require('../util');
 
 // longest first margins array
@@ -51,7 +49,7 @@ const defaultConfig = {entities: 'aozora'};
 
 module.exports = function(config) {
 	let char;
-	config = extend(defaultConfig, config);
+	config = Object.assign({}, defaultConfig, config);
 
 	if (typeof config.entities === 'string') {
 		config.entities = entityPresets[config.entities] != null ? entityPresets[config.entities] : {};

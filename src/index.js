@@ -1,9 +1,7 @@
-const extend = require('xtend');
-
 const Osekkai = require('./osekkai');
 
-var osekkai = function(chunks, options) {
-	options = extend(osekkai.defaultConfig, options);
+const osekkai = function(chunks, options) {
+	options = Object.assign({}, osekkai.defaultConfig, options);
 
 	if (typeof options.converters === 'string') {
 		options.converters = osekkai.converterPresets[options.converters];

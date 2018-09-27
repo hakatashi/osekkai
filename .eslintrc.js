@@ -11,6 +11,7 @@ module.exports = {
 	rules: {
 		'max-params': 'off',
 		'no-underscore-dangle': 'off',
+		'prefer-object-spread': 'off',
 	},
 	globals: {},
 };
