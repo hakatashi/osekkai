@@ -1,7 +1,6 @@
 /* eslint-env jest */
 /*
  * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
  * DS203: Remove `|| {}` from converted for-own loops
  * DS205: Consider reworking code to avoid use of IIFEs
  * DS207: Consider shorter variations of null checks
@@ -10,9 +9,6 @@
 // Node.js detection
 const osekkai = require('../src');
 const expect = require('expect.js');
-
-const TEST_IN = '日本語組版の壮大なお節介';
-const TEST_OUT = '日本語組版の壮大なお節介';
 
 describe('osekkai', () => {
 	let tests = {};
