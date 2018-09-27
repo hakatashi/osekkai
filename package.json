@@ -4,7 +4,7 @@
   "main": "src/index.js",
   "version": "1.0.0",
   "scripts": {
-    "test": "grunt",
+    "test": "jest --coverage",
     "lint": "eslint --ignore-path .gitignore --ignore-pattern dist ."
   },
   "files": [
@@ -64,5 +64,11 @@
     "no_tabs": {
       "level": "ignore"
     }
+  },
+  "jest": {
+    "testMatch": ["**/test/**/*.js"],
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ]
   }
 }

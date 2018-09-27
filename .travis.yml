@@ -6,8 +6,6 @@ node_js:
   - 10
   - 8
 after_success:
-  - npx -p grunt-cli grunt coverage
-  - npx istanbul report text-summary lcov
   - npx codecov
 branches:
   except:
