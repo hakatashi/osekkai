@@ -1,20 +1,14 @@
+dist: trusty
 sudo: false
 language: node_js
-before_script:
-  - npm install -g bower
-  - npm install -g grunt-cli
-  - bower install
 node_js:
   - node
   - 10
   - 8
-before_install:
-  # install NPM 2
-  - npm i -g npm@^2.0.0
 after_success:
-  - grunt coverage
-  - istanbul report text-summary lcov
-  - cat ./coverage/lcov.info | coveralls
+  - npx -p grunt-cli grunt coverage
+  - npx istanbul report text-summary lcov
+  - npx codecov
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
