@@ -4,6 +4,7 @@
   "main": "src/index.js",
   "version": "1.0.0",
   "scripts": {
+    "build": "grunt",
     "test": "jest --coverage",
     "lint": "eslint --ignore-path .gitignore --ignore-pattern dist ."
   },

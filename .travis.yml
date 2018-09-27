@@ -5,6 +5,9 @@ node_js:
   - node
   - 10
   - 8
+script:
+  - npm run build
+  - npm test
 after_success:
   - npx codecov
 branches:

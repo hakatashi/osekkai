@@ -41,33 +41,6 @@ module.exports = function(grunt) {
 			},
 		},
 
-		// Server side mocha test
-		mochaTest: {
-			module: {
-				options: {
-					reporter: 'spec',
-				},
-				src: ['test/index.js'],
-			},
-			coverage: {
-				options: {
-					reporter: 'spec',
-				},
-				src: ['test/index.js'],
-			},
-		},
-
-		// Client side mocha test
-		mocha: {
-			test: {
-				options: {
-					reporter: 'Spec',
-					run: true,
-				},
-				src: ['test/index.html'],
-			},
-		},
-
 		copy: {
 			dist: {
 				expand: true,
@@ -119,9 +92,7 @@ module.exports = function(grunt) {
 	});
 
 	grunt.registerTask('build', ['concat:shebang', 'newer:execute', 'browserify']);
-	grunt.registerTask('coverage', ['clean:build', 'mochaTest:coverage']);
-	grunt.registerTask('test', ['mochaTest:module']);
-	grunt.registerTask('dist', ['build', 'test', 'copy', 'uglify']);
+	grunt.registerTask('dist', ['build', 'copy', 'uglify']);
 
-	return grunt.registerTask('default', ['build', 'test']);
+	return grunt.registerTask('default', ['build']);
 };
