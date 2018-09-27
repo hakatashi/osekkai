@@ -52,11 +52,10 @@ describe('osekkai', () => {
 
 		describe('Tokens', () => {
 			afterEach(() => (() => {
-				const result = [];
 				for (const textFrom of Object.keys(tests || {})) {
 					const textTo = tests[textFrom];
 					const text = osekkai(textFrom).format('object');
-					result.push(expect(text).to.eql(textTo));
+					expect(text).to.eql(textTo);
 				}
 			})());
 
@@ -115,13 +114,12 @@ describe('osekkai', () => {
 			beforeEach(() => (config = {}));
 
 			afterEach(() => (() => {
-				const result = [];
 				for (const textFrom of Object.keys(tests || {})) {
 					const textTo = tests[textFrom];
 					const text = osekkai(textFrom)
 						.convert('exclamations', config)
 						.format('object');
-					result.push(expect(text).to.eql(textTo));
+					expect(text).to.eql(textTo);
 				}
 			})());
 
@@ -507,13 +505,12 @@ describe('osekkai', () => {
 			});
 
 			afterEach(() => (() => {
-				const result = [];
 				for (const textFrom of Object.keys(tests || {})) {
 					const textTo = tests[textFrom];
 					const text = osekkai(textFrom)
 						.convert('numbers', config)
 						.format('object');
-					result.push(expect(text).to.eql(textTo));
+					expect(text).to.eql(textTo);
 				}
 			})());
 
@@ -751,13 +748,12 @@ describe('osekkai', () => {
 			});
 
 			afterEach(() => (() => {
-				const result = [];
 				for (const textFrom of Object.keys(tests || {})) {
 					const textTo = tests[textFrom];
 					const text = osekkai(textFrom)
 						.convert('dashes', config)
 						.format('object');
-					result.push(expect(text).to.eql(textTo));
+					expect(text).to.eql(textTo);
 				}
 			})());
 
@@ -839,13 +835,12 @@ describe('osekkai', () => {
 			});
 
 			afterEach(() => (() => {
-				const result = [];
 				for (const textFrom of Object.keys(tests || {})) {
 					const textTo = tests[textFrom];
 					const text = osekkai(textFrom)
 						.convert('alphabetUpright', config)
 						.format('object');
-					result.push(expect(text).to.eql(textTo));
+					expect(text).to.eql(textTo);
 				}
 			})());
 
@@ -1023,13 +1018,12 @@ RPGツクール2\
 			beforeEach(() => (config = {}));
 
 			afterEach(() => (() => {
-				const result = [];
 				for (const textFrom of Object.keys(tests || {})) {
 					const textTo = tests[textFrom];
 					const text = osekkai(textFrom)
 						.convert('alphabetMargin', config)
 						.format('object');
-					result.push(expect(text).to.eql(textTo));
+					expect(text).to.eql(textTo);
 				}
 			})());
 
@@ -1072,13 +1066,12 @@ RPGツクール2\
 			});
 
 			afterEach(() => (() => {
-				const result = [];
 				for (const textFrom of Object.keys(tests || {})) {
 					const textTo = tests[textFrom];
 					const text = osekkai(textFrom)
 						.convert('quotations', config)
 						.format('object');
-					result.push(expect(text).to.eql(textTo));
+					expect(text).to.eql(textTo);
 				}
 			})());
 
@@ -1235,12 +1228,11 @@ RPGツクール2\
 	describe('Formatters', () => {
 		describe('plain', () => {
 			afterEach(() => (() => {
-				const result = [];
 				for (const textFrom of Object.keys(tests || {})) {
 					const textTo = tests[textFrom];
 					const text = osekkai(textFrom).format('plain');
 					expect(text).to.be.a('string');
-					result.push(expect(text).to.eql(textTo));
+					expect(text).to.eql(textTo);
 				}
 			})());
 
@@ -1252,12 +1244,11 @@ RPGツクール2\
 
 		describe('aozora', () => {
 			afterEach(() => (() => {
-				const result = [];
 				for (const textFrom of Object.keys(tests || {})) {
 					const textTo = tests[textFrom];
 					const text = osekkai(textFrom, {converters: {exclamations: true}}).format('aozora');
 					expect(text).to.be.a('string');
-					result.push(expect(text).to.eql(textTo));
+					expect(text).to.eql(textTo);
 				}
 			})());
 
