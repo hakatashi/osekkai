@@ -16,15 +16,21 @@ describe('osekkai', () => {
 	beforeEach(() => (tests = {}));
 
 	describe('Core', () => {
-		it('should accept array of chunks as first argument', () => expect(osekkai.bind(osekkai, ['暇を持て余した', '神々の', '遊び'])).to.not.throwError());
+		it('should accept array of chunks as first argument', () => {
+			expect(osekkai.bind(osekkai, ['暇を持て余した', '神々の', '遊び'])).to.not.throwError();
+		});
 
-		it('should format array of chunks as array', () => expect(osekkai(['暇を持て余した', '神々の', '遊び']).format('plain')).to.be.eql(['暇を持て余した', '神々の', '遊び']));
+		it('should format array of chunks as array', () => {
+			expect(osekkai(['暇を持て余した', '神々の', '遊び']).format('plain')).to.be.eql(['暇を持て余した', '神々の', '遊び']);
+		});
 
-		it('should convert array of chunks as array', () => expect(
-			osekkai(['暇を持て余した', '神々の', '遊び'])
-				.convert('numbers')
-				.format('plain')
-		).to.be.eql(['暇を持て余した', '神々の', '遊び']));
+		it('should convert array of chunks as array', () => {
+			expect(
+				osekkai(['暇を持て余した', '神々の', '遊び'])
+					.convert('numbers')
+					.format('plain')
+			).to.be.eql(['暇を持て余した', '神々の', '遊び']);
+		});
 
 		it('should correctly handle the empty strings as input', () => {
 			const result = osekkai(['', 'a', ''])
