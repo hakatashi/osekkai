@@ -9,7 +9,6 @@
  */
 const Token = require('./token');
 const Chunk = require('./chunk');
-const util = require('./util');
 const builtinConverters = require('./converters');
 const builtinFormatters = require('./formatters');
 
