@@ -2,7 +2,7 @@
   "name": "osekkai",
   "description": "日本語組版のお節介",
   "main": "src/index.js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "build": "grunt",
     "test": "jest --coverage",
@@ -67,7 +67,9 @@
     }
   },
   "jest": {
-    "testMatch": ["**/test/**/*.js"],
+    "testMatch": [
+      "**/test/**/*.js"
+    ],
     "collectCoverageFrom": [
       "src/**/*.js"
     ]
