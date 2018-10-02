@@ -6,8 +6,7 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-// Node.js detection
-const osekkai = require('../src');
+const osekkai = require('..');
 
 describe('osekkai', () => {
 	let tests = {};
@@ -85,8 +84,7 @@ describe('osekkai', () => {
 					expect(chunks).toHaveLength(1);
 					expect(chunks[0].getText()).toEqual('いあ！いあ！');
 					expect(chunks[0].tokens).toHaveLength(5);
-					expect(chunks[0].tokens[2]).toHaveProperty('length');
-					expect(chunks[0].tokens[2].length).toEqual(1);
+					expect(chunks[0].tokens[2]).toHaveProperty('length', 1);
 				});
 
 				it('should be separatable of zero-width upright token into plain', () => {

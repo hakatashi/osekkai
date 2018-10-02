@@ -38,15 +38,15 @@ class Osekkai {
 		// Glue chunks
 		for (index = 0; index < this.chunks.length; index++) {
 			chunk = this.chunks[index];
-			if (this.chunks[index + 1] != null) {
+			if (this.chunks[index + 1]) {
 				chunk.setNext(this.chunks[index + 1]);
 			}
-			if (this.chunks[index - 1] != null) {
+			if (this.chunks[index - 1]) {
 				chunk.setPrev(this.chunks[index - 1]);
 			}
 		}
 
-		if (options.converters != null) {
+		if (options.converters) {
 			this.convert(options.converters);
 		}
 	}
@@ -135,10 +135,10 @@ class Osekkai {
 		// Glue chunks
 		for (index = 0; index < ret.length; index++) {
 			chunk = ret[index];
-			if (ret[index + 1] != null) {
+			if (ret[index + 1]) {
 				chunk.setNext(ret[index + 1]);
 			}
-			if (ret[index - 1] != null) {
+			if (ret[index - 1]) {
 				chunk.setPrev(ret[index - 1]);
 			}
 		}
@@ -215,11 +215,11 @@ class Osekkai {
 		// Glue chunkses
 		for (index = 0; index < chunkses.length; index++) {
 			chunks = chunkses[index];
-			if (__guard__(chunkses[index + 1], (x) => x[0]) != null) {
+			if (__guard__(chunkses[index + 1], (x) => x[0])) {
 				__guard__(chunks[chunks.length - 1], (x1) => x1.setNext(chunkses[index + 1][0]));
 			}
-			if (__guard__(chunkses[index - 1], (x2) => x2[chunkses[index - 1].length - 1]) != null) {
-				if (chunks[0] != null) {
+			if (__guard__(chunkses[index - 1], (x2) => x2[chunkses[index - 1].length - 1])) {
+				if (chunks[0]) {
 					chunks[0].setPrev(chunkses[index - 1][chunkses[index - 1].length - 1]);
 				}
 			}
@@ -262,7 +262,7 @@ class Osekkai {
 	}
 
 	format(type, config = {}) {
-		if (builtinFormatters[type] == null) {
+		if (!builtinFormatters[type]) {
 			throw new Error(`Unknown formatter type ${type}`);
 		}
 
@@ -286,10 +286,10 @@ class Osekkai {
 					(() => {
 						const result1 = [];
 						for (const token of tokens) {
-							if (token.type === 'plain' && (token != null ? token.text : undefined) === '') {
+							if (token.type === 'plain' && (token ? token.text : undefined) === '') {
 								result1.push(token.remove());
-							} else if ((token.prev != null ? token.prev.type : undefined) === 'plain') {
-								if ((token != null ? token.type : undefined) === 'plain' && token.prev.parent === token.parent) {
+							} else if ((token.prev ? token.prev.type : undefined) === 'plain') {
+								if ((token ? token.type : undefined) === 'plain' && token.prev.parent === token.parent) {
 									result1.push(token.prev.joinNext());
 								} else {
 									result1.push(undefined);
