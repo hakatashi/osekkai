@@ -40,6 +40,36 @@ describe('osekkai', () => {
 			expect(result).toEqual(['', 'a', '']);
 		});
 
+		it('should correctly handle the empty strings as input', () => {
+			const result = osekkai(['', '1富士22鷹333茄子', ''])
+				.convert('alphabetMargin')
+				.format('plain');
+
+			expect(result).toEqual(['', '1富士22鷹333茄子', '']);
+		});
+
+		it('should correctly handle the empty strings as input', () => {
+			const result = osekkai(['', '1ほげ', ''])
+				.convert('numbers')
+				.format('object');
+
+			expect(result).toEqual([
+				[],
+				[
+					{
+						type: 'upright',
+						text: '１',
+						original: '1',
+					},
+					{
+						type: 'plain',
+						text: 'ほげ',
+					},
+				],
+				[],
+			]);
+		});
+
 		it('should error when unknown converter is specified', () => {
 			const obj = osekkai('ちくわ大明神');
 			expect(obj.convert.bind(obj, 'UNKNOWN')).toThrow();

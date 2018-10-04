@@ -43,7 +43,7 @@ const replace = function(config) {
 };
 
 module.exports = function(config) {
-	if (config.length == null) {
+	if (typeof config.length !== 'number') {
 		config.length = 2;
 	}
 

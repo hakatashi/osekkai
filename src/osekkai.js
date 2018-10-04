@@ -123,7 +123,7 @@ class Osekkai {
 			if (start + length <= chunkEnd) {
 				// If every remaining chunks is empty chunks, let them run on to the ret chunks
 				const remainingChunks = this.chunks.slice(index + 1);
-				if (remainingChunks.length > 0 && remainingChunks.every((chunk) => chunk.getText().length === 0)) {
+				if (start + length === chunkEnd && remainingChunks.length > 0 && remainingChunks.every((chunk) => chunk.getText().length === 0)) {
 					ret.push(...remainingChunks.map((chunk) => chunk.substr(0, 0)));
 				}
 				break;
