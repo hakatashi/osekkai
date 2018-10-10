@@ -3,7 +3,8 @@
 
 export = osekkai;
 
-declare function osekkai(chunks: string | string[], options?: osekkai.OsekkaiOptions): osekkai.OsekkaiClass;
+declare function osekkai(chunks: string, options?: osekkai.OsekkaiOptions): osekkai.OsekkaiClass;
+declare function osekkai(chunks: string[], options?: osekkai.OsekkaiOptions): osekkai.ChunkedOsekkaiClass;
 
 declare namespace osekkai {
 	export const defaultConfig: OsekkaiOptions;
@@ -66,9 +67,16 @@ declare namespace osekkai {
 	}
 
 	export class OsekkaiClass {
-		constructor(chunks: string | string[], options?: OsekkaiOptions);
+		constructor(chunks: string, options?: OsekkaiOptions);
 		convert(converters: ConverterOptionHash | ConverterTypes, options?: ConverterOptions): OsekkaiClass;
-		format(formatter: FormatterTypes, options?: FormatterOptions): Token[] | Token[][];
+		format(formatter: FormatterTypes, options?: FormatterOptions): Token[];
+		substr(start: number, length: number): Chunk[];
+	}
+
+	export class ChunkedOsekkaiClass {
+		constructor(chunks: string[], options?: OsekkaiOptions);
+		convert(converters: ConverterOptionHash | ConverterTypes, options?: ConverterOptions): ChunkedOsekkaiClass;
+		format(formatter: FormatterTypes, options?: FormatterOptions): Token[][];
 		substr(start: number, length: number): Chunk[];
 	}
 }
