@@ -68,7 +68,7 @@ declare namespace osekkai {
 	export class OsekkaiClass {
 		constructor(chunks: string | string[], options?: OsekkaiOptions);
 		convert(converters: ConverterOptionHash | ConverterTypes, options?: ConverterOptions): OsekkaiClass;
-		format(formatter: FormatterTypes, options?: FormatterOptions): Token[];
+		format(formatter: FormatterTypes, options?: FormatterOptions): Token[] | Token[][];
 		substr(start: number, length: number): Chunk[];
 	}
 }
