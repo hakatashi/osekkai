@@ -15,28 +15,21 @@ const isRotateChar = function(char) {
 };
 
 module.exports = function(config) {
-	if (config.ratio == null) {
+	if (typeof config.ratio !== 'number') {
 		config.ratio = 0.5;
 	}
 
 	return this.replace([/[“”„〝"]/, /.+?/, /[”“〟〞"]/], (blocks) => {
-		let chunk;
 		const [quotStart, body, quotEnd] = Array.from(blocks);
 
-		for (var quotation of [quotStart, quotEnd]) {
-			const tokenType = __guard__(quotation[0] != null ? quotation[0].tokens[0] : undefined, (x) => x.type);
+		for (const quotationChunk of [quotStart[quotStart.length - 1], quotEnd[0]]) {
+			const tokenType = quotationChunk && quotationChunk.tokens[0] && quotationChunk.tokens[0].type;
 			if (tokenType !== 'plain' && tokenType !== 'alter') {
 				return blocks;
 			}
 		}
 
-		const bodyText = (() => {
-			const result = [];
-			for (chunk of body) {
-				result.push(chunk.getText());
-			}
-			return result;
-		})().join('');
+		const bodyText = body.map((chunk) => chunk.getText()).join('');
 
 		if (bodyText.length <= 1) {
 			return blocks;
@@ -45,11 +38,11 @@ module.exports = function(config) {
 		const rotateRatio = bodyText.split('').filter((char) => isRotateChar(char)).length / bodyText.length;
 
 		if (rotateRatio < config.ratio) {
-			for (quotation of [quotStart, quotEnd]) {
-				for (chunk of quotation) {
+			for (const quotation of [quotStart, quotEnd]) {
+				for (const chunk of quotation) {
 					for (const token of chunk.tokens) {
 						if (token.type === 'plain' || token.type === 'alter') {
-							if (token.original == null) {
+							if (!token.original) {
 								token.original = token.text;
 							}
 							token.type = 'alter';

@@ -70,6 +70,33 @@ describe('osekkai', () => {
 			]);
 		});
 
+		it('should correctly handle the empty strings as input', () => {
+			const result = osekkai(['', '"文学少女"', ''])
+				.convert('quotations')
+				.format('object');
+
+			expect(result).toEqual([
+				[],
+				[
+					{
+						type: 'alter',
+						text: '〝',
+						original: '"',
+					},
+					{
+						type: 'plain',
+						text: '文学少女',
+					},
+					{
+						type: 'alter',
+						text: '〟',
+						original: '"',
+					},
+				],
+				[],
+			]);
+		});
+
 		it('should error when unknown converter is specified', () => {
 			const obj = osekkai('ちくわ大明神');
 			expect(obj.convert.bind(obj, 'UNKNOWN')).toThrow();
