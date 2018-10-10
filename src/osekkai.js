@@ -51,23 +51,16 @@ class Osekkai {
 		}
 	}
 
-	convert(converters, config = {}) {
-		let converter;
+	convert(converters, converterConfig = {}) {
+		let normalizedConverters = [];
 		switch (typeof converters) {
 			case 'string':
-				var temp = [];
-				temp.push([converters, config]);
-				converters = temp;
+				normalizedConverters = [[converters, converterConfig]];
 				break;
 
 			case 'object':
 				if (!Array.isArray(converters)) {
-					temp = [];
-					for (converter in converters) {
-						config = converters[converter];
-						temp.push([converter, config]);
-					}
-					converters = temp;
+					normalizedConverters = Object.entries(converters);
 				}
 				break;
 
@@ -75,7 +68,7 @@ class Osekkai {
 				throw new Error('Unknown converters');
 		}
 
-		for ([converter, config] of converters) {
+		for (const [converter, config] of normalizedConverters) {
 			if (config === false || config === null) {
 				break;
 			}
