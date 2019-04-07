@@ -43,7 +43,7 @@
   "devDependencies": {
     "@hakatashi/eslint-config": "^1.8.3",
     "@types/jest": "^23.3.2",
-    "es5-shim": "^4.5.12",
+    "es5-shim": "^4.5.13",
     "eslint": "^5.6.1",
     "grunt": "^1.0.3",
     "grunt-browserify": "^5.3.0",
