@@ -59,7 +59,7 @@
     "typescript": "^3.1.1"
   },
   "dependencies": {
-    "commander": "^2.18.0",
+    "commander": "^3.0.0",
     "core-js": "^2.5.7",
     "iconv-lite": "^0.4.24"
   },
