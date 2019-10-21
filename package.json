@@ -60,7 +60,7 @@
   },
   "dependencies": {
     "commander": "^2.18.0",
-    "core-js": "^2.5.7",
+    "core-js": "^3.3.3",
     "iconv-lite": "^0.4.24"
   },
   "bin": "./cli.js",
