@@ -41,7 +41,7 @@
   },
   "homepage": "https://github.com/hakatashi/osekkai#readme",
   "devDependencies": {
-    "@hakatashi/eslint-config": "^1.8.3",
+    "@hakatashi/eslint-config": "^1.13.0",
     "@types/jest": "^23.3.2",
     "es5-shim": "^4.5.12",
     "eslint": "^5.6.1",
